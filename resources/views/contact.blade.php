@@ -1,3 +1,5 @@
-<div>
-    <!-- Simplicity is the essence of happiness. - Cedric Bledsoe -->
-</div>
+@extends('layouts.app')
+
+@section('content')
+
+@endsection
