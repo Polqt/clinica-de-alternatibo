@@ -8,12 +8,22 @@ use Illuminate\View\Component;
 
 class Input extends Component
 {
-    /**
-     * Create a new component instance.
-     */
+
+    public string $type;
+    public string $name;
+    public string $id;
+    public string $placeholder;
+    public string $value;
+    public bool $required;
+
     public function __construct()
     {
-        //
+        $this->type = 'text';
+        $this->name = '';
+        $this->id = '';
+        $this->placeholder = '';
+        $this->value = '';
+        $this->required = false;
     }
 
     /**

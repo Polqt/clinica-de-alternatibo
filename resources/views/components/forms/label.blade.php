@@ -1,3 +1,7 @@
-<div>
-    <!-- Simplicity is the consequence of refined emotions. - Jean D'Alembert -->
-</div>
+
+<label for="{{ $for }}">
+    {{ $slot }}
+    @if ($required)
+        <span class="text-red-500">Fakyow</span>
+    @endif
+</label>

@@ -8,12 +8,15 @@ use Illuminate\View\Component;
 
 class Button extends Component
 {
-    /**
-     * Create a new component instance.
-     */
+    public string $type;
+    public string $class;
+    public string $disabled;
+
     public function __construct()
     {
-        //
+        $this->type = 'button';
+        $this->class = '';
+        $this->disabled = false;
     }
 
     /**

@@ -1,3 +1,6 @@
-<div>
-    <!-- It is quality rather than quantity that matters. - Lucius Annaeus Seneca -->
-</div>
+<button
+    type="{{ $type }}"
+    {{ $disabled ? 'disabled' : '' }}
+    {{ $attributes }}>
+    {{ $slot }}
+</button>

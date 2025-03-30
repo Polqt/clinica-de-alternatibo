@@ -8,12 +8,13 @@ use Illuminate\View\Component;
 
 class Label extends Component
 {
-    /**
-     * Create a new component instance.
-     */
+    public string $for;
+    public bool $required;
+
     public function __construct()
     {
-        //
+        $this->for = '';
+        $this->required = false;
     }
 
     /**
