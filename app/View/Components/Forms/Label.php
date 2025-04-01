@@ -10,17 +10,14 @@ class Label extends Component
 {
     public string $for;
     public string $class;
-    public bool $required;
 
     public function __construct(
         string $for = '',
         string $class = '',
-        bool $required = false
     )
     {
         $this->for = $for;
         $this->class = $class;
-        $this->required = $required;
     }
 
     /**

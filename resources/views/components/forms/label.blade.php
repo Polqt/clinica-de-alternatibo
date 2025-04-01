@@ -1,6 +1,3 @@
-<label for="{{ $for }}" class="{{ $class }}" {{ $required ? 'required' : '' }}>
+<label for="{{ $for }}" class="{{ $class }}">
     {{ $slot }}
-    @if (!$required)
-    <span class="text-red-500">Fakyow</span>
-    @endif
 </label>

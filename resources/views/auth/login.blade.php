@@ -15,7 +15,7 @@
         <form method="POST" action="{{ route('login') }}" class="space-y-6">
             @csrf
             <div>
-                <x-forms.label for="email" class="block text-sm font-medium text-teal-800" required>Email Address</x-forms.label>
+                <x-forms.label for="email" class="block text-sm font-medium text-teal-800">Email Address</x-forms.label>
                 <x-forms.input
                     type="email"
                     name="email"
@@ -30,7 +30,7 @@
             </div>
 
             <div>
-                <x-forms.label for="password" class="block text-sm font-medium text-teal-800" required>Password</x-forms.label>
+                <x-forms.label for="password" class="block text-sm font-medium text-teal-800">Password</x-forms.label>
                 <x-forms.input
                     type="password"
                     name="password"
