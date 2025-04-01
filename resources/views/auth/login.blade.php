@@ -20,10 +20,9 @@
                     type="email"
                     name="email"
                     id="email"
-                    class=""
                     placeholder="poyhidalgo@example.com"
                     :value="old('email')"
-                    class="w-full rounded-lg border border-gray-300/70 px-4 py-2 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all"
+                    class="w-full rounded-lg border border-gray-300/70 p-2 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all"
                     required />
                 @error('email')
                 <span class="text-red-500 mt-1 text-sm">{{ $message }}</span>
@@ -36,21 +35,21 @@
                     type="password"
                     name="password"
                     id="password"
-                    class="w-full rounded-lg border border-gray-300/70 px-4 py-3 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all"
+                    class="w-full rounded-lg border border-gray-300/70 p-2 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all"
                     required />
                 @error('password')
                 <span class="text-red-500">{{ $message }}</span>
                 @enderror
             </div>
 
-            <x-forms.button type="submit" class="w-full text-lg rounded-lg bg-teal-600 py-3 px-4 text-center font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-colors">
+            <x-forms.button type="submit" class="w-full text-md rounded-lg bg-teal-600 py-2 text-center font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition-colors">
                 Sign in
             </x-forms.button>
         </form>
         <div class="mt-6 text-center">
             <p class="text-sm text-gray-600">
                 Don't have an account?
-                <a href="{{ route('register') }}" class="font-medium text-md text-teal-600 hover:text-teal-500 hover:underline transition-colors">Sign up now</a>
+                <a href="{{ route('signup') }}" class="font-medium text-teal-600 hover:text-teal-500 hover:underline transition-colors">Sign up now</a>
             </p>
         </div>
     </div>

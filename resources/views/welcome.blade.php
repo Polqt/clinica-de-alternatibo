@@ -6,5 +6,6 @@
 
 @section('content')
 
+<!-- TODO: Create the home page -->
 
 @endsection

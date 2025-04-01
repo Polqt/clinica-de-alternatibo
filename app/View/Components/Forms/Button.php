@@ -12,11 +12,15 @@ class Button extends Component
     public string $class;
     public string $disabled;
 
-    public function __construct()
+    public function __construct(
+        string $type = 'button',
+        string $class = '',
+        bool $disabled = false
+    )
     {
-        $this->type = 'button';
-        $this->class = '';
-        $this->disabled = false;
+        $this->type = $type;
+        $this->class = $class;
+        $this->disabled = $disabled ? 'disabled' : '';
     }
 
     /**

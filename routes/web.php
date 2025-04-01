@@ -25,12 +25,12 @@ Route::get('/login', function() {
     return view('auth.login');
 })->name('login');
 
-Route::get('/register', function() {
+Route::get('/signup', function() {
     return view('auth.register');
-})->name('register');
+})->name('signup');
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/signup', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout']);

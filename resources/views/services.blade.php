@@ -6,4 +6,6 @@
 
 @section('content')
 
+<!-- TODO: Create the services page -->
+
 @endsection

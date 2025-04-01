@@ -13,17 +13,24 @@ class Input extends Component
     public string $name;
     public string $id;
     public string $placeholder;
-    public string $value;
+    public ?string $value;
     public bool $required;
 
-    public function __construct()
+    public function __construct(
+        string $type = 'text',
+        string $name = '',
+        string $id = '',
+        string $placeholder = '',
+        ?string $value = '',
+        bool $required = false
+    )
     {
-        $this->type = 'text';
-        $this->name = '';
-        $this->id = '';
-        $this->placeholder = '';
-        $this->value = '';
-        $this->required = false;
+        $this->type = $type;
+        $this->name = $name;
+        $this->id = $id;
+        $this->placeholder = $placeholder;
+        $this->value = $value ?? '';
+        $this->required = $required;
     }
 
     /**

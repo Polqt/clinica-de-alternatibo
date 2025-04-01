@@ -4,5 +4,6 @@
     id="{{ $id }}"
     value="{{ $value }}"
     placeholder="{{ $placeholder }}"
+    {{ $required ? 'required' : '' }}
     {{ $attributes }}
 >
