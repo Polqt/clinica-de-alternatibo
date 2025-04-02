@@ -1,4 +1,4 @@
-<header class="shadow py-3">
+<header class="shadow-sm sticky py-3">
     <div class="container mx-auto py-4">
         <div class="flex justify-between items-center">
             <a href="{{ route('home') }}" class="text-3xl font-bold text-teal-900">
