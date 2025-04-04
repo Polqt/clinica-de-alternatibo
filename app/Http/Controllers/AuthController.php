@@ -39,8 +39,10 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        Auth::login($user);
         
-        return redirect('/login')->with('success', 'Registration successful. Please log in.');
+        return redirect()->route('profile.create')->with('success', 'Registration successful. Please complete your profile.');
     }
 
     public function logout() {

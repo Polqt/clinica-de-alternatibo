@@ -46,28 +46,7 @@
                 <p class="mt-2 text-gray-600">Create your account in just a few steps</p>
             </div>
 
-            <div class="flex justify-normal items-center mb-8">
-                <div class="flex-1">
-                    <div class="w-8 h-8 mx-auto rounded-full bg-teal-600 text-white flex items-center justify-center font-medium">1</div>
-                    <p class="text-xs mt-1 text-center text-teal-600 font-medium">Account</p>
-                </div>
-                <div class="flex-1 flex">
-                    <div class="h-1 flex-1 bg-gray-300"></div>
-                </div>
-                <div class="flex-1">
-                    <div class="w-8 h-8 mx-auto rounded-full bg-gray-200 text-gray-500 flex items-center justify-center font-medium">2</div>
-                    <p class="text-xs mt-1 text-center text-gray-500">Verification</p>
-                </div>
-                <div class="flex-1 flex">
-                    <div class="h-1 flex-1 bg-gray-300"></div>
-                </div>
-                <div class="flex-1">
-                    <div class="w-8 h-8 mx-auto rounded-full bg-gray-200 text-gray-500 flex items-center justify-center font-medium">3</div>
-                    <p class="text-xs mt-1 text-center text-gray-500">Profile</p>
-                </div>
-            </div>
-
-            <form action="{{ route('signup') }}" method="POST" class="space-y-5 p-6 rounded-xl shadow-sm border border-gray-100">
+            <form action="{{ route('signup') }}" method="POST" class="space-y-5">
                 @csrf
                 <div class="grid grid-cols-2 gap-4">
                     <div>

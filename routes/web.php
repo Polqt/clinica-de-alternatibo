@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,9 +41,18 @@ Route::get('/dashboard', function() {
     return view('admin.dashboard');
 });
 
+Route::middleware(['auth'])->group(function() {
+    Route::get('/profile/create', [ProfileController::class, 'create'])->name('profile.create');
+    Route::post('profile/store', [ProfileController::class, 'store'])->name('profile.store');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+});
+
 
 // User Routes
 Route::get('dashboard', function() {
     return view('client.dashboard');
-});
+})->middleware('auth', 'EnsureProfileIsComplete')->name('dashboard');
+
+// Admin Routes
+
 
