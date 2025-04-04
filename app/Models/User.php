@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 
-class User extends Model
+class User extends Model implements AuthenticatableContract
 {
+    use Authenticatable;
+
     protected $fillable = [
         'first_name',
         'last_name',
@@ -19,6 +23,6 @@ class User extends Model
 
     public function profile()
     {
-        return $this->hasOne(UserProfile::class);
+        return $this->hasOne(Profile::class);
     }
 }

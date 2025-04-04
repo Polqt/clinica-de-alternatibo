@@ -1,5 +1,5 @@
 @props([
-'title' => 'Complete Profile | MediCare',
+    'title' => 'Complete Profile | MediCare',    
 ])
 
 @extends('layouts.auth')
@@ -55,10 +55,9 @@
 
             <form action="{{ route('profile.store') }}" method="POST" class="space-y-5" enctype="multipart/form-data">
                 @csrf
-
-                <!-- Contact Information -->
+                
                 <h3 class="font-semibold text-gray-800 text-lg border-b pb-2">Contact Information</h3>
-
+                
                 <div>
                     <x-forms.label for="phone-number" class="block text-sm font-medium text-gray-700" required>Phone Number</x-forms.label>
                     <x-forms.input
@@ -119,9 +118,8 @@
                     </div>
                 </div>
 
-                <!-- Personal Information -->
                 <h3 class="font-semibold text-gray-800 text-lg border-b pb-2 pt-4">Personal Information</h3>
-
+                
                 <div>
                     <x-forms.label for="date_of_birth" class="block text-sm font-medium text-gray-700" required>Date of Birth</x-forms.label>
                     <x-forms.input
@@ -196,4 +194,5 @@
         </div>
     </div>
 </div>
+
 @endsection
