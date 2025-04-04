@@ -13,8 +13,18 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained->onDelete('cascade');
-            
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
+            $table->string('phone-number');
+            $table->text('address');
+            $table->string('postal_code');
+            $table->string('city');
+
+            $table->date('date_of_birth');
+            $table->String('gender');
+            $table->string('blood_type');
+
+            $table->string('profile_picture')->nullable();
             $table->timestamps();
         });
     }

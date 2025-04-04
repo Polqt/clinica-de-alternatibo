@@ -36,6 +36,13 @@ Route::post('/signup', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 // Admin Routes
+Route::get('/dashboard', function() {
+    return view('admin.dashboard');
+});
 
 
 // User Routes
+Route::get('dashboard', function() {
+    return view('client.dashboard');
+});
+

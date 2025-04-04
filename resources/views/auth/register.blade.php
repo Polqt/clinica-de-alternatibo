@@ -8,7 +8,7 @@
 <div class="flex min-h-screen">
     <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-teal-700 to-teal-400 flex-col justify-between p-12 text-white">
         <div>
-            <h1 class="text-4xl font-bold text-teal-400">
+            <h1 class="text-4xl font-bold text-teal-200">
                 MediCare
             </h1>
             <p class="mt-6 text-xl font-light">Clinical Management Platform</p>
