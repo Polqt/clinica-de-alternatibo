@@ -19,7 +19,16 @@ return new class extends Migration
             $table->foreignId('clinic_id')->constrained('clinics')->onDelete('restrict');
 
             $table->dateTime('appointment_date');
-            // $table->enum('status', AppointmentStatus::getValues())->default(AppointmentStatus::PENDING);
+            $table->enum('status', array_column(AppointmentStatus::cases(), 'value'))->default(AppointmentStatus::Scheduled->value);
+            $table->text('clinic_notes')->nullable();
+            $table->text('cancellation_reason')->nullable();
+            $table->foreignId('created_by_user_id')->constrained('users')->onDelete('restrict');
+
+            $table->index(['patient_id', 'appointment_date']);
+            $table->index(['doctor_id', 'appointment_date']);
+            $table->index(['clinic_id', 'appointment_date']);
+            $table->index('status');
+            $table->index('appointment_date');
 
             $table->timestamps();
         });

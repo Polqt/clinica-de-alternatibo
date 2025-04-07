@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum AppointmentStatus
+enum AppointmentStatus: string
 {
     case Scheduled = 'scheduled';
     case Confirmed = 'confirmed';
