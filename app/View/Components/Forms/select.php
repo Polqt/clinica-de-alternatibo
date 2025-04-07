@@ -18,22 +18,25 @@ class select extends Component
     public string $name;
     public string $id;
     public string $class;
-    public string $label;
     public string $placeholder;
+    public ?string $value;
+    public bool $required;
 
     public function __construct(
         string $name,
         string $id,
         string $class = '',
-        string $label = '',
         string $placeholder = '',
+        ?string $value = '',
+        bool $required = false
     )
     {
         $this->name = $name;
         $this->id = $id;
         $this->class = $class;
-        $this->label = $label;
         $this->placeholder = $placeholder;
+        $this->value = $value ?? '';
+        $this->required = $required;
     }
 
     /**

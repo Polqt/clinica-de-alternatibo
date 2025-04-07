@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\BloodType;
 use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
     protected $fillable = [
         'user_id',
-        'phone-number',
+        'phone_number',
         'address',
         'postal_code',
         'city',
@@ -16,6 +17,11 @@ class Profile extends Model
         'gender',
         'blood_type',
         'profile_picture'
+    ];
+
+    protected $casts = [
+        'date_of_birth' => 'date',
+        'blood_type' => BloodType::class,
     ];
 
     public function user()

@@ -59,12 +59,12 @@
                 <h3 class="font-semibold text-gray-800 text-lg border-b pb-2">Contact Information</h3>
                 
                 <div>
-                    <x-forms.label for="phone-number" class="block text-sm font-medium text-gray-700" required>Phone Number</x-forms.label>
+                    <x-forms.label for="phone_number" class="block text-sm font-medium text-gray-700" required>Phone Number</x-forms.label>
                     <x-forms.input
                         type="text"
                         name="phone-number"
                         id="phone-number"
-                        placeholder="+1234567890"
+                        placeholder="09664555103"
                         :value="old('phone-number')"
                         class="w-full rounded-lg border border-gray-300 p-3 mt-1 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all"
                         required />
