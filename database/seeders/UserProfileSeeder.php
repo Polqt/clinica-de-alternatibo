@@ -15,7 +15,19 @@ class UserProfileSeeder extends Seeder
     {
 
         DB::table('profiles')->insert([
-            
+            [
+                'user_id' => 1,
+                'phone_number' => '',
+                'address' => '',
+                'postal_code' => '',
+                'city' => '',
+                'date_of_birth' => '',
+                'gender' => '',
+                'blood_type' => '',
+                'profile_picture' => '',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
         ]);
     }
 }

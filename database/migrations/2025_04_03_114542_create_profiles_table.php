@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('city');
 
             $table->date('date_of_birth');
-            $table->enum('gender', ['male', 'female', 'other']);
+            $table->enum('gender', ['Male', 'Female', 'Other']);
             $table->enum('blood_type', BloodType::values());
 
             $table->string('profile_picture')->nullable();

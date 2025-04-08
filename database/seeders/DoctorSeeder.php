@@ -14,7 +14,6 @@ class DoctorSeeder extends Seeder
     public function run(): void
     {
         DB::table('doctors')->insert([
-
         ]);
     }
 }

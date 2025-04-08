@@ -17,7 +17,10 @@ class ProfileController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return view('profile.create');
+        return view('profile.create',[
+            'bloodTypes' => BloodType::values(),
+            'genders' => ['Male', 'Female', 'Other']
+        ]);
     }
 
     public function store(Request $request)
@@ -39,8 +42,16 @@ class ProfileController extends Controller
             $data['profile_picture'] = $path;
         }
 
+        /** @var User $user */
+        $user = Auth::user();
+
+        if (!$user) {
+            abort(401);
+        }
+
         // Create the profile
-        $user = Auth::user()->profile->create($data);
+        $user->profile()->create($data);
+
 
         return redirect()->route('dashboard')->with('success', 'Profile created successfully.');
     }

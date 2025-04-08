@@ -4,5 +4,5 @@
     class="{{ $class }}"
     aria-placeholder="{{ $placeholder }}"
 >
-    {{ $value }}
+    {{ $slot }}
 </select>

@@ -1,5 +1,5 @@
 @props([
-    'title' => 'Complete Profile | MediCare',    
+'title' => 'Complete Profile | MediCare',
 ])
 
 @extends('layouts.auth')
@@ -55,17 +55,17 @@
 
             <form action="{{ route('profile.store') }}" method="POST" class="space-y-5" enctype="multipart/form-data">
                 @csrf
-                
+
                 <h3 class="font-semibold text-gray-800 text-lg border-b pb-2">Contact Information</h3>
-                
+
                 <div>
                     <x-forms.label for="phone_number" class="block text-sm font-medium text-gray-700" required>Phone Number</x-forms.label>
                     <x-forms.input
                         type="text"
-                        name="phone-number"
-                        id="phone-number"
+                        name="phone_number"
+                        id="phone_number"
                         placeholder="09664555103"
-                        :value="old('phone-number')"
+                        :value="old('phone_number')"
                         class="w-full rounded-lg border border-gray-300 p-3 mt-1 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all"
                         required />
                     @error('phone-number')
@@ -78,7 +78,7 @@
                     <x-forms.textarea
                         name="address"
                         id="address"
-                        placeholder="123 Main St, Apt 4B"
+                        placeholder="123 Hidalgo St."
                         :value="old('address')"
                         class="w-full rounded-lg border border-gray-300 p-3 mt-1 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all"
                         required></x-forms.textarea>
@@ -94,7 +94,7 @@
                             type="text"
                             name="postal_code"
                             id="postal_code"
-                            placeholder="10001"
+                            placeholder="6122"
                             :value="old('postal_code')"
                             class="w-full rounded-lg border border-gray-300 p-3 mt-1 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all"
                             required />
@@ -108,7 +108,7 @@
                             type="text"
                             name="city"
                             id="city"
-                            placeholder="New York"
+                            placeholder="Bacolod City, Negros Occidental"
                             :value="old('city')"
                             class="w-full rounded-lg border border-gray-300 p-3 mt-1 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all"
                             required />
@@ -119,7 +119,7 @@
                 </div>
 
                 <h3 class="font-semibold text-gray-800 text-lg border-b pb-2 pt-4">Personal Information</h3>
-                
+
                 <div>
                     <x-forms.label for="date_of_birth" class="block text-sm font-medium text-gray-700" required>Date of Birth</x-forms.label>
                     <x-forms.input
@@ -143,9 +143,9 @@
                             class="w-full rounded-lg border border-gray-300 p-3 mt-1 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all"
                             required>
                             <option value="">Select gender</option>
-                            <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
-                            <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
-                            <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other</option>
+                            @foreach($genders as $gender)
+                            <option value="{{ $gender }}" {{ old('gender') == $gender ? 'selected' : '' }}>{{ $gender }}</option>
+                            @endforeach
                         </x-forms.select>
                         @error('gender')
                         <span class="text-red-500 mt-1 text-xs">{{ $message }}</span>
@@ -159,14 +159,9 @@
                             class="w-full rounded-lg border border-gray-300 p-3 mt-1 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all"
                             required>
                             <option value="">Select blood type</option>
-                            <option value="A+" {{ old('blood_type') == 'A+' ? 'selected' : '' }}>A+</option>
-                            <option value="A-" {{ old('blood_type') == 'A-' ? 'selected' : '' }}>A-</option>
-                            <option value="B+" {{ old('blood_type') == 'B+' ? 'selected' : '' }}>B+</option>
-                            <option value="B-" {{ old('blood_type') == 'B-' ? 'selected' : '' }}>B-</option>
-                            <option value="AB+" {{ old('blood_type') == 'AB+' ? 'selected' : '' }}>AB+</option>
-                            <option value="AB-" {{ old('blood_type') == 'AB-' ? 'selected' : '' }}>AB-</option>
-                            <option value="O+" {{ old('blood_type') == 'O+' ? 'selected' : '' }}>O+</option>
-                            <option value="O-" {{ old('blood_type') == 'O-' ? 'selected' : '' }}>O-</option>
+                            @foreach($bloodTypes as $type)
+                            <option value="{{ $type }}" {{ old('blood_type') == $type ? 'selected' : '' }}>{{ $type }}</option>
+                            @endforeach
                         </x-forms.select>
                         @error('blood_type')
                         <span class="text-red-500 mt-1 text-xs">{{ $message }}</span>
