@@ -14,15 +14,12 @@ class UserAccess
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, $role): Response
     {
-        if(Auth::check() && Auth::user()->role !== 'admin') {
-            return redirect('/login')->with('error', 'You do not have access to this page.');
+        if (!Auth::check() || Auth::user()->role !== $role) {
+            return redirect('/login')->with('error', "You don't have permission to access this page.");
         }
 
-        if(Auth::check() && Auth::user()->role ) {
-
-        }
         return $next($request);
     }
 }
