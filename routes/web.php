@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
 // User Routes
 Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete'])->prefix('user')->group(function () {
-    Route::get('/dashboard', function () {
+    Route::get('dashboard', function () {
         return view('client.dashboard');
     })->name('client.dashboard');
 });

@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
-    public function login() {
+    public function login()
+    {
         $credentials = request()->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -21,7 +22,9 @@ class AuthController extends Controller
 
             if ($user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
-            } else {
+            }
+
+            if ($user->role === 'user') {
                 return redirect()->route('client.dashboard');
             }
         }
@@ -31,7 +34,8 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    public function register() {
+    public function register()
+    {
         $data = request()->validate([
             'first_name' => ['required', 'string', 'max:50'],
             'last_name' => ['required', 'string', 'max:50'],
@@ -48,11 +52,12 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
-        
+
         return redirect()->route('profile.create')->with('success', 'Registration successful. Please complete your profile.');
     }
 
-    public function logout() {
+    public function logout()
+    {
         Session::flush();
         Auth::logout();
 
