@@ -32,16 +32,48 @@
             <flux:navlist.item icon="information-circle" href="/user/help">Help</flux:navlist.item>
         </flux:navlist>
         <flux:dropdown position="top" align="start" class="max-lg:hidden">
-            <flux:profile avatar="{$profile_picture}" name="{$first_name}" />
+            <flux:profile circle avatar="{{ $profile_picture }}" name="{{ $first_name }}" />
             <flux:menu>
                 <flux:menu.radio.group>
-                    <flux:menu.radio checked>Olivia Martin</flux:menu.radio>
+                    <!-- / -->
                 </flux:menu.radio.group>
                 <flux:menu.separator />
-                <flux:menu.item icon="arrow-right-start-on-rectangle">Logout</flux:menu.item>
+                <flux:menu.item icon="arrow-right-start-on-rectangle">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        Logout
+                    </form>
+                </flux:menu.item>
             </flux:menu>
         </flux:dropdown>
     </flux:sidebar>
+
+    <!-- Mobile Responsiveness -->
+    <flux:header class="block! bg-white lg:bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-700">
+        <flux:navbar class="lg:hidden w-full">
+            <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+            <flux:spacer />
+            <flux:dropdown position="top" align="start">
+                <flux:menu>
+                    <flux:menu.radio.group>
+                        <flux:menu.radio checked></flux:menu.radio>
+                        <flux:menu.radio>Truly Delta</flux:menu.radio>
+                    </flux:menu.radio.group>
+                    <flux:menu.separator />
+                    <flux:navlist.item href="/logout" icon="arrow-right-start-on-rectangle">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            Logout
+                        </form>
+                    </flux:navlist.item>
+                </flux:menu>
+            </flux:dropdown>
+        </flux:navbar>
+        <flux:navbar scrollable>
+            <flux:input as="button" variant="filled" placeholder="Search..." icon="magnifying-glass" />
+            <flux:avatar circle tooltip name="{{ $first_name }} {{ $last_name }}" src="{{ $profile_picture }}" />
+        </flux:navbar>
+    </flux:header>
     <flux:main>
         @yield('content')
     </flux:main>
