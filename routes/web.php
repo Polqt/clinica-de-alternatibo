@@ -58,6 +58,27 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete'])->pref
     Route::get('dashboard', function () {
         return view('client.dashboard');
     })->name('client.dashboard');
+
+    Route::get('schedule', function () {
+        return view('client.schedule');
+    })->name('client.schedule');
+
+    Route::get('history', function () {
+        return view('client.history');
+    })->name('client.history');
+
+    Route::get('appointments', function () {
+        return view('client.appointments');
+    })->name('client.appointments');
+
+    Route::get('settings', function () {
+        return view('client.settings');
+    })->name('client.settings');
+
+    Route::get('help', function () {
+        return view('client.help');
+    })->name('client.help');
+
 });
 
 // Admin Routes
@@ -65,4 +86,5 @@ Route::middleware(['auth', 'user.access:admin'])->prefix('/')->group(function ()
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
+
 });

@@ -1,9 +1,9 @@
 @props([
-'title' => 'Dashboard | MediCare',
-
-])
+'title' => 'Schedule | MediCare',
+]);
 
 @extends('layouts.client')
 @section('content')
+
 
 @endsection

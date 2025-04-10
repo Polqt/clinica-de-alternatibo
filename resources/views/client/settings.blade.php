@@ -1,6 +1,5 @@
 @props([
-'title' => 'Dashboard | MediCare',
-
+'title' => 'Settings | MediCare',
 ])
 
 @extends('layouts.client')
