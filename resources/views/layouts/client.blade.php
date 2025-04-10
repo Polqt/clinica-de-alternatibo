@@ -38,10 +38,10 @@
                     <!-- / -->
                 </flux:menu.radio.group>
                 <flux:menu.separator />
-                <flux:menu.item icon="arrow-right-start-on-rectangle">
+                <flux:menu.item>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        Logout
+                        <button type="submit">Logout</button>
                     </form>
                 </flux:menu.item>
             </flux:menu>
@@ -60,10 +60,10 @@
                         <flux:menu.radio>Truly Delta</flux:menu.radio>
                     </flux:menu.radio.group>
                     <flux:menu.separator />
-                    <flux:navlist.item href="/logout" icon="arrow-right-start-on-rectangle">
+                    <flux:navlist.item>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            Logout
+                            <button type="submit">Logout</button>
                         </form>
                     </flux:navlist.item>
                 </flux:menu>
