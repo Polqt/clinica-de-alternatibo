@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -33,7 +34,7 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    public function register()
+    public function register(): RedirectResponse
     {
         $data = request()->validate([
             'first_name' => ['required', 'string', 'max:50'],
@@ -55,11 +56,13 @@ class AuthController extends Controller
         return redirect()->route('profile.create')->with('success', 'Registration successful. Please complete your profile.');
     }
 
-    public function logout()
+    public function logout(Request $request): RedirectResponse
     {
-        Session::flush();
         Auth::logout();
+        
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect('login');
     }
 }

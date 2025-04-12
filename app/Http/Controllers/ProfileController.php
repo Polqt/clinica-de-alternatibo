@@ -52,8 +52,9 @@ class ProfileController extends Controller
         // Create the profile
         $user->profile()->create($data);
 
+        // TODO: diretso sa user dashboard
 
-        return redirect()->route('dashboard')->with('success', 'Profile created successfully.');
+        return redirect()->route('/login')->with('success', 'Profile created successfully.');
     }
 
     public function edit()

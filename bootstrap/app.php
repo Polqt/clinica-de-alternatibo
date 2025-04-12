@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'user.access' => \App\Http\Middleware\UserAccess::class,
             'EnsureProfileIsComplete' => \App\Http\Middleware\EnsureProfileIsComplete::class,
+            'nocache' => \App\Http\Middleware\NoCache::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

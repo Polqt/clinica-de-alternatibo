@@ -38,11 +38,6 @@ Route::post('/signup', [AuthController::class, 'register']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Admin Routes
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-});
-
 
 // Profile Routes
 Route::middleware(['auth'])->group(function () {
@@ -52,37 +47,36 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-
 // User Routes
-Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete'])->prefix('user')->group(function () {
-    Route::get('dashboard', function () {
+Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocache'])->prefix('user')->group(function () {
+    Route::get('/dashboard', function () {
         return view('client.dashboard');
     })->name('client.dashboard');
 
-    Route::get('schedule', function () {
+    Route::get('/schedule', function () {
         return view('client.schedule');
     })->name('client.schedule');
 
-    Route::get('history', function () {
+    Route::get('/history', function () {
         return view('client.history');
     })->name('client.history');
 
-    Route::get('appointments', function () {
+    Route::get('/appointments', function () {
         return view('client.appointments');
     })->name('client.appointments');
 
-    Route::get('settings', function () {
+    Route::get('/settings', function () {
         return view('client.settings');
     })->name('client.settings');
 
-    Route::get('help', function () {
+    Route::get('/help', function () {
         return view('client.help');
     })->name('client.help');
 
 });
 
 // Admin Routes
-Route::middleware(['auth', 'user.access:admin'])->prefix('/')->group(function () {
+Route::middleware(['auth', 'user.access:admin', 'nocache'])->prefix('/')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
