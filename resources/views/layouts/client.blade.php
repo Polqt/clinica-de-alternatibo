@@ -61,11 +61,7 @@
         </flux:navbar>
         <flux:navbar scrollable>
             <flux:input as="button" variant="filled" placeholder="Search..." icon="magnifying-glass" size="sm" />
-            <flux:radio.group x-data variant="segmented" x-model="$flux.appearance" size="sm">
-                <flux:radio value="light" icon="sun" />
-                <flux:radio value="dark" icon="moon" />
-                <flux:radio value="system" icon="computer-desktop" />
-            </flux:radio.group>
+            <flux:button x-data x-on:click="$flux.dark = ! $flux.dark" icon="moon" variant="subtle" aria-label="Toggle dark mode" />
         </flux:navbar>
     </flux:header>
     <flux:main>
