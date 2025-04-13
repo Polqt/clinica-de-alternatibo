@@ -56,7 +56,7 @@ class AuthController extends Controller
         return redirect()->route('profile.create')->with('success', 'Registration successful. Please complete your profile.');
     }
 
-    public function logout(Request $request): RedirectResponse
+    public function logout(): RedirectResponse
     {
         Auth::logout();
         

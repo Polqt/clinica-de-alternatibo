@@ -2,9 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Middleware\EnsureProfileIsComplete;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,13 +48,13 @@ Route::middleware(['auth'])->group(function () {
 
 // User Routes
 Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocache'])->prefix('user')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('client.dashboard');
-    })->name('client.dashboard');
+    Route::get('/dashboard', [
+        UserController::class, 'dashboard'
+    ])->name('client.dashboard');
 
-    Route::get('/schedule', function () {
-        return view('client.schedule');
-    })->name('client.schedule');
+    Route::get('/schedule', [
+        UserController::class, 'schedule'
+    ])->name('client.schedule');
 
     Route::get('/history', function () {
         return view('client.history');
@@ -73,6 +72,9 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
         return view('client.help');
     })->name('client.help');
 
+    Route::get('/profile', [
+        UserController::class, 'profile'
+    ])->name('client.profile');
 });
 
 // Admin Routes
@@ -80,5 +82,4 @@ Route::middleware(['auth', 'user.access:admin', 'nocache'])->prefix('/')->group(
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
-
 });

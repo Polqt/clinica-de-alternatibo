@@ -9,26 +9,14 @@ class UserController extends Controller
 {
     public function dashboard()
     {
-        /** @var User $user */
-        $user = Auth::user();
 
-        if (!$user) {
-            return redirect()->route('login')->with('error', 'You must be logged in to access the dashboard.');
-        }
 
-        $user->load('profile');
+        return view('client.dashboard');
+    }
 
-        $profile_picture = null;
+    public function profile()
+    {
 
-        if ($user->profile && $user->profile->profile_picture) {
-            $profile_picture = asset('storage/' . $user->profile->profile_picture);
-        }
-
-        return view('user.dashboard', [
-            'user' => $user,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'profile_picture' => $profile_picture,
-        ]);
+        return view('client.profile');
     }
 }
