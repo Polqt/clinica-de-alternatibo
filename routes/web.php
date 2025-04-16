@@ -43,17 +43,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile/create', [ProfileController::class, 'create'])->name('profile.create');
     Route::post('profile/store', [ProfileController::class, 'store'])->name('profile.store');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile.update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 
 // User Routes
 Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocache'])->prefix('user')->group(function () {
     Route::get('/dashboard', [
-        UserController::class, 'dashboard'
+        UserController::class,
+        'dashboard'
     ])->name('client.dashboard');
 
     Route::get('/schedule', [
-        UserController::class, 'schedule'
+        UserController::class,
+        'schedule'
     ])->name('client.schedule');
 
     Route::get('/history', function () {
@@ -73,7 +76,8 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
     })->name('client.help');
 
     Route::get('/profile', [
-        UserController::class, 'profile'
+        UserController::class,
+        'profile'
     ])->name('client.profile');
 });
 

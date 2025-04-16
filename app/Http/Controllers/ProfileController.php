@@ -63,6 +63,26 @@ class ProfileController extends Controller
     }
 
     public function update(Request $request){
+        $data = $request->validate([
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'phone_number' => 'required|string|max:12',
+            'address' => 'required|string|max:255',
+            'postal_code' => 'required|string|max:20',
+            'city' => 'required|string|max:255',
+            'date_of_birth' => 'required|date',
+            'gender' => 'required|string|in:Male,Female,Other',
+            'blood_type' => ['required', new Enum(BloodType::class)],
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        /** @var User $user */
+        $user = Auth::user();
+
+        if (!$user || !$user->profile) {
+            abort(401);
+        }
+
         
     }
 }
