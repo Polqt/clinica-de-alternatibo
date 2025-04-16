@@ -65,7 +65,11 @@
                 <div class="bg-white dark:bg-slate-900 rounded-xl shadow border border-slate-200 dark:border-slate-700 p-6 mb-6">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Personal Details</h2>
-                        <flux:button variant="ghost" href="{{  }}" class="text-sm text-cyan-600 dark:text-cyan-400">Edit</flux:button>
+                        <form method="POST" action="{{ route('profile.edit') }}">
+                            <flux:modal.trigger name="edit-profile">
+                                <flux:button>Edit profile</flux:button>
+                            </flux:modal.trigger>
+                        </form>
                     </div>
                     <div class="space-y-4">
                         <div>
