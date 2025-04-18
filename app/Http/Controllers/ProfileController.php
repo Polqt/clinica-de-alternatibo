@@ -96,7 +96,7 @@ class ProfileController extends Controller
         $user->profile->update($data);
 
         if (isset($data['first_name']) && isset($data['last_name'])) {
-            $user->name = $data['first_name'] . ' ' . $data['last_name'];
+            $user->name = trim(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''));
             $user->save();
         }
 
