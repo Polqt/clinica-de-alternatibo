@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -83,6 +84,23 @@ class ProfileController extends Controller
             abort(401);
         }
 
-        
+        if ($request->hasFile('profile_picture')) {
+            if ($user->profile->profile_picture) {
+                // Delete the old profile picture
+                Storage::disk('public')->delete($user->profile->profile_picture);
+            }
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $data['profile_picture'] = $path;
+        }
+
+        $user->profile->update($data);
+
+        if (isset($data['first_name']) && isset($data['last_name'])) {
+            $user->name = $data['first_name'] . ' ' . $data['last_name'];
+            $user->save();
+        }
+
+        return redirect()->route('client.profile')->with('success', 'Profile updated successfully.');
+
     }
 }

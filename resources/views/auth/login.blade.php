@@ -21,7 +21,7 @@
                     name="email"
                     id="email"
                     placeholder="poyhidalgo@example.com"
-                    :value="old('email')"
+                    :value="old(key: 'email')"
                     class="w-full rounded-lg border border-gray-300/70 p-2 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/30 transition-all"
                     required />
                 @error('email')
