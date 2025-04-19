@@ -5,7 +5,6 @@
 @extends('layouts.client')
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <!-- Page Header with Filter Button -->
     <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
         <div>
             <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Medical History</h1>
@@ -42,7 +41,7 @@
                 </div>
             </div>
             <div class="mt-4 h-1 w-full bg-slate-100 dark:bg-slate-700 rounded">
-                <div class="h-1 bg-blue-500 rounded" style="width: 75%"></div>
+                <div class="h-1 bg-blue-500 rounded"></div>
             </div>
             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">6 visits in the last 90 days</p>
         </div>
@@ -88,7 +87,7 @@
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 mb-8">
         <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
             <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Medical Timeline</h2>
-            <flux:button variant="ghost" size="sm" icon="calendar">
+            <flux:button variant="ghost" icon="calendar">
                 View Calendar
             </flux:button>
         </div>
@@ -152,9 +151,6 @@
                             <flux:button size="xs" variant="outline" icon="document-text">
                                 View Report
                             </flux:button>
-                            <flux:button size="xs" variant="ghost" icon="chat-bubble-left-right">
-                                Notes
-                            </flux:button>
                         </div>
                     </div>
                 </div>
@@ -191,9 +187,6 @@
                         <div class="flex items-center gap-3 mt-4">
                             <flux:button size="xs" variant="outline" icon="chart-bar">
                                 View Results
-                            </flux:button>
-                            <flux:button size="xs" variant="ghost" icon="download">
-                                Download
                             </flux:button>
                         </div>
                     </div>
@@ -238,16 +231,10 @@
                                 <span class="text-slate-500 dark:text-slate-400">As needed</span>
                             </li>
                         </ul>
-
-                        <div class="mt-4">
-                            <flux:button size="xs" variant="outline" icon="arrow-path">
-                                Request Refill
-                            </flux:button>
-                        </div>
                     </div>
                 </div>
                 <div class="relative pl-12 text-center py-4">
-                    <flux:button variant="outline" size="sm" icon="chevron-down" class="w-full">
+                    <flux:button variant="outline" icon="chevron-down" class="w-full">
                         View More History
                     </flux:button>
                 </div>
@@ -288,12 +275,6 @@
                     <span class="text-xs text-slate-500 dark:text-slate-400">Since 2010</span>
                 </li>
             </ul>
-
-            <div class="mt-4">
-                <flux:button variant="ghost" size="sm" icon="plus" class="w-full">
-                    Update Medical Information
-                </flux:button>
-            </div>
         </div>
 
         <!-- Middle Column - Current Medications -->
@@ -311,12 +292,6 @@
                         <span class="inline-block px-2 py-0.5 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900/70 dark:text-blue-200 rounded">Active</span>
                     </div>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Once daily, as needed for allergies</p>
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="text-slate-500 dark:text-slate-400">Refills: 2 remaining</span>
-                        <flux:button size="xs" variant="ghost" icon="arrow-path">
-                            Refill
-                        </flux:button>
-                    </div>
                 </li>
                 <li class="p-3 rounded-md bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-700 transition-all hover:shadow-sm">
                     <div class="flex justify-between items-start mb-2">
@@ -324,20 +299,8 @@
                         <span class="inline-block px-2 py-0.5 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900/70 dark:text-blue-200 rounded">Active</span>
                     </div>
                     <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">As needed for asthma symptoms</p>
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="text-slate-500 dark:text-slate-400">Refills: 1 remaining</span>
-                        <flux:button size="xs" variant="ghost" icon="arrow-path">
-                            Refill
-                        </flux:button>
-                    </div>
                 </li>
             </ul>
-
-            <div class="mt-4">
-                <flux:button variant="ghost" size="sm" icon="document-text" class="w-full">
-                    Medication History
-                </flux:button>
-            </div>
         </div>
 
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-5 border border-slate-200 dark:border-slate-700">
@@ -367,18 +330,12 @@
                         <flux:button size="xs" variant="outline" icon="pencil-square">
                             Reschedule
                         </flux:button>
-                        <flux:button size="xs" variant="ghost" icon="calendar-x-mark" class="text-red-500">
+                        <flux:button size="xs" variant="ghost" icon="calendar-x" class="text-red-500">
                             Cancel
                         </flux:button>
                     </div>
                 </li>
             </ul>
-
-            <div class="mt-4">
-                <flux:button variant="outline" size="sm" icon="plus" class="w-full">
-                    Schedule New Appointment
-                </flux:button>
-            </div>
         </div>
     </div>
 </div>
