@@ -20,11 +20,6 @@
             <flux:navlist.item icon="calendar" href="/user/schedule">Scehdule</flux:navlist.item>
             <flux:navlist.item icon="history" href="/user/history">History</flux:navlist.item>
             <flux:navlist.item icon="calendar-clock" href="/user/appointments">Appointments</flux:navlist.item>
-            <flux:navlist.group expandable heading="Favorites" class="hidden lg:grid">
-                <flux:navlist.item href="#">Marketing site</flux:navlist.item>
-                <flux:navlist.item href="#">Android app</flux:navlist.item>
-                <flux:navlist.item href="#">Brand guidelines</flux:navlist.item>
-            </flux:navlist.group>
         </flux:navlist>
         <flux:spacer />
         <flux:navlist variant="outline">

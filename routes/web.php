@@ -59,17 +59,16 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
         'schedule'
     ])->name('client.schedule');
 
-    Route::get('/history', function () {
-        return view('client.history');
-    })->name('client.history');
+    Route::get('/history', [
+        UserController::class,
+        'history'
+    ])->name('client.history');
 
-    Route::get('/appointments', function () {
-        return view('client.appointments');
-    })->name('client.appointments');
+    Route::get('/appointments', [
+        UserController::class,
+        'appointments'
+    ])->name('client.appointments');
 
-    Route::get('/settings', function () {
-        return view('client.settings');
-    })->name('client.settings');
 
     Route::get('/help', function () {
         return view('client.help');
@@ -79,6 +78,7 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
         UserController::class,
         'profile'
     ])->name('client.profile');
+
 });
 
 // Admin Routes

@@ -220,7 +220,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="mt-4 border-t border-slate-200 dark:border-slate-700 text-center">
+            <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 text-center">
                 <flux:button variant="ghost" class="w-full sm:w-auto" icon="chevron-down">
                     View History
                 </flux:button>
