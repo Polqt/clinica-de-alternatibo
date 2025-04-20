@@ -88,8 +88,8 @@ class ProfileController extends Controller
         ]);
 
         $userData = [
-            'first_name' => $data('first_name'),
-            'last_name' => $data('last_name'),
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
         ];
 
         $user->update($userData);
@@ -109,6 +109,6 @@ class ProfileController extends Controller
 
         $profile->update($data);
 
-        return redirect()->route('client.profile.index')->with('success', 'Profile updated successfully.');
+        return redirect()->route('client.profile')->with('success', 'Profile updated successfully.');
     }
 }

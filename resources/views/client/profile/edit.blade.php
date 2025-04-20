@@ -2,7 +2,7 @@
 'title' => 'Edit Profile | Medicare'
 ])
 
-<flux:modal name="edit_profile" class="md:w-96">
+<flux:modal name="edit_profile" class="md:w-100">
     <form method="POST" action="{{ route('profile.update') }}">
         @csrf
         @method('PUT')
@@ -14,7 +14,7 @@
             <flux:input name="first_name" label="First Name" aria-placeholder="Jani" value="{{ $first_name }}" />
             <flux:input name="last_name" label="Last Name" aria-placeholder="Spancilla" value="{{ $last_name }}" />
             <flux:input name="phone_number" label="Phone Number" aria-placeholder="09XXXXX" value="{{ $phone_number }}" />
-            <flux:input name="date_of_birth" label="Date of Birth" type="date" value="{{ $date_of_birth }}" />
+            <flux:input name="date_of_birth" label="Date of Birth" type="date" value="{{ old('date_of_birth', $date_of_birth?->format('Y-m-d')) }}" />
             <flux:select name="gender" label="Gender">
                 <option value="Male" {{ $gender == 'Male' ? 'selected' : '' }}>Male</option>
                 <option value="Female" {{ $gender == 'Female' ? 'selected' : '' }}>Female</option>
