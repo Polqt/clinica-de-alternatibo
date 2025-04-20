@@ -21,8 +21,12 @@ class UserController extends Controller
 
     public function profile()
     {
+        /** @var User $user */
+        $user = User::with('profile')->find(Auth::id());
 
-        return view('client.profile.index');
+        return view('client.profile.index', [
+            'user' => $user
+        ]);
     }
 
     public function schedule()
@@ -35,7 +39,8 @@ class UserController extends Controller
         return view('client.history.index');
     }
 
-    public function appointments() {
+    public function appointments()
+    {
         return view('client.appointments.index');
     }
 }
