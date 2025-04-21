@@ -27,10 +27,12 @@
             </flux:select>
             <flux:input name="address" label="Address" aria-placeholder="Jani Poblacion" value="{{ $address }}" />
             <flux:input name="city" label="City" aria-placeholder="Jani City" value="{{ $city }}" />
-            <div class="flex">
+            <flux:input name="profile_picture" label="Profile Picture" type="file" accept="image/*" value="{{ $profile_picture }}" class="w-full rounded-lg border border-gray-300 p-3 mt-1 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all" />
+            <div class="flex justify-between">
                 <flex:spacer />
+                <flux:button type="button" varian="outline">Cancel</flux:button>
                 <flux:button type="submit" variant="outline">Save changes</flux:button>
-            </div>
+            </div>  
         </div>
     </form>
 </flux:modal>

@@ -23,7 +23,6 @@
         </flux:navlist>
         <flux:spacer />
         <flux:navlist variant="outline">
-            <flux:navlist.item icon="cog-6-tooth" href="/user/settings">Settings</flux:navlist.item>
             <flux:navlist.item icon="information-circle" href="/user/help">Help</flux:navlist.item>
         </flux:navlist>
         <flux:dropdown position="top" align="start" class="max-lg:hidden">

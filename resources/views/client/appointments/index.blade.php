@@ -99,7 +99,7 @@
         <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
             <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Upcoming Appointments</h2>
             <flux:dropdown position="bottom" align="end">
-                <flux:button variant="ghost" size="sm" icon="funnel">
+                <flux:button variant="outline" size="sm" icon="funnel">
                     Filter
                 </flux:button>
                 <flux:menu>
