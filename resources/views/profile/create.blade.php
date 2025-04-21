@@ -170,7 +170,7 @@
                 </div>
 
                 <div>
-                    <x-forms.label for="profile_picture" class="block text-sm font-medium text-gray-700">Profile Picture (Optional)</x-forms.label>
+                    <x-forms.label for="profile_picture" class="block text-sm font-medium text-gray-700">Profile Picture</x-forms.label>
                     <x-forms.input
                         type="file"
                         name="profile_picture"

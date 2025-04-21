@@ -3,7 +3,7 @@
 ])
 
 <flux:modal name="edit_profile" class="md:w-100">
-    <form method="POST" action="{{ route('profile.update') }}">
+    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="space-y-6">
@@ -26,11 +26,10 @@
                 @endforeach
             </flux:select>
             <flux:input name="address" label="Address" aria-placeholder="Jani Poblacion" value="{{ $address }}" />
-            <flux:input name="city" label="City" aria-placeholder="Jani City" value="{{ $city }}" />
-            <flux:input name="profile_picture" label="Profile Picture" type="file" accept="image/*" value="{{ $profile_picture }}" class="w-full rounded-lg border border-gray-300 p-3 mt-1 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all" />
+            <x:input name="city" label="City" aria-placeholder="Jani City" value="{{ $city }}" />
+            <flux:input name="profile_picture" label="Profile Picture" type="file" accept="image/*" class="w-full rounded-lg border border-gray-300 p-3 mt-1 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 transition-all" />
             <div class="flex justify-between">
                 <flex:spacer />
-                <flux:button type="button" varian="outline">Cancel</flux:button>
                 <flux:button type="submit" variant="outline">Save changes</flux:button>
             </div>  
         </div>

@@ -96,11 +96,11 @@ class ProfileController extends Controller
         unset($data['first_name'], $data['last_name']);
 
         // Handle profile picture
-        if ($request->hasFile('profile_picture')) {
+        if ($request->hasFile('profile_picture') && $request->file('profile_picture')->isValid()) {
 
             // Remove the old profile picture if it exists
-            if ($user->profile->profile_picture) {
-                Storage::disk('public')->delete($user->profile->profile_picture);
+            if ($profile->profile_picture) {
+                Storage::disk('public')->delete($profile->profile_picture);
             }
 
             $path = $request->file('profile_picture')->store('profile_pictures', 'public');
