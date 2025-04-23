@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_id')->constrained('patients')->onDelete('restrict');
             $table->foreignId('doctor_id')->constrained('doctors')->onDelete('restrict');
-            $table->foreignId('clinic_id')->constrained('clinics')->onDelete('restrict');
 
             $table->dateTime('appointment_date');
             $table->enum('status', array_column(AppointmentStatus::cases(), 'value'))->default(AppointmentStatus::Scheduled->value);
@@ -26,7 +25,6 @@ return new class extends Migration
 
             $table->index(['patient_id', 'appointment_date']);
             $table->index(['doctor_id', 'appointment_date']);
-            $table->index(['clinic_id', 'appointment_date']);
             $table->index('status');
             $table->index('appointment_date');
 

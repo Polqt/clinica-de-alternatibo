@@ -24,7 +24,7 @@
                         @endif
                     </div>
                     <label for="profile_picture" class="absolute -bottom-1 -right-1 bg-white dark:bg-gray-800 rounded-full p-1 border border-gray-200 dark:border-gray-700 cursor-pointer shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        
+
                         <flux:icon.camera class="w-4 h-4" />
                     </label>
                     <input name="profile_picture" id="profile_picture" type="file" accept="image/*" class="hidden" />
@@ -74,9 +74,9 @@
                     <flux:input name="postal_code" label="Postal Code" placeholder="Enter postal code" value="{{ $postal_code ?? '' }}" />
                 </div>
             </div>
-            <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3">
-                <flux:button type="button" variant="outline" class="text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600">Cancel</flux:button>
+            <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between gap-3">
                 <flux:button type="submit" variant="outline" class="bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white">Save Changes</flux:button>
+                <flux:button type="button" variant="outline" class="text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600">Cancel</flux:button>
             </div>
         </div>
     </form>

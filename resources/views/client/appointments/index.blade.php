@@ -91,7 +91,7 @@
 
         <div class="p-4">
             <!-- Calendar will be rendered here -->
-            <div id="appointment-calendar" class="h-96"></div>
+            <div id="calendar" class="h-96"></div>
         </div>
     </div>
 
