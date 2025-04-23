@@ -13,13 +13,17 @@
         </div>
         <div class="flex space-x-3 mt-4 md:mt-0">
             <flux:button variant="outline" icon="calendar">Today</flux:button>
-            <flux:button variant="primary" icon="plus">New Appointment</flux:button>
+            <flux:modal.trigger name="create_appointment">
+                <flux:button variant="primary" icon="plus">New Appointment</flux:button>
+            </flux:modal.trigger>
         </div>
     </div>
 
-    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 mb-6"> 
-            <div id="calendar" class="p-4"></div>
-        </div>
+    <div class="bg-slate-50 dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 mb-6">
+        <div id="calendar" class="p-4"></div>
     </div>
 </div>
+</div>
+
+@include('client.schedule.create')
 @endsection

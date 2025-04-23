@@ -1,3 +1,8 @@
-<div>
-    <!-- The only way to do great work is to love what you do. - Steve Jobs -->
-</div>
+@props([
+'title' => 'Appointments | Medicare',
+])
+
+@extends('layouts.admin')
+@section('content')
+
+@endsection

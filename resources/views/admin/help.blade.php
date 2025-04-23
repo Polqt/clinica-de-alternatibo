@@ -1,5 +1,5 @@
 @props([
-'title' => 'Doctors | Medicare',
+    'title' => 'Help | Medicare',
 ])
 
 @extends('layouts.admin')

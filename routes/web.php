@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
@@ -83,7 +84,28 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
 
 // Admin Routes
 Route::middleware(['auth', 'user.access:admin', 'nocache'])->prefix('/')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/dashboard', [
+        AdminController::class,
+        'dashboard'
+    ])->name('admin.dashboard');
+
+    Route::get('/doctors', [
+        AdminController::class,
+        'doctors',
+    ])->name('admin.doctors');
+
+    Route::get('/patients', [
+        AdminController::class,
+        'patients',
+    ])->name('admin.patients');
+
+    Route::get('/appointments', [
+        AdminController::class,
+        'appointments',
+    ])->name('admin.appointments');
+
+    Route::get('/help', [
+        AdminController::class,
+        'help',
+    ])->name('admin.help');
 });

@@ -143,7 +143,7 @@
                             <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Upcoming Appointments</h2>
                             <button type="button" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
                                 <flux:icon.plus variant="micro" class="mr-1" />
-                                New
+                                <a href="{{ route('client.schedule') }}">New</a>
                             </button>
                         </div>
                     </div>
@@ -153,9 +153,6 @@
                         </div>
                         <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100">No upcoming appointments</h3>
                         <p class="mt-1 text-slate-500 dark:text-slate-400 max-w-sm mx-auto">Schedule your next appointment with one of our doctors for a check up</p>
-                        <div class="mt-4">
-                            <flux:button variant="primary" href="" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">Schedule Appointment</flux:button>
-                        </div>
                     </div>
                 </div>
             </div>

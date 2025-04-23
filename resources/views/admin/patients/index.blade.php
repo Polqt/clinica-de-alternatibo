@@ -1,3 +1,8 @@
-<div>
-    <!-- Happiness is not something readymade. It comes from your own actions. - Dalai Lama -->
-</div>
+@props([
+'title' => 'Patients | Medicare',
+])
+
+@extends('layouts.admin')
+@section('content')
+
+@endsection

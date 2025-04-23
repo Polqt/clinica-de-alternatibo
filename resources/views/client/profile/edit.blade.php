@@ -1,7 +1,3 @@
-@props([
-'title' => 'Edit Profile | Medicare'
-])
-
 <flux:modal name="edit_profile" class="md:max-w-2xl">
     <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
         @csrf
