@@ -23,7 +23,7 @@
         </flux:navlist>
         <flux:spacer />
         <flux:navlist variant="outline">
-            <flux:navlist.item icon="information-circle" href="/user/help">Help</flux:navlist.item>
+            <flux:navlist.item icon="information-circle" href="/help">Help</flux:navlist.item>
         </flux:navlist>
         <flux:dropdown position="top" align="start" class="max-lg:hidden">
             <flux:profile circle avatar="{{ $profile_picture }}" name="{{ $first_name }} {{ $last_name }}" />
