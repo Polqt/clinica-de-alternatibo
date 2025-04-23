@@ -16,20 +16,19 @@
         <flux:brand href="/user/dashboard" logo="https://fluxui.dev/img/demo/dark-mode-logo.png" name="Medicare Inc." class="px-2 hidden dark:flex" />
 
         <flux:navlist variant="outline" class="space-y-40">
-            <flux:navlist.item icon="layout-dashboard" href="/user/dashboard">Dashboard</flux:navlist.item>
-            <flux:navlist.item icon="calendar" href="/user/schedule">Scehdule</flux:navlist.item>
-            <flux:navlist.item icon="history" href="/user/history">History</flux:navlist.item>
-            <flux:navlist.item icon="calendar-clock" href="/user/appointments">Appointments</flux:navlist.item>
+            <flux:navlist.item icon="layout-dashboard" href="/dashboard">Dashboard</flux:navlist.item>
+            <flux:navlist.item icon="calendar-clock" href="/appointments">Appointments</flux:navlist.item>
+            <flux:navlist.item icon="stethoscope" href="/doctors">Doctors</flux:navlist.item>
+            <flux:navlist.item icon="users" href="/patients">Patients</flux:navlist.item>
         </flux:navlist>
         <flux:spacer />
         <flux:navlist variant="outline">
-            <flux:navlist.item icon="cog-6-tooth" href="/user/settings">Settings</flux:navlist.item>
             <flux:navlist.item icon="information-circle" href="/user/help">Help</flux:navlist.item>
         </flux:navlist>
         <flux:dropdown position="top" align="start" class="max-lg:hidden">
             <flux:profile circle avatar="{{ $profile_picture }}" name="{{ $first_name }} {{ $last_name }}" />
             <flux:menu>
-                <flux:menu.item icon="user-circle" href="/user/profile">Profile</flux:menu.item>
+                <flux:menu.item icon="user-circle" href="/profile">Profile</flux:menu.item>
 
                 <flux:menu.separator />
                 <form method="POST" action="{{ route('logout') }}">

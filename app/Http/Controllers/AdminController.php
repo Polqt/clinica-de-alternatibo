@@ -13,21 +13,26 @@ class AdminController extends Controller
 
     public function doctors()
     {
-        return view('admin.doctors');
+        return view('admin.doctors.index');
     }
 
     public function patients()
     {
-        return view('admin.patients');
+        return view('admin.patients.index');
     }
 
     public function appointments()
     {
-        return view('admin.appointments');
+        return view('admin.appointments.index');
     }
 
     public function help()
     {
         return view('admin.help');
+    }
+
+    public function profile()
+    {
+        return view('admin.profile.index');
     }
 }

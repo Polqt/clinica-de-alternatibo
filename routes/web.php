@@ -108,4 +108,9 @@ Route::middleware(['auth', 'user.access:admin', 'nocache'])->prefix('/')->group(
         AdminController::class,
         'help',
     ])->name('admin.help');
+
+    Route::get('/profile', [
+        AdminController::class,
+        'profile',
+    ])->name('admin.profile.index');
 });
