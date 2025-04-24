@@ -1,3 +1,6 @@
-<div>
-    <!-- Act only according to that maxim whereby you can, at the same time, will that it should become a universal law. - Immanuel Kant -->
-</div>
+<flux:modal name="create_doctor" class="md:max-w-2xl">
+    <form method="POST" action="">
+        @csrf
+    </form>
+
+</flux:modal>

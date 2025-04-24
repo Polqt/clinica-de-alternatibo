@@ -17,7 +17,7 @@ class DoctorSeeder extends Seeder
             [
                 'first_name' => 'Jani',
                 'last_name' => 'Esperancilla',
-                'license_number' => '0123456',
+                'license_number' => '0234567',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
