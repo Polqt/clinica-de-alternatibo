@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 
@@ -89,10 +90,32 @@ Route::middleware(['auth', 'user.access:admin', 'nocache'])->prefix('/')->group(
         'dashboard'
     ])->name('admin.dashboard');
 
+
     Route::get('/doctors', [
         AdminController::class,
         'doctors',
     ])->name('admin.doctors');
+
+    Route::get('/doctors/{id}', [
+        DoctorController::class,
+        'doctorDetails',
+    ])->name('admin.doctor.details');
+
+    Route::post('/doctors/create', [
+        DoctorController::class,
+        'createDoctor',
+    ])->name('admin.doctor.create');
+
+    Route::put('/doctors/edit/{id}', [
+        DoctorController::class,
+        'editDoctor',
+    ])->name('admin.doctor.edit');
+
+    Route::delete('/doctors/delete/{id}', [
+        DoctorController::class,
+        'deleteDoctor',
+    ])->name('admin.doctor.delete');
+
 
     Route::get('/patients', [
         AdminController::class,

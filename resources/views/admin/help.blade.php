@@ -89,10 +89,6 @@
                             <span class="font-semibold">3.</span>
                             <span>Click on a user to view their complete profile</span>
                         </li>
-                        <li class="flex gap-2">
-                            <span class="font-semibold">4.</span>
-                            <span>Use the action buttons to edit information, reset password, or modify account status</span>
-                        </li>
                     </ol>
                 </div>
             </div>
