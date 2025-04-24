@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Doctor;
 
 class AdminController extends Controller
 {
@@ -13,7 +14,9 @@ class AdminController extends Controller
 
     public function doctors()
     {
-        return view('admin.doctors.index');
+        $doctors = Doctor::paginate(10);
+
+        return view('admin.doctors.index', compact('doctors'));
     }
 
     public function patients()

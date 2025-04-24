@@ -27,7 +27,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-slate-500 dark:text-slate-400">Total Doctors</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white"></p>
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $doctors->count() }}</p>
                 </div>
             </div>
         </div>
@@ -109,7 +109,6 @@
             <table class="w-full text-sm text-left">
                 <thead class="text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-700/50">
                     <tr>
-                        <th class="px-4 py-3 font-medium">ID</th>
                         <th class="px-4 py-3 font-medium">First Name</th>
                         <th class="px-4 py-3 font-medium">Last Name</th>
                         <th class="px-4 py-3 font-medium">License Number</th>
@@ -118,53 +117,87 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                    @forelse($doctors as $doctor)
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
-                        <td class="px-4 py-3 text-slate-900 dark:text-white">#102</td>
-                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">Jani</td>
-                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">Junard</td>
-                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">LIC-2023-7845</td>
-                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">Jan 15, 2024</td>
+                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $doctor->first_name }}</td>
+                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $doctor->last_name }}</td>
+                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $doctor->license_number }}</td>
+                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $doctor->created_at->format('M d, Y') }}</td>
                         <td class="px-4 py-3 text-right">
                             <div class="flex items-center justify-end space-x-12">
                                 <flux:modal.trigger name="view_doctor">
-                                    <flux:button variant="ghost" icon="eye" class="text-emerald-600 dark:text-emerald-400">
+                                    <flux:button variant="ghost" icon="eye">
                                         View
                                     </flux:button>
                                 </flux:modal.trigger>
                                 <flux:modal.trigger name="edit_doctor">
-                                    <flux:button variant="ghost" icon="pencil" class="text-cyan-600 dark:text-cyan-400">
+                                    <flux:button variant="ghost" icon="pencil">
                                         Edit
                                     </flux:button>
                                 </flux:modal.trigger>
                                 <flux:modal.trigger name="delete_doctor">
-                                    <flux:button variant="ghost" icon="pencil" class="text-amber-600 dark:text-amber-400">
+                                    <flux:button variant="ghost" icon="pencil">
                                         Delete
                                     </flux:button>
                                 </flux:modal.trigger>
                             </div>
                         </td>
                     </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="px-4 py-3 text-center text-slate-500 dark:text-slate-400">No doctors found</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
         <div class="p-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
             <div class="text-sm text-slate-600 dark:text-slate-400">
-                Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">24</span> doctors
+                Showing {{ $doctors->firstItem() ?? 0 }} to {{ $doctors->lastItem() ?? 0 }} of {{ $doctors->total() }} doctors
             </div>
             <div class="flex items-center space-x-2">
+                @if ($doctors->onFirstPage())
                 <flux:button variant="outline" size="sm" disabled>
                     <flux:icon.chevron-left class="h-4 w-4" />
                     Previous
                 </flux:button>
+                @else
+                @if ($doctors->currentPage() == 2)
+                <a href="{{ route('admin.doctors') }}">
+                    <flux:button variant="outline" size="sm" disabled>
+                        <flux:icon.chevron-left class="h-4 w-4" />
+                        Previous
+                    </flux:button>
+                </a>
+                @else
+                <a href="{{ $doctors->previousPageUrl() }}">
+                    <flux:button variant="outline" size="sm" disabled>
+                        <flux:icon.chevron-left class="h-4 w-4" />
+                        Previous
+                    </flux:button>
+                </a>
+                @endif
+                @endif
+
+                @if ($doctors->hasMorePages())
+                <a href="{{ $doctors->nextPageUrl() }}">
+                    <flux:button variant="outline" size="sm">
+                        Next
+                        <flux:icon.chevron-right class="h-4 w-4 ml-1" />
+                    </flux:button>
+                </a>
+                @else
                 <flux:button variant="outline" size="sm">
                     Next
                     <flux:icon.chevron-right class="h-4 w-4 ml-1" />
                 </flux:button>
+                @endif
             </div>
         </div>
     </div>
 </div>
 
+@include('admin.doctors.view')
 @include('admin.doctors.create')
 @include('admin.doctors.edit')
 @include('admin.doctors.delete')
