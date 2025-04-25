@@ -96,12 +96,7 @@ Route::middleware(['auth', 'user.access:admin', 'nocache'])->prefix('/')->group(
         'doctors',
     ])->name('admin.doctors');
 
-    Route::get('/doctors/{id}', [
-        DoctorController::class,
-        'doctorDetails',
-    ])->name('admin.doctor.details');
-
-    Route::post('/doctors/create', [
+    Route::post('/doctors', [
         DoctorController::class,
         'createDoctor',
     ])->name('admin.doctor.create');

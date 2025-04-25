@@ -27,7 +27,7 @@
                 </div>
                 <div>
                     <p class="text-sm text-slate-500 dark:text-slate-400">Total Doctors</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $doctors->count() }}</p>
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $totalDoctors }}</p>
                 </div>
             </div>
         </div>
@@ -125,11 +125,6 @@
                         <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $doctor->created_at->format('M d, Y') }}</td>
                         <td class="px-4 py-3 text-right">
                             <div class="flex items-center justify-end space-x-12">
-                                <flux:modal.trigger name="view_doctor">
-                                    <flux:button variant="ghost" icon="eye">
-                                        View
-                                    </flux:button>
-                                </flux:modal.trigger>
                                 <flux:modal.trigger name="edit_doctor">
                                     <flux:button variant="ghost" icon="pencil">
                                         Edit
@@ -197,7 +192,6 @@
     </div>
 </div>
 
-@include('admin.doctors.view')
 @include('admin.doctors.create')
 @include('admin.doctors.edit')
 @include('admin.doctors.delete')

@@ -14,9 +14,10 @@ class AdminController extends Controller
 
     public function doctors()
     {
+        $totalDoctors = Doctor::count();
         $doctors = Doctor::paginate(10);
 
-        return view('admin.doctors.index', compact('doctors'));
+        return view('admin.doctors.index', compact('doctors', 'totalDoctors'));
     }
 
     public function patients()
