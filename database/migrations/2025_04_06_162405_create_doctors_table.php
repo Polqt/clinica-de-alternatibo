@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('license_number')->unique();
+            $table->foreignId('specialization_id')->constrained('specializations')->onDelete('restrict');
             $table->timestamps();
         });
     }

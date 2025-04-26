@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Doctor;
+use App\Models\Specialization;
 
 class AdminController extends Controller
 {
@@ -15,9 +16,10 @@ class AdminController extends Controller
     public function doctors()
     {
         $totalDoctors = Doctor::count();
-        $doctors = Doctor::paginate(10);
+        $doctors = Doctor::with('specialization')->paginate(10);
+        $specializations = Specialization::orderBy('name')->get();
 
-        return view('admin.doctors.index', compact('doctors', 'totalDoctors'));
+        return view('admin.doctors.index', compact('doctors', 'totalDoctors', 'specializations'));
     }
 
     public function patients()

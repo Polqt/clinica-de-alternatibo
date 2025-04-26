@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Specialization;
 
 class Doctor extends Model
 {
@@ -10,7 +11,12 @@ class Doctor extends Model
         'first_name',
         'last_name',
         'license_number',
+        'specialization_id',
     ];
+
+    public function specialization() {
+        return $this->belongsTo(Specialization::class);
+    }
 
     // public function patients()
     // {
