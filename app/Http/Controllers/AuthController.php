@@ -2,32 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Services\Auth\LoginServices;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Services\Auth\LogoutServices;
+use App\Services\Auth\RegisterServices;
 
 class AuthController extends Controller
 {
+
+    protected $loginServices;
+    protected $registerServices;
+    protected $logoutServices;
+
+    public function __construct(
+        LoginServices $loginServices,
+        RegisterServices $registerServices,
+        LogoutServices $logoutServices
+    ) {
+        $this->loginServices = $loginServices;
+        $this->registerServices = $registerServices;
+        $this->logoutServices = $logoutServices;
+    }
+
     public function login()
     {
-        $credentials = request()->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $credentials = $this->loginServices->validateCredentials();
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+        $redirectRoute = $this->loginServices->login($credentials);
 
-            if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard');
-            }
-
-            if ($user->role === 'user') {
-                return redirect()->route('client.dashboard');
-            }
+        if ($redirectRoute) {
+            return redirect()->route($redirectRoute)->with('success', 'You are logged in successfully.');
         }
-
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
@@ -35,32 +40,16 @@ class AuthController extends Controller
 
     public function register(): RedirectResponse
     {
-        $data = request()->validate([
-            'first_name' => ['required', 'string', 'max:50'],
-            'last_name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8']
-        ]);
+        $data = $this->registerServices->validateRegistrationData();
 
-        $user = User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => 'user',
-        ]);
-
-        Auth::login($user);
+        $this->registerServices->register($data);
 
         return redirect()->route('profile.create')->with('success', 'Registration successful. Please complete your profile.');
     }
 
     public function logout(): RedirectResponse
     {
-        Auth::logout();
-        
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
+        $this->logoutServices->logout();
 
         return redirect('login');
     }

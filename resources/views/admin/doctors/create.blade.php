@@ -1,66 +1,36 @@
 <flux:modal name="create_doctor" class="md:max-w-2xl">
-    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-        <h3 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center">
-            <flux:icon.user-plus class="w-5 h-5 text-blue-500 mr-2" />
-            Add New Doctor
-        </h3>
-    </div>
-
-    <form method="POST" action="{{ route('admin.doctor.create') }}">
+    <form method="POST" action="{{ route('admin.doctor.create') }}" enctype="multipart/form-data">
         @csrf
-        <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <flux:label for="first_name">First Name</flux:label>
+        <div class="space-y-6">
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
+                <flux:heading size="lg">Add New Doctor</flux:heading>
+                <flux:text class="mt-1 text-slate-500 dark:text-slate-400">Create a new doctor profile in the system.</flux:text>
+            </div>
+
+            <div>
+                <flux:heading size="sm" class="text-gray-700 dark:text-gray-300 mb-4">Doctor Information</flux:heading>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
                     <flux:input
-                        type="text"
-                        id="first_name"
                         name="first_name"
-                        class="w-full mt-1"
+                        label="First Name"
                         placeholder="Enter first name"
                         value="{{ old('first_name') }}"
                         required />
-                    @error('first_name')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <flux:label for="last_name">Last Name</flux:label>
                     <flux:input
-                        type="text"
-                        id="last_name"
                         name="last_name"
-                        class="w-full mt-1"
+                        label="Last Name"
                         placeholder="Enter last name"
                         value="{{ old('last_name') }}"
                         required />
-                    @error('last_name')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <flux:label for="license_number">License Number</flux:label>
                     <flux:input
-                        type="text"
-                        id="license_number"
                         name="license_number"
-                        class="w-full mt-1"
+                        label="License Number"
                         placeholder="Enter license number"
                         value="{{ old('license_number') }}"
                         required />
-                    @error('license_number')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <flux:label for="specialization_id">Specialization</flux:label>
                     <flux:select
-                        id="specialization_id"
                         name="specialization_id"
-                        class="w-full mt-1"
+                        label="Specialization"
                         required>
                         <option value="">Select Specialization</option>
                         @foreach($specializations as $specialization)
@@ -69,23 +39,19 @@
                         </option>
                         @endforeach
                     </flux:select>
-                    @error('specialization_id')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
                 </div>
             </div>
-        </div>
 
-        <div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-700 flex justify-end space-x-2">
-            <flux:modal.close>
-                <flux:button variant="outline" type="button">
-                    Cancel
+            <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between gap-3">
+                <flux:modal.close>
+                    <flux:button type="button" variant="outline" class="text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600">
+                        Cancel
+                    </flux:button>
+                </flux:modal.close>
+                <flux:button icon="user-plus" type="submit" variant="filled">
+                    Add Doctor
                 </flux:button>
-            </flux:modal.close>
-
-            <flux:button type="submit" icon="user-plus">
-                Add Doctor
-            </flux:button>
+            </div>
         </div>
     </form>
 </flux:modal>

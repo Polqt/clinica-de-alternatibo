@@ -27,7 +27,7 @@ class DoctorController extends Controller
         $data = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'license_number' => 'required|string|max:255|unique:doctors,license_number,' . $doctor->id,
+            // 'license_number' => 'required|string|max:255|unique:doctors,license_number,' . $doctor->id,
             'specialization_id' => 'required|exists:specializations,id',
         ]);
 
