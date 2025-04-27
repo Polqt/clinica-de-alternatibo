@@ -32,7 +32,7 @@ class UserController extends Controller
     public function schedule()
     {
 
-        
+
         return view('client.schedule.index');
     }
 

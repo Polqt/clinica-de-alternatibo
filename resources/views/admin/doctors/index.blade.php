@@ -150,49 +150,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="p-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
-            <div class="text-sm text-slate-600 dark:text-slate-400">
-                Showing {{ $doctors->firstItem() ?? 0 }} to {{ $doctors->lastItem() ?? 0 }} of {{ $doctors->total() }} doctors
-            </div>
-            <div class="flex items-center space-x-2">
-                @if ($doctors->onFirstPage())
-                <flux:button variant="outline" size="sm" disabled>
-                    <flux:icon.chevron-left class="h-4 w-4" />
-                    Previous
-                </flux:button>
-                @else
-                @if ($doctors->currentPage() == 2)
-                <a href="{{ route('admin.doctors') }}">
-                    <flux:button variant="outline" size="sm" disabled>
-                        <flux:icon.chevron-left class="h-4 w-4" />
-                        Previous
-                    </flux:button>
-                </a>
-                @else
-                <a href="{{ $doctors->previousPageUrl() }}">
-                    <flux:button variant="outline" size="sm" disabled>
-                        <flux:icon.chevron-left class="h-4 w-4" />
-                        Previous
-                    </flux:button>
-                </a>
-                @endif
-                @endif
-
-                @if ($doctors->hasMorePages())
-                <a href="{{ $doctors->nextPageUrl() }}">
-                    <flux:button variant="outline" size="sm">
-                        Next
-                        <flux:icon.chevron-right class="h-4 w-4 ml-1" />
-                    </flux:button>
-                </a>
-                @else
-                <flux:button variant="outline" size="sm">
-                    Next
-                    <flux:icon.chevron-right class="h-4 w-4 ml-1" />
-                </flux:button>
-                @endif
-            </div>
-        </div>
+        <x-pagination :paginator="$doctors" />
     </div>
 </div>
 

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Doctor;
 use App\Models\Specialization;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -29,6 +30,7 @@ class AdminController extends Controller
 
     public function appointments()
     {
+        
         return view('admin.appointments.index');
     }
 
@@ -39,6 +41,8 @@ class AdminController extends Controller
 
     public function profile()
     {
+
+        $user = User::with('profile')->find(Auth::id());
         return view('admin.profile.index');
     }
 }

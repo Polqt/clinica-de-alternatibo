@@ -39,15 +39,6 @@
                                 <span class="text-sm text-zinc-500 dark:text-zinc-400">{{ $email }}</span>
                             </div>
                         </div>
-                        <div class="flex space-x-2">
-                            <button type="button" class="inline-flex items-center px-3 py-1.5 border border-slate-300 dark:border-slate-600 text-xs font-medium rounded-lg shadow-sm text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700">
-                                <flux:icon.shield-check variant="micro" class="mr-1" />
-                                Security
-                            </button>
-                            <flux:modal.trigger name="edit_profile">
-                                <flux:button>Edit profile</flux:button>
-                            </flux:modal.trigger>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -185,5 +176,4 @@
     </div>
 </div>
 
-@include('admin.profile.edit')
 @endsection
