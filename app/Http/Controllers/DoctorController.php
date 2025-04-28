@@ -27,7 +27,6 @@ class DoctorController extends Controller
         $data = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            // 'license_number' => 'required|string|max:255|unique:doctors,license_number,' . $doctor->id,
             'specialization_id' => 'required|exists:specializations,id',
         ]);
 
@@ -40,8 +39,7 @@ class DoctorController extends Controller
         $doctor = Doctor::findOrFail($id);
 
         $doctor->delete();
-
-
+        
         return redirect()->route('admin.doctors')->with('success', 'Doctor deleted successfully.');
     }
 }

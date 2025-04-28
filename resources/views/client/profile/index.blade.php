@@ -66,7 +66,9 @@
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Personal Details</h2>
                         <flux:modal.trigger name="edit_profile">
-                            <flux:button>Edit profile</flux:button>
+                            <button type="button" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium">
+                                Edit
+                            </button>
                         </flux:modal.trigger>
                     </div>
                     <div class="space-y-4">

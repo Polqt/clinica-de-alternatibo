@@ -23,12 +23,6 @@
                         placeholder="Enter last name"
                         value="{{ $doctor->last_name ?? old('last_name') }}"
                         required />
-                    <flux:input
-                        name="license_number"
-                        label="License Number"
-                        placeholder="Enter license number"
-                        value="{{ $doctor->license_number ?? old('license_number') }}"
-                        required />
                     <flux:select
                         name="specialization_id"
                         label="Specialization"

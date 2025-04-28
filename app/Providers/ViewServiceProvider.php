@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Enums\BloodType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use App\Models\User;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -24,7 +26,7 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             if (Auth::check()) {
 
-                /** @var \App\Models\User $user */
+                /** @var User $user */
 
                 $user = Auth::user();
                 $user->load('profile');
@@ -47,6 +49,8 @@ class ViewServiceProvider extends ServiceProvider
                     'date_of_birth' => $user->profile?->date_of_birth,
                     'gender' => $user->profile?->gender,
                     'blood_type' => $user->profile?->blood_type,
+                    'bloodTypes' => BloodType::values(),
+                    'genders' => ['Male', 'Female', 'Other'],
                 ]);
             }
         });

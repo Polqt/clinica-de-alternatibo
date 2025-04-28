@@ -41,20 +41,20 @@
             <div>
                 <flux:heading size="sm" class="text-gray-700 dark:text-gray-300 mb-4">Personal Information</flux:heading>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
-                    <flux:input name="first_name" label="First Name" placeholder="Enter your first name" value="{{ $first_name }}" />
-                    <flux:input name="last_name" label="Last Name" placeholder="Enter your last name" value="{{ $last_name }}" />
-                    <flux:input name="phone_number" label="Phone Number" placeholder="e.g., 09XXXXXXXX" value="{{ $phone_number }}" />
+                    <flux:input name="first_name" label="First Name" value="{{ $first_name }}" />
+                    <flux:input name="last_name" label="Last Name" value="{{ $last_name }}" />
+                    <flux:input name="phone_number" label="Phone Number" value="{{ $phone_number }}" />
                     <flux:input name="date_of_birth" label="Date of Birth" type="date" value="{{ old('date_of_birth', $date_of_birth?->format('Y-m-d')) }}" />
                     <flux:select name="gender" label="Gender">
                         <option value="" disabled>Select gender</option>
-                        <option value="Male" {{ $gender == 'Male' ? 'selected' : '' }}>Male</option>
-                        <option value="Female" {{ $gender == 'Female' ? 'selected' : '' }}>Female</option>
-                        <option value="Other" {{ $gender == 'Other' ? 'selected' : '' }}>Other</option>
+                        @foreach($genders as $gender)
+                        <option value="{{ $gender }}" {{ old('gender') == $gender ? 'selected' : '' }}>{{ $gender }}</option>
+                        @endforeach
                     </flux:select>
                     <flux:select name="blood_type" label="Blood Type">
                         <option value="" disabled>Select blood type</option>
-                        @foreach (\App\Enums\BloodType::values() as $bloodType)
-                        <option value="{{ $bloodType }}" {{ $blood_type == $bloodType ? 'selected' : '' }}>{{ $bloodType }}</option>
+                        @foreach($bloodTypes as $type)
+                        <option value="{{ $type }}" {{ old('blood_type') == $type ? 'selected' : '' }}>{{ $type }}</option>
                         @endforeach
                     </flux:select>
                 </div>
@@ -64,10 +64,10 @@
                 <flux:heading size="sm" class="text-gray-700 dark:text-gray-300 mb-4">Address</flux:heading>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
                     <div class="sm:col-span-2">
-                        <flux:input name="address" label="Street Address" placeholder="Enter your street address" value="{{ $address }}" />
+                        <flux:input name="address" label="Street Address" value="{{ $address }}" />
                     </div>
-                    <flux:input name="city" label="City" placeholder="Enter your city" value="{{ $city }}" />
-                    <flux:input name="postal_code" label="Postal Code" placeholder="Enter postal code" value="{{ $postal_code ?? '' }}" />
+                    <flux:input name="city" label="City" value="{{ $city }}" />
+                    <flux:input name="postal_code" label="Postal Code" value="{{ $postal_code ?? '' }}" />
                 </div>
             </div>
             <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between gap-3">

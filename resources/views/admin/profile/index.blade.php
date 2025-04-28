@@ -51,11 +51,6 @@
                 <div class="bg-white dark:bg-slate-900 rounded-xl shadow border border-slate-200 dark:border-slate-700 p-6 mb-6">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-semibold text-slate-900 dark:text-slate-100">Account Details</h2>
-                        <flux:modal.trigger name="edit_profile">
-                            <button type="button" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium">
-                                Edit
-                            </button>
-                        </flux:modal.trigger>
                     </div>
                     <div class="space-y-4">
                         <div>
@@ -97,7 +92,7 @@
                         </div>
                         <p class="text-white/80 text-sm mt-2">Manage patient accounts</p>
                         <div class="mt-4">
-                            <a href="#" class="inline-flex items-center text-xs font-medium text-white hover:underline">
+                            <a href="" class="inline-flex items-center text-xs font-medium text-white hover:underline">
                                 View all users
                                 <flux:icon.arrow-right variant="micro" class="ml-1" />
                             </a>
@@ -127,7 +122,7 @@
                         </div>
                         <p class="text-white/80 text-sm mt-2">Access system analytics</p>
                         <div class="mt-4">
-                            <a href="#" class="inline-flex items-center text-xs font-medium text-white hover:underline">
+                            <a href="" class="inline-flex items-center text-xs font-medium text-white hover:underline">
                                 View reports
                                 <flux:icon.arrow-right variant="micro" class="ml-1" />
                             </a>

@@ -60,7 +60,10 @@ class ProfileController extends Controller
 
     public function edit()
     {
-        return view('profile.edit', ['profile' => Auth::user()->profile]);
+        return view('profile.edit', [
+            'bloodTypes' => BloodType::values(),
+            'genders' => ['Male', 'Female', 'Other']
+        ]);
     }
 
     public function update(Request $request)
@@ -105,7 +108,7 @@ class ProfileController extends Controller
 
             $path = $request->file('profile_picture')->store('profile_pictures', 'public');
             $data['profile_picture'] = $path;
-        } 
+        }
 
         $profile->update($data);
 
