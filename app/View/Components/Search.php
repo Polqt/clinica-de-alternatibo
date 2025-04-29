@@ -8,12 +8,13 @@ use Illuminate\View\Component;
 
 class Search extends Component
 {
+    public $search;
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
-        //
+    
     }
 
     /**

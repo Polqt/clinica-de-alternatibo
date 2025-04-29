@@ -3,43 +3,43 @@
 namespace App\Http\Controllers;
 
 use App\Models\Doctor;
+use App\Services\Doctor\CreateServices;
+use App\Services\Doctor\EditServices;
+use App\Services\Doctor\DeleteServices;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
-    public function createDoctor(Request $request) {
 
-        $data = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'license_number' => 'required|string|max:255|unique:doctors',
-            'specialization_id' => 'required|exists:specializations,id',
-        ]);
+    protected $createServices;
+    protected $editServices;
+    protected $deleteServices;
 
-        Doctor::create($data);
+    public function __construct(
+        CreateServices $createServices,
+        EditServices $editServices,
+        DeleteServices $deleteServices,
+    ) {
+        $this->createServices = $createServices;
+        $this->editServices = $editServices;
+        $this->deleteServices = $deleteServices;
+    }
 
+    public function createDoctor(Request $request)
+    {
+        $this->createServices->execute($request);
         return redirect()->route('admin.doctors')->with('success', 'Doctor created successfully.');
     }
 
-    public function editDoctor(Request $request, $id) {
-        $doctor = Doctor::findOrFail($id);
-
-        $data = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'specialization_id' => 'required|exists:specializations,id',
-        ]);
-
-        $doctor->update($data);
-
+    public function editDoctor(Request $request, $id)
+    {
+        $this->editServices->execute($request, $id);
         return redirect()->route('admin.doctors')->with('success', 'Doctor updated successfully.');
     }
 
-    public function deleteDoctor(Request $request, $id) {
-        $doctor = Doctor::findOrFail($id);
-
-        $doctor->delete();
-        
+    public function deleteDoctor($id)
+    {
+        $this->deleteServices->execute($id);
         return redirect()->route('admin.doctors')->with('success', 'Doctor deleted successfully.');
     }
 }

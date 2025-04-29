@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DoctorController;
@@ -66,10 +67,16 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
         'history'
     ])->name('client.history');
 
+
     Route::get('/appointments', [
         UserController::class,
         'appointments'
     ])->name('client.appointments');
+    
+    Route::get('/appointments/create', [
+        AppointmentController::class,
+        'createAppointment'
+    ])->name('client.appointments.create');
 
 
     Route::get('/help', function () {
