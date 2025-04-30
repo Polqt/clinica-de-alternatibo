@@ -14,6 +14,7 @@ class DeleteServices
      * @param Appointment $appointment
      * @param array $data
      * @return Appointment
+     * @throws \Exception
      */
     public function delete(Appointment $appointment, array $data): Appointment
     {

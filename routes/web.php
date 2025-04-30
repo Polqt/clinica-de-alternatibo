@@ -57,27 +57,37 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
         'dashboard'
     ])->name('client.dashboard');
 
+
     Route::get('/schedule', [
         UserController::class,
         'schedule'
     ])->name('client.schedule');
+
+    Route::post('/schedule', [
+        AppointmentController::class,
+        'createAppointment'
+    ])->name('client.schedule.store');
+
+    Route::put('/schedule', [
+        AppointmentController::class,
+        'editAppointment'
+    ])->name('client.schedule.edit');
+
+    Route::delete('/schedule', [
+        AppointmentController::class,
+        'deleteAppointment'
+    ])->name('client.schedule.delete');
+
 
     Route::get('/history', [
         UserController::class,
         'history'
     ])->name('client.history');
 
-
     Route::get('/appointments', [
         UserController::class,
         'appointments'
     ])->name('client.appointments');
-    
-    Route::get('/appointments/create', [
-        AppointmentController::class,
-        'createAppointment'
-    ])->name('client.appointments.create');
-
 
     Route::get('/help', function () {
         return view('client.help');

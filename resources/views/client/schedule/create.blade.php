@@ -1,6 +1,5 @@
-<!-- Create Appointment Modal -->
 <flux:modal name="create_appointment" class="md:max-w-2xl">
-    <form method="POST" action="{{ route('client.appointments.create') }}">
+    <form method="POST" action="{{ route('client.schedule.store') }}">
         @csrf
         <div class="space-y-6">
             <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
@@ -8,34 +7,20 @@
                 <flux:text class="mt-1 text-slate-500 dark:text-slate-400">Book your visit with one of our healthcare professionals.</flux:text>
             </div>
 
-            <!-- Doctor Selection with Avatar -->
             <div>
-                <flux:heading size="sm" class="text-gray-700 dark:text-gray-300 mb-4">Select Doctor</flux:heading>
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 mb-6">
-                    @foreach($doctors as $doctor)
-                    <label class="relative flex items-center p-3 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                        <input type="radio" name="doctor_id" value="{{ $doctor->id }}" class="hidden peer" required>
-                        <div class="flex flex-1 items-center gap-3">
-                            <div class="flex-1 min-w-0">
-                                <p class="font-medium text-slate-900 dark:text-white truncate">Dr. {{ $doctor->name }}</p>
-                                <p class="text-sm text-slate-500 dark:text-slate-400 truncate">{{ $doctor->specialization }}</p>
-                            </div>
-                        </div>
-                        <div class="absolute right-3 opacity-0 peer-checked:opacity-100">
-                            <div class="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center">
-                                <flux:icon.check class="w-3 h-3 text-white" />
-                            </div>
-                        </div>
-                    </label>
-                    @endforeach
+                    <flux:select name="doctor_id" label="Select Doctor" required>
+                        <option value="" disabled selected>Select a doctor</option>
+                        @foreach ($doctors as $doctor)
+                        <option value="{{ $doctor->id }}">
+                            Dr. {{ $doctor->first_name }} {{ $doctor->last_name }} - {{ $doctor->specialization->name }}
+                        </option>
+                        @endforeach
+                    </flux:select>
                 </div>
             </div>
-
-            <!-- Date and Time Selection -->
             <div>
-                <flux:heading size="sm" class="text-gray-700 dark:text-gray-300 mb-4">Appointment Details</flux:heading>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-5">
-                    <!-- Date Picker -->
                     <div>
                         <flux:input
                             type="date"
@@ -45,19 +30,22 @@
                             required />
                     </div>
 
-                    <!-- Time Slots -->
                     <div>
                         <flux:select name="appointment_time" label="Available Time Slots" required>
                             <option value="" disabled selected>Select time</option>
-                            @foreach($timeSlots as $slot)
-                            <option value="{{ $slot }}">{{ $slot }}</option>
-                            @endforeach
+                            <option value="09:00:00">9:00 AM</option>
+                            <option value="10:00:00">10:00 AM</option>
+                            <option value="11:00:00">11:00 AM</option>
+                            <option value="12:00:00">12:00 PM</option>
+                            <option value="13:00:00">1:00 PM</option>
+                            <option value="14:00:00">2:00 PM</option>
+                            <option value="15:00:00">3:00 PM</option>
+                            <option value="16:00:00">4:00 PM</option>
                         </flux:select>
                     </div>
                 </div>
             </div>
 
-            <!-- Additional Notes -->
             <div>
                 <flux:textarea
                     name="notes"
@@ -66,11 +54,10 @@
                     rows="3"></flux:textarea>
             </div>
 
-            <!-- Summary Card -->
             <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
                 <div class="flex items-start">
-                    <div class="flex-shrink-0 p-1">
-                        <flux:icon.info class="w-5 h-5 text-teal-500" />
+                    <div class="flex-shrink-0">
+                        <flux:icon.info class="w-5 h-5 text-cyan-500" />
                     </div>
                     <div class="ml-3">
                         <flux:heading size="xs" class="text-slate-900 dark:text-white">Appointment Information</flux:heading>
@@ -82,15 +69,10 @@
                 </div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between gap-3">
-                <flux:button type="submit" variant="primary" class="bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white">
-                    <flux:icon.calendar-plus class="w-4 h-4 mr-2" />
+                <flux:button icon="calendar-plus" type="submit" variant="primary" class="bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-700 dark:hover:bg-cyan-600 text-white">
                     Schedule Appointment
                 </flux:button>
-                <flux:modal.close>
-                    <flux:button type="button" variant="outline" class="text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600">Cancel</flux:button>
-                </flux:modal.close>
             </div>
         </div>
     </form>

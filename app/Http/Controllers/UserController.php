@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,8 +33,9 @@ class UserController extends Controller
     public function schedule()
     {
 
+        $doctors = Doctor::with('specialization')->get();
 
-        return view('client.schedule.index');
+        return view('client.schedule.index', compact('doctors'));
     }
 
     public function history()
