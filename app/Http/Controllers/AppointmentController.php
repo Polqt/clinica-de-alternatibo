@@ -8,6 +8,7 @@ use App\Services\Appointment\CreateServices;
 use App\Services\Appointment\DeleteServices;
 use App\Services\Appointment\EditServices;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
@@ -26,14 +27,16 @@ class AppointmentController extends Controller
         $this->deleteServices = $deleteServices;
     }
 
-    public function createSchedule(Request $request)
+    public function createAppointment(Request $request)
     {
-        $data = $request->all(); 
-
-        $this->createServices->create($data);
-        return redirect()->route('client.schedule')->with('success', 'Appointment created successfully.');
+        try {
+            $data = $request->all();
+            $appointment = $this->createServices->create($data);
+            return redirect()->route('client.schedule')->with('success', 'Appointment created successfully.');
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
-
     public function editAppointment(Appointment $appointment, $data)
     {
         $this->editServices->update($appointment, $data);

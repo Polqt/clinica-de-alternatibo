@@ -6,6 +6,9 @@ use App\Enums\AppointmentStatus;
 use App\Models\Appointment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Patient;
+use Illuminate\Support\Str;
 
 class CreateServices
 {
@@ -15,18 +18,31 @@ class CreateServices
      */
     public function create(array $data): Appointment
     {
+        try {
+            $preparedData = $this->prepareAppointmentData($data);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
+        $requiredKeys = ['doctor_id', 'appointment_date', 'patient_id', 'created_by_user_id'];
+        foreach ($requiredKeys as $key) {
+            if (!isset($preparedData[$key])) {
+                throw new \Exception("The $key field is required.");
+            }
+        }
+
         DB::beginTransaction();
 
         try {
-            $this->validateTimeSlot($data['doctor_id'], $data['appointment_date']);
+            $this->validateTimeSlot($preparedData['doctor_id'], $preparedData['appointment_date']);
 
             $appointment = new Appointment();
-            $appointment->patient_id = $data['patient_id'];
-            $appointment->doctor_id = $data['doctor_id'];
-            $appointment->appointment_date = $data['appointment_date'];
-            $appointment->status = $data['status'] ?? AppointmentStatus::Scheduled->value;
-            $appointment->clinical_notes = $data['clinical_notes'] ?? null;
-            $appointment->created_by_user_id = $data['created_by_user_id'];
+            $appointment->patient_id = $preparedData['patient_id'];
+            $appointment->doctor_id = $preparedData['doctor_id'];
+            $appointment->appointment_date = $preparedData['appointment_date'];
+            $appointment->status = $preparedData['status'] ?? AppointmentStatus::Pending->value;
+            $appointment->clinic_notes = $preparedData['notes'] ?? null;
+            $appointment->created_by_user_id = $preparedData['created_by_user_id'];
             $appointment->save();
 
             DB::commit();
@@ -40,7 +56,7 @@ class CreateServices
 
     /**
      * @param int $doctorId
-     * @param string $appointmentDate
+     * @@param string $appointmentDate Full datetime string (YYYY-MM-DD HH:MM:SS)
      * @return bool
      * @throws \Exception
      */
@@ -68,5 +84,36 @@ class CreateServices
         }
 
         return true;
+    }
+
+    /**
+     * @param array $data 
+     * @return array 
+     */
+
+    private function prepareAppointmentData(array $data): array
+    {
+        if (isset($data['appointment_date']) && isset($data['appointment_time'])) {
+            $data['appointment_date'] = trim($data['appointment_date'] . ' ' . $data['appointment_time']);
+            unset($data['appointment_time']);
+        }
+
+        if (!isset($data['patient_id']) && Auth::check()) {
+            $loggedInUserId = Auth::id();
+            $patient = Patient::firstOrCreate(
+                ['user_id' => $loggedInUserId],
+                ['patient_identifier' => 'PAT-' . strtoupper(Str::random(8))]
+            );
+
+            $data['patient_id'] = $patient->id;
+        }
+
+        if (!isset($data['created_by_user_id']) && Auth::check()) {
+            $data['created_by_user_id'] = Auth::id();
+        }
+
+        $preparedData = $data;
+
+        return $preparedData;
     }
 }

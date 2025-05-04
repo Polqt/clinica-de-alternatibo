@@ -1,4 +1,4 @@
-<flux:modal name="create_appointment" class="md:max-w-2xl">
+`<flux:modal name="create_appointment" class="md:max-w-2xl">
     <form method="POST" action="{{ route('client.schedule.store') }}">
         @csrf
         <div class="space-y-6">
@@ -6,7 +6,16 @@
                 <flux:heading size="lg">Schedule New Appointment</flux:heading>
                 <flux:text class="mt-1 text-slate-500 dark:text-slate-400">Book your visit with one of our healthcare professionals.</flux:text>
             </div>
-
+            @if ($errors->any())
+            <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                <div class="font-bold">Oops! Something went wrong.</div>
+                <ul class="mt-1 list-disc list-inside text-sm">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <div>
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 mb-6">
                     <flux:select name="doctor_id" label="Select Doctor" required>

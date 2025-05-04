@@ -97,7 +97,6 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
         UserController::class,
         'profile'
     ])->name('client.profile');
-
 });
 
 // Admin Routes
