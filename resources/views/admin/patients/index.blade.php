@@ -155,6 +155,7 @@
                             <div class="font-medium text-slate-700 dark:text-slate-300">
                                 @if ($latestAppointment && $latestAppointment->doctor)
                                 {{ $latestAppointment->doctor->first_name }} {{ $latestAppointment->doctor->last_name }}
+
                             </div>
                         </td>
                         <td class="px-6 py-4">
