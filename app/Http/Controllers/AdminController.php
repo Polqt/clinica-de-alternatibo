@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Doctor;
+use App\Models\Patient;
 use App\Models\Specialization;
 use App\Models\User;
 
@@ -25,7 +26,9 @@ class AdminController extends Controller
 
     public function patients()
     {
-        return view('admin.patients.index');
+        $patients =  Patient::with('doctor')->paginate(10); 
+        $totalPatients = Patient::count();
+        return view('admin.patients.index', compact('patients'));
     }
 
     public function appointments()

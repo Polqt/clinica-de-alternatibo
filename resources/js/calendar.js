@@ -55,7 +55,7 @@ function addEventTooltip(info) {
     tooltip.innerHTML = `
         <div class="p-2 bg-white dark:bg-slate-800 rounded shadow-lg border border-slate-200 dark:border-slate-700">
             <p class="font-bold">${info.event.extendedProps.doctor}</p>
-            <p class="text-xs">${info.event.extendedProps.specialization || 'General Practice'}</p>
+            <p class="text-xs">${info.event.extendedProps.specialization}</p>
             <p class="text-xs mt-1">${formatDate(info.event.start)} at ${formatTime(info.event.start)}</p>
             <span class="inline-block px-2 py-0.5 mt-1 text-xs rounded-full ${getStatusColor(info.event.extendedProps.status)}">${info.event.extendedProps.status}</span>
             ${info.event.extendedProps.notes ? '<p class="text-xs mt-1 italic">Has notes</p>' : ''}

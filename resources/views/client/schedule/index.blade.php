@@ -64,7 +64,7 @@
     </div>
 
     @if(empty(json_decode($calendarEvents)))
-    <div class="text-center mt-4">
+    <div class="text-center m-4">
         <div class="flex justify-center mb-4">
             <flux:icon.calendar class="w-16 h-16 text-slate-300 dark:text-slate-600" />
         </div>

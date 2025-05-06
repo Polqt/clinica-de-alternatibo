@@ -87,7 +87,7 @@
             </div>
         </div>
 
-        <div class="overflow-x-auto">
+        <div claserflow-x-auto">
             <table class="w-full text-sm text-left">
                 <thead class="text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-700/50">
                     <tr>
@@ -96,15 +96,14 @@
                                 Patient
                             </div>
                         </th>
-                        <th class="px-4 py-3 font-medium">Contact</th>
+                        <th class="px-4 py-3 font-medium">Email</th>
+                        <th class="px-4 py-3 font-medium">Patient ID</th>
                         <th class="px-4 py-3 font-medium">Last Visit</th>
                         <th class="px-4 py-3 font-medium">Total Visits</th>
-                        <th class="px-4 py-3 font-medium">Status</th>
-                        <th class="px-4 py-3 font-medium">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
-                    <!-- Loop through patients here -->
+                    @foreach ($patients as $patient)
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
                         <td class="p-4">
                             <div class="flex items-center">
@@ -114,40 +113,26 @@
                                     </div>
                                 </div>
                                 <div class="ml-4">
-                                    <div class="font-medium text-slate-900 dark:text-white">Jepoy Hidalgo</div>
-                                    <div class="text-slate-500 dark:text-slate-400 text-xs">1</div>
+                                    <div class="font-medium text-slate-900 dark:text-white">{{ $patient->user->first_name }} {{ $patient->user->last_name }}</div>
                                 </div>
                             </div>
                         </td>
                         <td class="p-4">
-                            <div class="font-medium text-slate-900 dark:text-white">poyhidalgo@gmail.com</div>
-                            <div class="text-slate-500 dark:text-slate-400 text-xs">Patient ID</div>
+                            <div class="font-medium text-slate-900 dark:text-white">{{ $patient->user->email }}</div>
                         </td>
-                        <td class="p-4 text-slate-300">
-                            April 17, 2004
-                        </td>
-                        <td class="p-4 text-slate-300">
-                            4
-                        </td>
-                        <td class="p-4">
-                            <!-- TODO: Added status here -->
-                        </td>
-                        <td class="p-4">
-                            <div class="flex items-center space-x-2">
-                                <flux:dropdown position="bottom" align="end">
-                                    <flux:button variant="ghost" size="sm" icon="ellipsis-vertical">
 
-                                    </flux:button>
-                                    <flux:menu>
-                                        <flux:menu.item icon="clock">View History</flux:menu.item>
-                                        <flux:menu.item icon="pencil">Edit Profile</flux:menu.item>
-                                        <flux:menu.separator />
-                                        <flux:menu.item icon="document-text">Medical Records</flux:menu.item>
-                                    </flux:menu>
-                                </flux:dropdown>
-                            </div>
+                        <td class="p-4 text-slate-300">
+                            <div class="font-medium text-slate-900 dark:text-white">{{ $patient->patient_identifier }}</div>
+                        </td>
+                        <td class="p-4 text-slate-300">
+                            <div class="font-medium text-slate-900 dark:text-white"></div>
+                        </td>
+
+                        <td class="p-4">
+                            <div class="font-medium text-slate-900 dark:text-white"></div>
                         </td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -166,14 +151,16 @@
                             <flux:icon.user class="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
                         </div>
                     </div>
+                    @foreach ($patients as $patient)
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-slate-900 dark:text-white truncate">
-                            Stal Guard
+                            {{ $patient->user->first_name }} {{ $patient->user->last_name }}
                         </p>
                         <p class="text-xs text-slate-500 dark:text-slate-400">
-                            Joined today.
+                            {{ $patient->created_at->diffForHumans() }}
                         </p>
                     </div>
+                    @endforeach
                     <flux:button variant="ghost" size="sm" icon="arrow-up"></flux:button>
                 </div>
             </div>
