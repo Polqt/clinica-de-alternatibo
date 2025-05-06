@@ -21,6 +21,11 @@ class Patient extends Model
         return $this->belongsTo(Doctor::class);
     }
 
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class);

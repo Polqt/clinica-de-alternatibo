@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\Specialization;
 use App\Models\User;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -26,14 +28,51 @@ class AdminController extends Controller
 
     public function patients()
     {
-        $patients =  Patient::with('doctor')->paginate(10); 
+        $patients =  Patient::with([
+            'user', 
+            'doctor' => function ($query) {
+                $query->with('specialization');
+            },
+            'appointments' => function ($query) {
+                $query->with('doctor')->latest('appointment_date');
+            }
+        ])->paginate(10);
+
         $totalPatients = Patient::count();
-        return view('admin.patients.index', compact('patients'));
+
+        $startOfMonth = Carbon::now()->startOfMonth();
+        $newPatients = Patient::where('created_at', '>=', $startOfMonth)->count();
+
+
+        $today = Carbon::today();
+        $appointmentsToday = Appointment::whereDate('appointment_date', $today)->count();
+
+        $previousMonth = Carbon::now()->subMonth()->startOfMonth();
+        $previousMonthEnd = Carbon::now()->subMonth()->endOfMonth();
+        $previousMonthPatients = Patient::whereBetween('created_at', [$previousMonth, $previousMonthEnd])->count();
+
+        $newPatientsGrowth = $previousMonthPatients > 0
+            ? round(($newPatients - $previousMonthPatients) / $previousMonthPatients * 100, 1)
+            : 100;
+
+        $activeCases = Patient::whereHas('appointments', function($query) {
+            $query->where('status', 'active');
+        })->count();
+
+
+        return view('admin.patients.index', [
+            'patients' => $patients,
+            'totalPatients' => $totalPatients,
+            'newPatients' => $newPatients,
+            'newPatientsGrowth' => $newPatientsGrowth,
+            'appointmentsToday' => $appointmentsToday,
+            'activeCases' => $activeCases,
+        ]);
     }
 
     public function appointments()
     {
-        
+
         return view('admin.appointments.index');
     }
 
