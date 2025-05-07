@@ -130,8 +130,8 @@
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 w-10 h-10">
                                     <div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
-                                        @if($patient->user->avatar)
-                                        <img src="{{ $patient->user->avatar }}" alt="Profile" class="w-full h-full object-cover">
+                                        @if($patient->user->profile && $patient->user->profile->profile_picture)
+                                        <img src="{{ Storage::url($patient->user->profile->profile_picture) }}" alt="Profile" class="w-full h-full object-cover">
                                         @else
                                         <flux:icon.user class="w-5 h-5 text-slate-600 dark:text-slate-400" />
                                         @endif
@@ -146,32 +146,28 @@
                         <td class="px-6 py-4">
                             <div class="font-medium text-slate-700 dark:text-slate-300">{{ $patient->patient_identifier }}</div>
                         </td>
-
-                        @php
-                        $latestAppointment = $patient->appointments->first(); 
-                        @endphp
-
                         <td class="px-6 py-4">
                             <div class="font-medium text-slate-700 dark:text-slate-300">
-                                @if ($latestAppointment && $latestAppointment->doctor)
-                                {{ $latestAppointment->doctor->first_name }} {{ $latestAppointment->doctor->last_name }}
-
+                                @if ($patient->latestAppointment && $patient->latestAppointment->doctor)
+                                {{ $patient->latestAppointment->doctor->first_name }} {{ $patient->latestAppointment->doctor->last_name }}
+                                @endif
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="font-medium text-slate-700 dark:text-slate-300">
-                                @if ($latestAppointment && $latestAppointment->doctor && $latestAppointment->doctor->specialization)
-                                {{ $latestAppointment->doctor->specialization->name }}
+                                @if ($patient->latestAppointment && $patient->latestAppointment->doctor && $patient->latestAppointment->doctor->specialization)
+                                {{ $patient->latestAppointment->doctor->specialization->name }}
+                                @endif
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            @if ($latestAppointment)
+                            @if ($patient->latestAppointment)
                             @php
-                            $status = $latestAppointment->status;
+                            $status = $patient->latestAppointment->status;
                             $statusClass = 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300';
                             if ($status === 'pending') {
                             $statusClass = 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400';
-                            } elseif ($status === 'confirmed' || $status === 'active') {
+                            } elseif ($status === 'confirmed') {
                             $statusClass = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400';
                             } elseif ($status === 'completed') {
                             $statusClass = 'bg-sky-100 text-sky-800 dark:bg-sky-900/30 dark:text-sky-400';
@@ -182,6 +178,7 @@
                             <span class="px-2.5 py-1 text-xs font-medium rounded-full {{ $statusClass }}">
                                 {{ ucfirst($status) }}
                             </span>
+                            @endif
                         </td>
                         <td class="px-6 py-4 text-right">
                             <flux:dropdown position="bottom" align="end">
@@ -260,13 +257,13 @@
             </flux:button>
         </div>
         <div class="p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            @foreach ($patients->take(4) as $patient)
+            @foreach ($patients as $patient)
             <div class="bg-slate-50 dark:bg-slate-700/30 rounded-lg p-4 hover:shadow-md transition-all">
                 <div class="flex items-center space-x-3">
                     <div class="flex-shrink-0 w-12 h-12">
                         <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
-                            @if($patient->user->avatar)
-                            <img src="{{ $patient->user->avatar }}" alt="Profile" class="w-full h-full object-cover">
+                            @if($patient->user->profile->profile_picture)
+                            <img src="{{ Storage::url($patient->user->profile->profile_picture) }}" alt="Profile" class="w-full h-full object-cover">
                             @else
                             <flux:icon.user class="w-6 h-6 text-slate-600 dark:text-slate-400" />
                             @endif

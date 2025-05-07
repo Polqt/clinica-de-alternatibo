@@ -29,14 +29,23 @@ class AdminController extends Controller
     public function patients()
     {
         $patients =  Patient::with([
-            'user', 
+            'user' => function ($query) {
+                $query->with('profile');
+            }, 
             'doctor' => function ($query) {
-                $query->with('specialization');
+                $query->with(['doctor' => function ($q) {
+                    $q->with('specialization');
+                }])->latest('appointment_date')->limit(1);
             },
             'appointments' => function ($query) {
                 $query->with('doctor')->latest('appointment_date');
             }
         ])->paginate(10);
+
+        $patients->getCollection()->transform(function ($patient) {
+            $patient->latestAppointment = $patient->appointments->first();
+            return $patient;
+        });
 
         $totalPatients = Patient::count();
 

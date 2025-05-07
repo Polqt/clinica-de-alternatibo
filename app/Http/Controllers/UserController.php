@@ -6,6 +6,7 @@ use App\Enums\AppointmentStatus;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Patient;
+use App\Models\Specialization;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,28 +46,28 @@ class UserController extends Controller
         if ($patient) {
             $appointments = Appointment::with(['doctor.specialization'])
                 ->where('patient_id', $patient->id)
-                ->get(); 
+                ->get();
 
             foreach ($appointments as $appointment) {
                 $appointmentDateTime = new \DateTime($appointment->appointment_date);
-                $backgroundColor = '#3b82f6'; 
+                $backgroundColor = '#3b82f6';
 
                 switch ($appointment->status) {
                     case AppointmentStatus::Scheduled->value:
-                        $backgroundColor = '#3b82f6'; 
+                        $backgroundColor = '#3b82f6';
                         break;
                     case AppointmentStatus::Confirmed->value:
                         $backgroundColor = '#6366f1';
                         break;
                     case AppointmentStatus::Completed->value:
-                        $backgroundColor = '#10b981'; 
+                        $backgroundColor = '#10b981';
                         break;
                     case AppointmentStatus::Rescheduled->value:
-                        $backgroundColor = '#f59e0b'; 
+                        $backgroundColor = '#f59e0b';
                         break;
                     case AppointmentStatus::CancelledByClinic->value:
                     case AppointmentStatus::CancelledByPatient->value:
-                        $backgroundColor = '#ef4444'; 
+                        $backgroundColor = '#ef4444';
                         break;
                 }
 
@@ -97,8 +98,20 @@ class UserController extends Controller
         return view('client.history.index');
     }
 
-    public function appointments()
+    public function doctors()
     {
-        return view('client.appointments.index');
+        $doctors = Doctor::with('specialization')->paginate(10);
+        
+        $specializations = Specialization::all();
+        $specializationCount = Specialization::count();
+        
+        $totalDoctors = Doctor::count();
+
+        return view('client.doctors.index', [
+            'specializations' => $specializations,
+            'specializationCount' => $specializationCount,
+            'totalDoctors' => $totalDoctors,
+            'doctors' => $doctors,
+        ]);
     }
 }

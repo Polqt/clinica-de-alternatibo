@@ -57,7 +57,6 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
         'dashboard'
     ])->name('client.dashboard');
 
-
     Route::get('/schedule', [
         UserController::class,
         'schedule'
@@ -68,12 +67,12 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
         'createAppointment'
     ])->name('client.schedule.store');
 
-    Route::put('/schedule', [
+    Route::put('/schedule/edit', [
         AppointmentController::class,
         'editAppointment'
     ])->name('client.schedule.edit');
 
-    Route::delete('/schedule', [
+    Route::delete('/schedule/delete', [
         AppointmentController::class,
         'deleteAppointment'
     ])->name('client.schedule.delete');
@@ -84,10 +83,10 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
         'history'
     ])->name('client.history');
 
-    Route::get('/appointments', [
+    Route::get('/doctors', [
         UserController::class,
-        'appointments'
-    ])->name('client.appointments');
+        'doctors'
+    ])->name('client.doctors');
 
     Route::get('/help', function () {
         return view('client.help');
