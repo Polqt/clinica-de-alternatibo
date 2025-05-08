@@ -37,21 +37,21 @@
                             name="appointment_date"
                             label="Appointment Date"
                             min="{{ now()->format('Y-m-d') }}"
-                            value="{{ $selectedAppointment->appointment_date ?? old('appointment_date') }}"
+                            value="{{ isset($selectedAppointment) ? \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('Y-m-d') : old('appointment_date') }}"
                             required />
                     </div>
 
                     <div>
                         <flux:select name="appointment_time" label="Available Time Slots" required>
                             <option value="" disabled>Select time</option>
-                            <option value="09:00:00" {{ isset($selectedAppointment) && $selectedAppointment->appointment_time == '09:00:00' ? 'selected' : '' }}>9:00 AM</option>
-                            <option value="10:00:00" {{ isset($selectedAppointment) && $selectedAppointment->appointment_time == '10:00:00' ? 'selected' : '' }}>10:00 AM</option>
-                            <option value="11:00:00" {{ isset($selectedAppointment) && $selectedAppointment->appointment_time == '11:00:00' ? 'selected' : '' }}>11:00 AM</option>
-                            <option value="12:00:00" {{ isset($selectedAppointment) && $selectedAppointment->appointment_time == '12:00:00' ? 'selected' : '' }}>12:00 PM</option>
-                            <option value="13:00:00" {{ isset($selectedAppointment) && $selectedAppointment->appointment_time == '13:00:00' ? 'selected' : '' }}>1:00 PM</option>
-                            <option value="14:00:00" {{ isset($selectedAppointment) && $selectedAppointment->appointment_time == '14:00:00' ? 'selected' : '' }}>2:00 PM</option>
-                            <option value="15:00:00" {{ isset($selectedAppointment) && $selectedAppointment->appointment_time == '15:00:00' ? 'selected' : '' }}>3:00 PM</option>
-                            <option value="16:00:00" {{ isset($selectedAppointment) && $selectedAppointment->appointment_time == '16:00:00' ? 'selected' : '' }}>4:00 PM</option>
+                            <option value="09:00:00" {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('H:i:s') == '09:00:00' ? 'selected' : '' }}>9:00 AM</option>
+                            <option value="10:00:00" {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('H:i:s') == '10:00:00' ? 'selected' : '' }}>10:00 AM</option>
+                            <option value="11:00:00" {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('H:i:s') == '11:00:00' ? 'selected' : '' }}>11:00 AM</option>
+                            <option value="12:00:00" {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('H:i:s') == '12:00:00' ? 'selected' : '' }}>12:00 PM</option>
+                            <option value="13:00:00" {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('H:i:s') == '13:00:00' ? 'selected' : '' }}>1:00 PM</option>
+                            <option value="14:00:00" {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('H:i:s') == '14:00:00' ? 'selected' : '' }}>2:00 PM</option>
+                            <option value="15:00:00" {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('H:i:s') == '15:00:00' ? 'selected' : '' }}>3:00 PM</option>
+                            <option value="16:00:00" {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('H:i:s') == '16:00:00' ? 'selected' : '' }}>4:00 PM</option>
                         </flux:select>
                     </div>
                 </div>
@@ -62,8 +62,22 @@
                     name="notes"
                     label="Additional Notes"
                     placeholder="Please include any symptoms or concerns you would like to discuss..."
-                    rows="3">{{ $selectedAppointment->notes ?? old('notes') }}</flux:textarea>
+                    rows="3">{{ $selectedAppointment->clinic_notes ?? old('notes') }}</flux:textarea>
                 <input type="hidden" id="edit_appointment_id" name="appointment_id" value="{{ $selectedAppointment->id ?? '' }}">
+            </div>
+
+            <div id="timeWarning" class="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 border border-amber-100 dark:border-amber-800 {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->diffInHours(now()) < 24 ? '' : 'hidden' }}">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <flux:icon.triangle-alert class="w-5 h-5 text-amber-500" />
+                    </div>
+                    <div class="ml-3">
+                        <flux:heading size="xs" class="text-amber-800 dark:text-amber-300">24-Hour Notice</flux:heading>
+                        <flux:text class="mt-1 text-sm text-amber-700 dark:text-amber-300">
+                            This appointment is within 24 hours of the scheduled time. Changes may incur a fee. Please call the clinic for urgent changes.
+                        </flux:text>
+                    </div>
+                </div>
             </div>
 
             <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
