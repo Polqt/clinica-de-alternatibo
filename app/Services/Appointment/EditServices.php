@@ -4,9 +4,7 @@ namespace App\Services\Appointment;
 
 use App\Enums\AppointmentStatus;
 use App\Models\Appointment;
-use App\Models\Patient;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class EditServices
@@ -14,17 +12,12 @@ class EditServices
     /**
      * @param int $appointmentId
      * @param array $data
-     * @param int $userId
      * @return Appointment
      * @throws \Exception
      */
-    public function updateWithAuth(int $appointmentId, array $data, int $userId): Appointment
+    public function updateWithAuth(int $appointmentId, array $data): Appointment
     {
         $appointment = Appointment::findOrFail($appointmentId);
-
-        if (!$this->appointmentBelongsToUser($appointment, $userId)) {
-            throw new \Exception('You are not authorized to edit this appointment.');
-        }
 
         return $this->update($appointment, $data);
     }
@@ -88,22 +81,6 @@ class EditServices
         }
 
         return $data;
-    }
-
-    /**
-     * @param Appointment $appointment
-     * @param int $userId
-     * @return bool
-     */
-    private function appointmentBelongsToUser(Appointment $appointment, int $userId): bool
-    {
-        $patient = Patient::where('user_id', $userId)->first();
-
-        if (!$patient) {
-            return false;
-        }
-
-        return $appointment->patient_id === $patient->id;
     }
 
     /**

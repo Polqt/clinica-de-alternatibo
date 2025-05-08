@@ -14,17 +14,12 @@ class DeleteServices
     /**
      * @param int $appointmentId
      * @param array $data
-     * @param int $userId
      * @return Appointment
      * @throws \Exception
      */
-    public function deleteWithAuth(int $appointmentId, array $data, int $userId): Appointment
+    public function deleteWithAuth(int $appointmentId, array $data): Appointment
     {
         $appointment = Appointment::findOrFail($appointmentId);
-
-        if (!$this->appointmentBelongsToUser($appointment, $userId)) {
-            throw new \Exception('You are not authorized to cancel this appointment.');
-        }
 
         return $this->delete($appointment, $data);
     }
@@ -57,22 +52,6 @@ class DeleteServices
             DB::rollBack();
             throw $e;
         }
-    }
-
-    /**
-     * @param Appointment $appointment
-     * @param int $userId
-     * @return bool
-     */
-    private function appointmentBelongsToUser(Appointment $appointment, int $userId): bool
-    {
-        $patient = Patient::where('user_id', $userId)->first();
-
-        if (!$patient) {
-            return false;
-        }
-
-        return $appointment->patient_id === $patient->id;
     }
 
     /**
