@@ -28,7 +28,8 @@ class AppointmentController extends Controller
 
     public function index()
     {
-        $appointments = Appointment::where('user_id', Auth::id())
+        $user = Auth::user();
+        $appointments = Appointment::where('user_id', $user->id)
             ->with('doctor.specialization')
             ->orderBy('appointment_date', 'asc')
             ->orderBy('appointment_time', 'asc')
@@ -36,12 +37,36 @@ class AppointmentController extends Controller
 
         $doctors = Doctor::with('specialization')->get();
 
-        return view('client.schedule.index', compact('appointments', 'doctors'));
+        // Format appointments for calendar display
+        $calendarEvents = $appointments->map(function ($appointment) {
+            $appointmentDateTime = $appointment->appointment_date . ' ' . $appointment->appointment_time;
+            return [
+                'id' => $appointment->id,
+                'title' => 'Dr. ' . $appointment->doctor->last_name,
+                'start' => $appointmentDateTime,
+                'doctor' => 'Dr. ' . $appointment->doctor->first_name . ' ' . $appointment->doctor->last_name,
+                'doctor_id' => $appointment->doctor_id,
+                'specialization' => $appointment->doctor->specialization->name,
+                'status' => $appointment->status,
+                'notes' => $appointment->notes,
+            ];
+        })->toJson();
+
+        return view('client.schedule.index', compact('appointments', 'doctors', 'calendarEvents'));
     }
 
-    public function showEditForm(Appointment $appointment)
+    public function showEditForm(Request $request)
     {
+        $appointment_id = $request->appointment_id;
+        $appointment = Appointment::with('doctor.specialization')->findOrFail($appointment_id);
+
+        // Check if appointment belongs to user
+        if ($appointment->user_id !== Auth::id()) {
+            return redirect()->route('client.schedule')->with('error', 'Unauthorized access.');
+        }
+
         $doctors = Doctor::with('specialization')->get();
+
         return view('client.schedule.edit', [
             'selectedAppointment' => $appointment,
             'doctors' => $doctors
@@ -52,6 +77,8 @@ class AppointmentController extends Controller
     {
         try {
             $data = $request->all();
+            $data['user_id'] = Auth::id(); // Add the user ID to data
+
             $appointment = $this->createServices->create($data);
             return redirect()->route('client.schedule')->with('success', 'Appointment created successfully.');
         } catch (\Exception $e) {
@@ -59,14 +86,15 @@ class AppointmentController extends Controller
         }
     }
 
-    public function updateAppointment(Request $request, $id)
+    public function updateAppointment(Request $request)
     {
         try {
-            $appointment = Appointment::findOrFail($id);
+            $appointment_id = $request->input('appointment_id');
+            $appointment = Appointment::findOrFail($appointment_id);
 
             // Check if the appointment belongs to the logged-in user
             if ($appointment->user_id !== Auth::id()) {
-                return back()->withErrors('You are not authorized to edit this appointment.');
+                return back()->with('error', 'You are not authorized to edit this appointment.');
             }
 
             $data = $request->all();
@@ -74,25 +102,26 @@ class AppointmentController extends Controller
 
             return redirect()->route('client.schedule')->with('success', 'Appointment updated successfully.');
         } catch (\Exception $e) {
-            return back()->withErrors($e->getMessage())->withInput();
+            return back()->with('error', $e->getMessage());
         }
     }
 
-    public function deleteAppointment($id)
+    public function deleteAppointment(Request $request)
     {
         try {
-            $appointment = Appointment::findOrFail($id);
+            $appointment_id = $request->input('appointment_id');
+            $appointment = Appointment::findOrFail($appointment_id);
 
             // Check if the appointment belongs to the logged-in user
             if ($appointment->user_id !== Auth::id()) {
-                return back()->withErrors('You are not authorized to cancel this appointment.');
+                return back()->with('error', 'You are not authorized to cancel this appointment.');
             }
 
             $this->deleteServices->delete($appointment, ['user_id' => Auth::id()]);
 
             return redirect()->route('client.schedule')->with('success', 'Appointment cancelled successfully.');
         } catch (\Exception $e) {
-            return back()->withErrors($e->getMessage());
+            return back()->with('error', $e->getMessage());
         }
     }
 }

@@ -1,5 +1,5 @@
-<flux:modal name="edit_appointment" class="md:max-w-2xl">
-    <form method="POST" action="{{ route('client.schedule.edit') }}">
+<flux:modal name="edit_appointment" class="md:max-w-2xl" title="Edit Appointment">
+    <form id="editAppointmentForm" method="POST" action="{{ route('client.schedule.edit') }}">
         @csrf
         @method('PUT')
         <div class="space-y-6">
@@ -63,7 +63,7 @@
                     label="Additional Notes"
                     placeholder="Please include any symptoms or concerns you would like to discuss..."
                     rows="3">{{ $selectedAppointment->notes ?? old('notes') }}</flux:textarea>
-                <input type="hidden" name="appointment_id" value="{{ $selectedAppointment->id ?? '' }}">
+                <input type="hidden" id="edit_appointment_id" name="appointment_id" value="{{ $selectedAppointment->id ?? '' }}">
             </div>
 
             <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">

@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const events = typeof calendarEvents !== 'undefined' && calendarEvents ?
         JSON.parse(calendarEvents) : [];
+    
+    let selectedAppointmentId = null;
+    const editBtn = document.querySelector('[data-flux-trigger="edit_appointment"]');
+    const deleteBtn = document.querySelector('[data-flux-trigger="delete_appointment"]');
+    
+    // Initially disable the edit and delete buttons
+    if (editBtn) editBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    if (deleteBtn) deleteBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
     const calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
@@ -30,12 +38,111 @@ document.addEventListener('DOMContentLoaded', function () {
         selectLongPressDelay: 100,
         eventDidMount: function (info) {
             styleEventElement(info);
+        },
+        eventClick: function(info) {
+            // Select the appointment when clicked
+            selectedAppointmentId = info.event.id;
+            
+            // Enable edit and delete buttons
+            if (editBtn) {
+                editBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                editBtn.dataset.appointmentId = selectedAppointmentId;
+            }
+            if (deleteBtn) {
+                deleteBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                deleteBtn.dataset.appointmentId = selectedAppointmentId;
+            }
+            
+            // Highlight the selected event
+            document.querySelectorAll('.fc-event').forEach(el => {
+                el.classList.remove('selected-appointment');
+            });
+            info.el.classList.add('selected-appointment');
+            
+            // Update the hidden inputs in the edit and delete forms
+            document.querySelectorAll('input[name="appointment_id"]').forEach(input => {
+                input.value = selectedAppointmentId;
+            });
+            
+            // Load appointment data for edit form
+            if (info.event.extendedProps) {
+                const doctorIdElement = document.querySelector('#editAppointmentForm select[name="doctor_id"]');
+                if (doctorIdElement) {
+                    const doctorId = info.event.extendedProps.doctor_id;
+                    if (doctorId) {
+                        doctorIdElement.value = doctorId;
+                    }
+                }
+                
+                const dateElement = document.querySelector('#editAppointmentForm input[name="appointment_date"]');
+                if (dateElement && info.event.start) {
+                    dateElement.value = formatDateForInput(info.event.start);
+                }
+                
+                const timeElement = document.querySelector('#editAppointmentForm select[name="appointment_time"]');
+                if (timeElement && info.event.start) {
+                    timeElement.value = formatTimeForInput(info.event.start);
+                }
+                
+                const notesElement = document.querySelector('#editAppointmentForm textarea[name="notes"]');
+                if (notesElement) {
+                    notesElement.value = info.event.extendedProps.notes || '';
+                }
+            }
         }
     });
 
     calendar.render();
+    
+    if (editBtn) {
+        editBtn.addEventListener('click', function(e) {
+            if (!selectedAppointmentId) {
+                e.preventDefault();
+                alert('Please select an appointment first');
+            }
+        });
+    }
+    
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', function(e) {
+            if (!selectedAppointmentId) {
+                e.preventDefault();
+                alert('Please select an appointment first');
+            }
+        });
+    }
+    
+    const todayBtn = document.querySelector('[data-calendar-today]');
+    if (todayBtn) {
+        todayBtn.addEventListener('click', function() {
+            calendar.today();
+        });
+    }
 });
 
+function formatDateForInput(date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+function formatTimeForInput(date) {
+    const d = new Date(date);
+    let hours = '' + d.getHours();
+    let minutes = '' + d.getMinutes();
+    let seconds = '00';
+
+    if (hours.length < 2) hours = '0' + hours;
+    if (minutes.length < 2) minutes = '0' + minutes;
+
+    return [hours, minutes, seconds].join(':');
+}
 
 function styleEventElement(info) {
     const status = info.event.extendedProps.status;
@@ -130,3 +237,13 @@ function getStatusBackgroundColor(status) {
         default: return 'rgba(148, 163, 184, 0.1)'; 
     }
 }
+
+const style = document.createElement('style');
+style.textContent = `
+    .selected-appointment {
+        box-shadow: 0 0 0 2px #3b82f6 !important;
+        position: relative;
+        z-index: 5;
+    }
+`;
+document.head.appendChild(style);

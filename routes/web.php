@@ -69,7 +69,7 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
 
     Route::put('/schedule/edit', [
         AppointmentController::class,
-        'editAppointment'
+        'updateAppointment'
     ])->name('client.schedule.edit');
 
     Route::delete('/schedule/delete', [

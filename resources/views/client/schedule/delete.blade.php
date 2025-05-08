@@ -1,5 +1,5 @@
-<flux:modal name="delete_appointment" class="md:max-w-lg">
-    <form method="POST" action="{{ route('client.schedule.delete') }}">
+<flux:modal name="delete_appointment" class="md:max-w-lg" title="Delete Appointment">
+    <form id="deleteAppointmentForm" method="POST" action="{{ route('client.schedule.delete') }}">
         @csrf
         @method('DELETE')
         <div class="space-y-6">
@@ -21,11 +21,26 @@
                             <p><span class="font-medium">Date:</span> {{ \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('F j, Y') }}</p>
                             <p><span class="font-medium">Time:</span> {{ \Carbon\Carbon::parse($selectedAppointment->appointment_time)->format('g:i A') }}</p>
                         </div>
-                        <input type="hidden" name="appointment_id" value="{{ $selectedAppointment->id }}">
                     </div>
                 </div>
             </div>
             @endif
+
+            <div id="appointment_details_container" class="bg-red-50 dark:bg-red-900/20 rounded-lg p-4 border border-red-100 dark:border-red-800 hidden">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <flux:icon.circle-alert class="w-5 h-5 text-red-500" />
+                    </div>
+                    <div class="ml-3">
+                        <flux:heading size="xs" class="text-red-800 dark:text-red-300">Appointment Details</flux:heading>
+                        <div id="appointment_details" class="mt-2 space-y-2 text-sm text-red-700 dark:text-red-300">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="delete_appointment_id" name="appointment_id" value="{{ $selectedAppointment->id ?? '' }}">
 
             <div class="bg-slate-50 dark:bg-slate-800/50 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
                 <div class="flex items-start">

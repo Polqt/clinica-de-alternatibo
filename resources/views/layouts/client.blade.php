@@ -17,7 +17,7 @@
 
         <flux:navlist variant="outline" class="space-y-40">
             <flux:navlist.item icon="layout-dashboard" href="/user/dashboard">Dashboard</flux:navlist.item>
-            <flux:navlist.item icon="calendar" href="/user/schedule">Scehdule</flux:navlist.item>
+            <flux:navlist.item icon="calendar" href="/user/schedule">Schedule</flux:navlist.item>
             <flux:navlist.item icon="history" href="/user/history">History</flux:navlist.item>
             <flux:navlist.item icon="calendar-clock" href="/user/doctors">Doctors</flux:navlist.item>
         </flux:navlist>
