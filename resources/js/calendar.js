@@ -40,10 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
             styleEventElement(info);
         },
         eventClick: function(info) {
-            // Select the appointment when clicked
             selectedAppointmentId = info.event.id;
             
-            // Enable edit and delete buttons
             if (editBtn) {
                 editBtn.classList.remove('opacity-50', 'cursor-not-allowed');
                 editBtn.dataset.appointmentId = selectedAppointmentId;
@@ -53,13 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 deleteBtn.dataset.appointmentId = selectedAppointmentId;
             }
             
-            // Highlight the selected event
             document.querySelectorAll('.fc-event').forEach(el => {
                 el.classList.remove('selected-appointment');
             });
             info.el.classList.add('selected-appointment');
             
-            // Update the hidden inputs in the edit and delete forms
+
             document.querySelectorAll('input[name="appointment_id"]').forEach(input => {
                 input.value = selectedAppointmentId;
             });

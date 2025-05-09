@@ -19,6 +19,8 @@ class EditServices
     {
         $appointment = Appointment::findOrFail($appointmentId);
 
+        $this->validateAppointmentStatus($appointment);
+
         return $this->update($appointment, $data);
     }
 
@@ -67,6 +69,26 @@ class EditServices
             DB::rollBack();
             throw $e;
         }
+    }
+
+    /**
+     * @param Appointment $appointment
+     * @return bool
+     * @throws \Exception
+     */
+    private function validateAppointmentStatus(Appointment $appointment): bool
+    {
+        $nonEditableStatuses = [
+            AppointmentStatus::CancelledByPatient->value => 'This appointment has been cancelled by you and cannot be edited.',
+            AppointmentStatus::CancelledByClinic->value => 'This appointment has been cancelled by the clinic and cannot be edited.',
+            AppointmentStatus::Completed->value => 'Completed appointments cannot be edited.'
+        ];
+
+        if (array_key_exists($appointment->status, $nonEditableStatuses)) {
+            throw new \Exception($nonEditableStatuses[$appointment->status]);
+        }
+
+        return true;
     }
 
     /**
