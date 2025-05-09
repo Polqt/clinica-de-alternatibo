@@ -59,22 +59,19 @@
             <table class="w-full">
                 <thead>
                     <tr class="bg-slate-50 dark:bg-slate-700/50">
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400">
                             Patient
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400">
                             Doctor
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400">
                             Date & Time
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
-                            Service
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400">
                             Status
                         </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400">
                             Actions
                         </th>
                     </tr>
@@ -102,9 +99,6 @@
                             <div class="text-sm text-slate-500 dark:text-slate-400">{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('g:i A') }}</div>
                         </td>
                         <td class="p-4 whitespace-nowrap">
-                            <div class="text-sm text-slate-900 dark:text-white">{{ $appointment->service_type ?? 'Regular Checkup' }}</div>
-                        </td>
-                        <td class="p-4 whitespace-nowrap">
                             @php
                             $statusClass = match($appointment->status) {
                             'pending' => 'bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300',
@@ -130,46 +124,46 @@
                         <td class="p-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex justify-end space-x-2">
                                 @if($appointment->status === 'pending')
-                                <form action="{{ route('admin.appointments.confirm', $appointment->id) }}" method="POST" class="inline">
-                                    @csrf
+                                <flux:modal.trigger name="confirm-appointment-{{ $appointment->id }}">
                                     <flux:button variant="ghost" size="sm" icon="check" tooltip="Approve"
                                         x-data @click.prevent="$dispatch('open-modal', 'confirm-appointment-{{ $appointment->id }}')">
                                         <span class="sr-only">Approve</span>
                                     </flux:button>
-                                </form>
-                                <flux:button variant="ghost" size="sm" icon="x-mark" tooltip="Cancel"
-                                    x-data @click="$dispatch('open-modal', 'cancel-appointment-{{ $appointment->id }}')">
-                                    <span class="sr-only">Cancel</span>
-                                </flux:button>
+                                </flux:modal.trigger>
+
+                                <flux:modal.trigger name="cancel-appointment-{{ $appointment->id }}">
+                                    <flux:button variant="ghost" size="sm" icon="x-mark" tooltip="Cancel"
+                                        x-data @click="$dispatch('open-modal', 'cancel-appointment-{{ $appointment->id }}')">
+                                        <span class="sr-only">Cancel</span>
+                                    </flux:button>
+                                </flux:modal.trigger>
                                 @endif
 
-                                <flux:button variant="ghost" size="sm" icon="pencil-square" tooltip="Edit"
-                                    x-data @click="$dispatch('open-modal', 'edit-appointment-{{ $appointment->id }}')">
-                                    <span class="sr-only">Reschedule</span>
-                                </flux:button>
+                                <flux:modal.trigger name="reschedule-appointment-{{ $appointment->id }}">
+                                    <flux:button variant="ghost" size="sm" icon="pencil-square" tooltip="Edit"
+                                        x-data @click="$dispatch('open-modal', 'reschedule-appointment-{{ $appointment->id }}')">
+                                        <span class="sr-only">Reschedule</span>
+                                    </flux:button>
+                                </flux:modal.trigger>
 
-                                <flux:button variant="ghost" size="sm" icon="eye" tooltip="View Details"
-                                    x-data @click="$dispatch('open-modal', 'view-appointment-{{ $appointment->id }}')">
-                                    <span class="sr-only">View</span>
-                                </flux:button>
+                                <flux:modal.trigger name="view-appointment-{{ $appointment->id }}">
+                                    <flux:button variant="ghost" size="sm" icon="eye" tooltip="View Details"
+                                        x-data @click="$dispatch('open-modal', 'view-appointment-{{ $appointment->id }}')">
+                                        <span class="sr-only">View</span>
+                                    </flux:button>
+                                </flux:modal.trigger>
 
                                 @if($appointment->status === 'confirmed')
-                                <flux:button variant="ghost" size="sm" icon="check-circle" tooltip="Mark as Complete"
-                                    x-data @click="$dispatch('open-modal', 'complete-appointment-{{ $appointment->id }}')">
-                                    <span class="sr-only">Complete</span>
-                                </flux:button>
+                                <flux:modal.trigger name="complete-appointment-{{ $appointment->id }}">
+                                    <flux:button variant="ghost" size="sm" icon="check-circle" tooltip="Mark as Complete"
+                                        x-data @click="$dispatch('open-modal', 'complete-appointment-{{ $appointment->id }}')">
+                                        <span class="sr-only">Complete</span>
+                                    </flux:button>
+                                </flux:modal.trigger>
                                 @endif
                             </div>
                         </td>
                     </tr>
-
-                    @include('admin.appointments.reschedule', ['appointment' => $appointment])
-                    @include('admin.appointments.view', ['appointment' => $appointment])
-                    @include('admin.appointments.reschedule', ['appointment' => $appointment, 'doctors' => $doctors])
-                    @include('admin.appointments.cancel', ['appointment' => $appointment])
-                    @include('admin.appointments.confirm', ['appointment' => $appointment])
-                    @include('admin.appointments.complete', ['appointment' => $appointment])
-
                     @empty
                     <tr>
                         <td colspan="6" class="px-4 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
@@ -187,5 +181,13 @@
         <x-pagination :paginator="$appointments" />
     </div>
 </div>
+
+@foreach ($appointments as $appointment)
+@include('admin.appointments.view', ['appointment' => $appointment])
+@include('admin.appointments.reschedule', ['appointment' => $appointment, 'doctors' => $doctors])
+@include('admin.appointments.cancel', ['appointment' => $appointment])
+@include('admin.appointments.confirm', ['appointment' => $appointment])
+@include('admin.appointments.complete', ['appointment' => $appointment])
+@endforeach
 
 @endsection

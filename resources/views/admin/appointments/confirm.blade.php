@@ -3,8 +3,8 @@
         @csrf
         <h2 class="text-lg font-medium text-slate-900 dark:text-white">Confirm Appointment</h2>
 
-        <p>
-            Are you sure you want to cconfirm this appointment with {{ $appointment->patient->user->first_name }} {{ $appointment->patient->user->last_name }}?
+        <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            Are you sure you want to confirm this appointment with {{ $appointment->patient->user->first_name }} {{ $appointment->patient->user->last_name }}?
         </p>
         <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">
             <strong>Date:</strong> {{ \Carbon\Carbon::parse($appointment->appointment_date)->format('M d, Y') }}<br>
