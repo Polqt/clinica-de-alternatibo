@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AppointmentStatus;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Doctor;
@@ -31,7 +32,7 @@ class AdminController extends Controller
         $patients =  Patient::with([
             'user' => function ($query) {
                 $query->with('profile');
-            }, 
+            },
             'doctor' => function ($query) {
                 $query->with(['doctor' => function ($q) {
                     $q->with('specialization');
@@ -64,7 +65,7 @@ class AdminController extends Controller
             ? round(($newPatients - $previousMonthPatients) / $previousMonthPatients * 100, 1)
             : 100;
 
-        $activeCases = Patient::whereHas('appointments', function($query) {
+        $activeCases = Patient::whereHas('appointments', function ($query) {
             $query->where('status', 'active');
         })->count();
 
@@ -82,7 +83,28 @@ class AdminController extends Controller
     public function appointments()
     {
 
-        return view('admin.appointments.index');
+        $appointments = Appointment::with(['patient', 'doctor.specialization'])
+            ->orderBy('appointment_date', 'desc')
+            ->paginate(10);
+
+        $statusCounts = [
+            'all' => Appointment::count(),
+            'pending' => Appointment::where('status', AppointmentStatus::Pending->value)->count(),
+            'confirmed' => Appointment::where('status', AppointmentStatus::Confirmed->value)->count(),
+            'completed' => Appointment::where('status', AppointmentStatus::Completed->value)->count(),
+            'cancelled' => Appointment::whereIn('status', [
+                AppointmentStatus::CancelledByClinic->value,
+                AppointmentStatus::CancelledByPatient->value,
+            ])->count(),
+        ];
+
+        $doctors = Doctor::with('specialization')->get();
+
+        return view('admin.appointments.index', [
+            'appointments' => $appointments,
+            'statusCounts' => $statusCounts,
+            'doctors' => $doctors,
+        ]);
     }
 
     public function help()

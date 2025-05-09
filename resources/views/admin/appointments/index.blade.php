@@ -10,106 +10,46 @@
             <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Appointment Management</h1>
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">View and manage all clinic appointments</p>
         </div>
-        <div class="mt-4 md:mt-0 space-x-2"></div>
-    </div>
-
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4 mb-6">
-        <div class="flex flex-col sm:flex-row gap-4">
-            <div class="flex-1">
-                <flux:input
-                    icon="magnifying-glass"
-                    aria-placeholder="Search by patient name, doctor, or appointment ID..." />
-            </div>
-            <div class="flex flex-wrap gap-2">
-                <flux:dropdown position="bottom" align="start">
-                    <flux:button variant="outline" icon="funnel">
-                        Status
-                    </flux:button>
-                    <flux:menu>
-                        <flux:menu.item>All Statuses</flux:menu.item>
-                        <flux:menu.separator />
-                        <flux:menu.item>Scheduled</flux:menu.item>
-                        <flux:menu.item>Pending</flux:menu.item>
-                        <flux:menu.item>Confirmed</flux:menu.item>
-                        <flux:menu.item>Coompleted</flux:menu.item>
-                        <flux:menu.item>Cancelled</flux:menu.item>
-                    </flux:menu>
-                </flux:dropdown>
-
-                <flux:dropdown position="bottom" align="start">
-                    <flux:button variant="outline" icon="calendar-days">
-                        Date Range
-                    </flux:button>
-                    <flux:menu>
-                        <flux:menu.item>Today</flux:menu.item>
-                        <flux:menu.item>This Week</flux:menu.item>
-                        <flux:menu.item>This Month</flux:menu.item>
-                    </flux:menu>
-                </flux:dropdown>
-
-                <flux:dropdown position="bottom" align="start">
-                    <flux:button variant="outline" icon="USER-CIRCLE">
-                        Doctor
-                    </flux:button>
-                    <flux:menu>
-                        <flux:menu.item>All Doctors</flux:menu.item>
-                        <flux:menu.separator />
-                    </flux:menu>
-                </flux:dropdown>
-            </div>
-        </div>
-        <div class="flex flex-wrap gap-2 mt-3">
-            <div class="inline-flex items-center bg-slate-100 dark:bg-slate-700 text-xs px-2 py-1 rounded">
-                Status: Pending
-                <!-- TODO: Change to dynamic status -->
-                <button class="ml-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
-                    <flux:icon.x-mark class="h-3 w-3" />
-                </button>
-            </div>
-            <div class="inline-flex items-center bg-slate-100 dark:bg-slate-700 text-xs px-2 py-1 rounded">
-                Date: This Week
-                <!-- TODO: Change to dynamic status -->
-                <button class="ml-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
-                    <flux:icon.x-mark class="h-3 w-3" />
-                </button>
-            </div>
+        <div class="mt-4 md:mt-0 space-x-2">
+            <flux:button icon="plus" x-data @click="$dispatch('open-modal', 'schedule-appointment')">
+                New Appointment
+            </flux:button>
         </div>
     </div>
-
 
     <div class="mb-6">
         <div class="border-b border-slate-200 dark:border-slate-700">
             <nav class="flex -mb-px overflow-x-auto">
-                <button class="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 py-3 px-4 text-sm font-medium">
+                <a href="{{ route('admin.appointments') }}" class="{{ !request('status') ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300' }} py-3 px-4 text-sm font-medium">
                     All
                     <span class="ml-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 py-0.5 px-2 rounded-full text-xs">
-                        128
+                        {{ $statusCounts['all'] }}
                     </span>
-                </button>
-                <button class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 py-3 px-4 text-sm font-medium">
+                </a>
+                <a href="{{ route('admin.appointments', ['status' => 'pending']) }}" class="{{ request('status') == 'pending' ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300' }} py-3 px-4 text-sm font-medium">
                     Pending
                     <span class="ml-1 bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 py-0.5 px-2 rounded-full text-xs">
-                        24
+                        {{ $statusCounts['pending'] }}
                     </span>
-                </button>
-                <button class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 py-3 px-4 text-sm font-medium">
+                </a>
+                <a href="{{ route('admin.appointments', ['status' => 'confirmed']) }}" class="{{ request('status') == 'confirmed' ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300' }} py-3 px-4 text-sm font-medium">
                     Confirmed
                     <span class="ml-1 bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 py-0.5 px-2 rounded-full text-xs">
-                        42
+                        {{ $statusCounts['confirmed'] }}
                     </span>
-                </button>
-                <button class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 py-3 px-4 text-sm font-medium">
+                </a>
+                <a href="{{ route('admin.appointments', ['status' => 'completed']) }}" class="{{ request('status') == 'completed' ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300' }} py-3 px-4 text-sm font-medium">
                     Completed
                     <span class="ml-1 bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300 py-0.5 px-2 rounded-full text-xs">
-                        53
+                        {{ $statusCounts['completed'] }}
                     </span>
-                </button>
-                <button class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 py-3 px-4 text-sm font-medium">
+                </a>
+                <a href="{{ route('admin.appointments', ['status' => 'cancelled']) }}" class="{{ request('status') == 'cancelled' ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300' }} py-3 px-4 text-sm font-medium">
                     Cancelled
                     <span class="ml-1 bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300 py-0.5 px-2 rounded-full text-xs">
-                        9
+                        {{ $statusCounts['cancelled'] }}
                     </span>
-                </button>
+                </a>
             </nav>
         </div>
     </div>
@@ -118,7 +58,7 @@
         <div class="overflow-x-auto">
             <table class="w-full">
                 <thead>
-                    <tr class="bg-slate-50 dark:bg-slate-70//50">
+                    <tr class="bg-slate-50 dark:bg-slate-700/50">
                         <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide">
                             Patient
                         </th>
@@ -140,64 +80,111 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
-                    <!-- Replace with actual data  -->
+                    @forelse ($appointments as $appointment)
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
                         <td class="p-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 font-medium text-sm">
-                                    Jani
+                                    {{ substr($appointment->patient->user->first_name ?? 'U', 0, 1) }}
                                 </div>
                                 <div class="ml-3">
-                                    <div class="text-sm font-medium text-slate-900 dark:text-white">Jul Maps</div>
-                                    <div class="text-xs text-slate-500 dark:text-slate-400">ID: 1001-PT</div>
+                                    <div class="text-sm font-medium text-slate-900 dark:text-white">{{ $appointment->patient->user->first_name }} {{ $appointment->patient->user->last_name }}</div>
+                                    <div class="text-xs text-slate-500 dark:text-slate-400">ID: {{ $appointment->patient->patient_identifier }}</div>
                                 </div>
                             </div>
                         </td>
                         <td class="p-4 whitespace-nowrap">
-                            <div class="text-sm text-slate-900 dark:text-white">Dr. Ed Pota</div>
-                            <div class="text-sm text-slate-900 dark:text-white">Emergency Medicine</div>
+                            <div class="text-sm text-slate-900 dark:text-white">Dr. {{ $appointment->doctor->first_name }} {{ $appointment->doctor->last_name }}</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-400">{{ $appointment->doctor->specialization->name }}</div>
                         </td>
                         <td class="p-4 whitespace-nowrap">
-                            <div class="text-sm text-slate-900 dark:text-white">April 17, 2025</div>
-                            <div class="text-sm text-slate-900 dark:text-white">9:30 AM</div>
+                            <div class="text-sm text-slate-900 dark:text-white">{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('M d, Y') }}</div>
+                            <div class="text-sm text-slate-500 dark:text-slate-400">{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('g:i A') }}</div>
                         </td>
                         <td class="p-4 whitespace-nowrap">
-                            <div class="text-sm text-slate-900 dark:text-white">Regular Checkup</div>
+                            <div class="text-sm text-slate-900 dark:text-white">{{ $appointment->service_type ?? 'Regular Checkup' }}</div>
                         </td>
                         <td class="p-4 whitespace-nowrap">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300">Pending</span>
+                            @php
+                            $statusClass = match($appointment->status) {
+                            'pending' => 'bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300',
+                            'confirmed' => 'bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300',
+                            'completed' => 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300',
+                            'cancelled_patient', 'cancelled_clinic' => 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300',
+                            default => 'bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-300'
+                            };
+
+                            $statusLabel = match($appointment->status) {
+                            'pending' => 'Pending',
+                            'confirmed' => 'Confirmed',
+                            'completed' => 'Completed',
+                            'cancelled_patient' => 'Cancelled (Patient)',
+                            'cancelled_clinic' => 'Cancelled (Clinic)',
+                            default => ucfirst($appointment->status)
+                            };
+                            @endphp
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusClass }}">
+                                {{ $statusLabel }}
+                            </span>
                         </td>
-                        <td class="p-4 whitespce-nowrap text-right text-sm font-medium">
+                        <td class="p-4 whitespace-nowrap text-right text-sm font-medium">
                             <div class="flex justify-end space-x-2">
-                                <flux:button variant="ghost" size="sm" icon="check" tooltip="Approve">
-                                    <span class="sr-only">Approve</span>
-                                </flux:button>
-                                <flux:button variant="ghost" size="sm" icon="x-mark" tooltip="Cancel">
+                                @if($appointment->status === 'pending')
+                                <form action="{{ route('admin.appointments.confirm', $appointment->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    <flux:button variant="ghost" size="sm" icon="check" tooltip="Approve"
+                                        x-data @click.prevent="$dispatch('open-modal', 'confirm-appointment-{{ $appointment->id }}')">
+                                        <span class="sr-only">Approve</span>
+                                    </flux:button>
+                                </form>
+                                <flux:button variant="ghost" size="sm" icon="x-mark" tooltip="Cancel"
+                                    x-data @click="$dispatch('open-modal', 'cancel-appointment-{{ $appointment->id }}')">
                                     <span class="sr-only">Cancel</span>
                                 </flux:button>
-                                <flux:button variant="ghost" size="sm" icon="pencil-square" tooltip="Edit">
-                                    <span class="sr-only">Edit</span>
+                                @endif
+
+                                <flux:button variant="ghost" size="sm" icon="pencil-square" tooltip="Edit"
+                                    x-data @click="$dispatch('open-modal', 'edit-appointment-{{ $appointment->id }}')">
+                                    <span class="sr-only">Reschedule</span>
                                 </flux:button>
-                                <flux:button variant="ghost" size="sm" icon="eye" tooltip="View Details">
+
+                                <flux:button variant="ghost" size="sm" icon="eye" tooltip="View Details"
+                                    x-data @click="$dispatch('open-modal', 'view-appointment-{{ $appointment->id }}')">
                                     <span class="sr-only">View</span>
                                 </flux:button>
+
+                                @if($appointment->status === 'confirmed')
+                                <flux:button variant="ghost" size="sm" icon="check-circle" tooltip="Mark as Complete"
+                                    x-data @click="$dispatch('open-modal', 'complete-appointment-{{ $appointment->id }}')">
+                                    <span class="sr-only">Complete</span>
+                                </flux:button>
+                                @endif
                             </div>
                         </td>
                     </tr>
 
-                    <!-- <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-cols">
-                        <td class="p-4 whitespace-nowrap">
-                            <div class="flex items-center">
+                    @include('admin.appointments.reschedule', ['appointment' => $appointment])
+                    @include('admin.appointments.view', ['appointment' => $appointment])
+                    @include('admin.appointments.reschedule', ['appointment' => $appointment, 'doctors' => $doctors])
+                    @include('admin.appointments.cancel', ['appointment' => $appointment])
+                    @include('admin.appointments.confirm', ['appointment' => $appointment])
+                    @include('admin.appointments.complete', ['appointment' => $appointment])
 
-                            </div>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="px-4 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+                            No appointments found.
+                            <flux:button variant="link" x-data @click="$dispatch('open-modal', 'schedule-appointment')">
+                                Schedule one now
+                            </flux:button>
                         </td>
-                    </tr> -->
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
 
-        <!-- TODO: Add pagination soon kay wala pa appointments -->
-
+        <x-pagination :paginator="$appointments" />
     </div>
 </div>
 

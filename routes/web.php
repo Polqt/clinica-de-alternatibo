@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAppointmentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppointmentController;
 use Illuminate\Support\Facades\Route;
@@ -132,10 +133,38 @@ Route::middleware(['auth', 'user.access:admin', 'nocache'])->prefix('/')->group(
         'patients',
     ])->name('admin.patients');
 
+    
+
     Route::get('/appointments', [
         AdminController::class,
         'appointments',
     ])->name('admin.appointments');
+
+    Route::get('/appointments/{id}', [
+        AdminAppointmentController::class,
+        'getAppointmentDetails',
+    ])->name('admin.appointments.details');
+
+    Route::post('/appontments/{id}/confirm', [
+        AdminAppointmentController::class,
+        'confirmAppointment',
+    ])->name('admin.appointments.confirm');
+
+    Route::post('/appointments/{id}/cancel', [
+        AdminAppointmentController::class,
+        'cancelAppointment',
+    ])->name('admin.appointments.cancel');
+
+    Route::post('/appointments/{id}/complete', [
+        AdminAppointmentController::class,
+        'completeAppointment',
+    ])->name('admin.appointments.complete');
+
+    Route::put('/appointments/{id}/reschedule', [
+        AdminAppointmentController::class,
+        'rescheduleAppointment',
+    ])->name('admin.appointments.reschedule');
+
 
     Route::get('/help', [
         AdminController::class,
