@@ -54,130 +54,149 @@
         </div>
     </div>
 
-    <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead>
-                    <tr class="bg-slate-50 dark:bg-slate-700/50">
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400">
-                            Patient
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400">
-                            Doctor
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400">
-                            Date & Time
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400">
-                            Status
-                        </th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
-                    @forelse ($appointments as $appointment)
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                        <td class="p-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 font-medium text-sm">
-                                    {{ substr($appointment->patient->user->first_name ?? 'U', 0, 1) }}
+    <div class="space-y-4">
+        @forelse ($appointments as $appointment)
+        @php
+        $statusConfig = match($appointment->status) {
+        'pending' => [
+        'bg' => 'bg-amber-50 dark:bg-amber-900/10',
+        'border' => 'border-amber-200 dark:border-amber-800',
+        'icon' => 'clock',
+        'iconClass' => 'text-amber-600 dark:text-amber-400',
+        'label' => 'Pending'
+        ],
+        'confirmed' => [
+        'bg' => 'bg-blue-50 dark:bg-blue-900/10',
+        'border' => 'border-blue-200 dark:border-blue-800',
+        'icon' => 'calendar',
+        'iconClass' => 'text-blue-600 dark:text-blue-400',
+        'label' => 'Confirmed'
+        ],
+        'completed' => [
+        'bg' => 'bg-green-50 dark:bg-green-900/10',
+        'border' => 'border-green-200 dark:border-green-800',
+        'icon' => 'check-circle',
+        'iconClass' => 'text-green-600 dark:text-green-400',
+        'label' => 'Completed'
+        ],
+        'cancelled_patient', 'cancelled_clinic' => [
+        'bg' => 'bg-red-50 dark:bg-red-900/10',
+        'border' => 'border-red-200 dark:border-red-800',
+        'icon' => 'x-circle',
+        'iconClass' => 'text-red-600 dark:text-red-400',
+        'label' => str_contains($appointment->status, 'patient') ? 'Cancelled (Patient)' : 'Cancelled (Clinic)'
+        ],
+        default => [
+        'bg' => 'bg-slate-50 dark:bg-slate-800',
+        'border' => 'border-slate-200 dark:border-slate-700',
+        'icon' => 'calendar',
+        'iconClass' => 'text-slate-600 dark:text-slate-400',
+        'label' => ucfirst($appointment->status)
+        ]
+        };
+        @endphp
+
+        <div class="rounded-lg shadow-sm border {{ $statusConfig['border'] }} {{ $statusConfig['bg'] }} overflow-hidden transition-all hover:shadow-md">
+            <div class="p-4 sm:p-5">
+                <div class="flex flex-col md:flex-row md:items-center justify-between">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden flex-shrink-0">
+                            <img src="{{ asset('storage/' . ($appointment->patient->user->profile->profile_picture ?? '')) }}" class="h-full w-full object-cover">
+                        </div>
+
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="font-medium text-slate-900 dark:text-white">{{ $appointment->patient->user->first_name }} {{ $appointment->patient->user->last_name }}</h3>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ str_replace('bg', 'bg', $statusConfig['bg']) }} {{ str_replace('text-', 'text-', $statusConfig['iconClass']) }}">
+                                    <flux:icon name="{{ $statusConfig['icon'] }}" class="w-3 h-3 mr-1" />
+                                    {{ $statusConfig['label'] }}
+                                </span>
+                            </div>
+
+                            <div class="mt-1 flex items-center space-x-4 text-sm">
+                                <div class="flex items-center text-slate-500 dark:text-slate-400">
+                                    <flux:icon name="user-circle" class="w-4 h-4 mr-1" />
+                                    <span>ID: {{ $appointment->patient->patient_identifier }}</span>
                                 </div>
-                                <div class="ml-3">
-                                    <div class="text-sm font-medium text-slate-900 dark:text-white">{{ $appointment->patient->user->first_name }} {{ $appointment->patient->user->last_name }}</div>
-                                    <div class="text-xs text-slate-500 dark:text-slate-400">ID: {{ $appointment->patient->patient_identifier }}</div>
+                                <div class="flex items-center text-slate-500 dark:text-slate-400">
+                                    <flux:icon name="stethoscope" class="w-4 h-4 mr-1" />
+                                    <span>Dr. {{ $appointment->doctor->first_name }} {{ $appointment->doctor->last_name }}</span>
                                 </div>
                             </div>
-                        </td>
-                        <td class="p-4 whitespace-nowrap">
-                            <div class="text-sm text-slate-900 dark:text-white">Dr. {{ $appointment->doctor->first_name }} {{ $appointment->doctor->last_name }}</div>
-                            <div class="text-sm text-slate-500 dark:text-slate-400">{{ $appointment->doctor->specialization->name }}</div>
-                        </td>
-                        <td class="p-4 whitespace-nowrap">
-                            <div class="text-sm text-slate-900 dark:text-white">{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('M d, Y') }}</div>
-                            <div class="text-sm text-slate-500 dark:text-slate-400">{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('g:i A') }}</div>
-                        </td>
-                        <td class="p-4 whitespace-nowrap">
-                            @php
-                            $statusClass = match($appointment->status) {
-                            'pending' => 'bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300',
-                            'confirmed' => 'bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300',
-                            'completed' => 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300',
-                            'cancelled_patient', 'cancelled_clinic' => 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300',
-                            default => 'bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-300'
-                            };
 
-                            $statusLabel = match($appointment->status) {
-                            'pending' => 'Pending',
-                            'confirmed' => 'Confirmed',
-                            'completed' => 'Completed',
-                            'cancelled_patient' => 'Cancelled (Patient)',
-                            'cancelled_clinic' => 'Cancelled (Clinic)',
-                            default => ucfirst($appointment->status)
-                            };
-                            @endphp
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusClass }}">
-                                {{ $statusLabel }}
-                            </span>
-                        </td>
-                        <td class="p-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div class="flex justify-end space-x-2">
-                                @if($appointment->status === 'pending')
-                                <flux:modal.trigger name="confirm-appointment-{{ $appointment->id }}">
-                                    <flux:button variant="ghost" size="sm" icon="check" tooltip="Approve"
-                                        x-data @click.prevent="$dispatch('open-modal', 'confirm-appointment-{{ $appointment->id }}')">
-                                        <span class="sr-only">Approve</span>
-                                    </flux:button>
-                                </flux:modal.trigger>
-
-                                <flux:modal.trigger name="cancel-appointment-{{ $appointment->id }}">
-                                    <flux:button variant="ghost" size="sm" icon="x-mark" tooltip="Cancel"
-                                        x-data @click="$dispatch('open-modal', 'cancel-appointment-{{ $appointment->id }}')">
-                                        <span class="sr-only">Cancel</span>
-                                    </flux:button>
-                                </flux:modal.trigger>
-                                @endif
-
-                                <flux:modal.trigger name="reschedule-appointment-{{ $appointment->id }}">
-                                    <flux:button variant="ghost" size="sm" icon="pencil-square" tooltip="Edit"
-                                        x-data @click="$dispatch('open-modal', 'reschedule-appointment-{{ $appointment->id }}')">
-                                        <span class="sr-only">Reschedule</span>
-                                    </flux:button>
-                                </flux:modal.trigger>
-
-                                <flux:modal.trigger name="view-appointment-{{ $appointment->id }}">
-                                    <flux:button variant="ghost" size="sm" icon="eye" tooltip="View Details"
-                                        x-data @click="$dispatch('open-modal', 'view-appointment-{{ $appointment->id }}')">
-                                        <span class="sr-only">View</span>
-                                    </flux:button>
-                                </flux:modal.trigger>
-
-                                @if($appointment->status === 'confirmed')
-                                <flux:modal.trigger name="complete-appointment-{{ $appointment->id }}">
-                                    <flux:button variant="ghost" size="sm" icon="check-circle" tooltip="Mark as Complete"
-                                        x-data @click="$dispatch('open-modal', 'complete-appointment-{{ $appointment->id }}')">
-                                        <span class="sr-only">Complete</span>
-                                    </flux:button>
-                                </flux:modal.trigger>
-                                @endif
+                            <div class="mt-2 flex items-center space-x-4 text-sm">
+                                <div class="flex items-center text-slate-500 dark:text-slate-400">
+                                    <flux:icon name="calendar" class="w-4 h-4 mr-1" />
+                                    <span>{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('M d, Y') }}</span>
+                                </div>
+                                <div class="flex items-center text-slate-500 dark:text-slate-400">
+                                    <flux:icon name="clock" class="w-4 h-4 mr-1" />
+                                    <span>{{ \Carbon\Carbon::parse($appointment->appointment_date)->format('g:i A') }}</span>
+                                </div>
+                                <div class="flex items-center text-slate-500 dark:text-slate-400">
+                                    <flux:icon name="tag" class="w-4 h-4 mr-1" />
+                                    <span>{{ $appointment->doctor->specialization->name }}</span>
+                                </div>
                             </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="px-4 py-8 text-center text-sm text-slate-500 dark:text-slate-400">
-                            No appointments found.
-                            <flux:button variant="link" x-data @click="$dispatch('open-modal', 'schedule-appointment')">
-                                Schedule one now
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2 mt-4 md:mt-0">
+                        <flux:modal.trigger name="view-appointment-{{ $appointment->id }}">
+                            <flux:button variant="outline" size="sm" icon="eye" class="text-slate-600 dark:text-slate-300">
+                                View
                             </flux:button>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                        </flux:modal.trigger>
 
+                        @if($appointment->status === 'pending')
+                        <flux:modal.trigger name="confirm-appointment-{{ $appointment->id }}">
+                            <flux:button variant="outline" size="sm" icon="check">
+                                Confirm
+                            </flux:button>
+                        </flux:modal.trigger>
+
+                        <flux:modal.trigger name="cancel-appointment-{{ $appointment->id }}">
+                            <flux:button variant="outline" size="sm" icon="x">
+                                Cancel
+                            </flux:button>
+                        </flux:modal.trigger>
+                        @endif
+
+                        @if($appointment->status === 'confirmed')
+                        <flux:modal.trigger name="complete-appointment-{{ $appointment->id }}">
+                            <flux:button variant="outline" size="sm" icon="check-circle">
+                                Complete
+                            </flux:button>
+                        </flux:modal.trigger>
+                        @endif
+                        <flux:dropdown>
+                            <flux:button variant="outline" size="sm">
+                                Other Options
+                            </flux:button>
+                            <flux:menu>
+                                <flux:menu.item>
+                                    <flux:menu.item>Reschedule</flux:menu.item>
+                                </flux:menu.item>
+                            </flux:menu>
+                        </flux:dropdown>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @empty
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-8 text-center">
+            <div class="inline-flex rounded-full bg-slate-100 dark:bg-slate-700 p-3 mb-4">
+                <flux:icon name="calendar-x" class="h-6 w-6 text-slate-500 dark:text-slate-400" />
+            </div>
+            <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-2">No appointments found</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">There are no appointments matching your criteria.</p>
+            <flux:button x-data @click="$dispatch('open-modal', 'schedule-appointment')" icon="plus">
+                Schedule an appointment
+            </flux:button>
+        </div>
+        @endforelse
+    </div>
+    <div class="mt-6">
         <x-pagination :paginator="$appointments" />
     </div>
 </div>

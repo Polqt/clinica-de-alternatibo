@@ -25,7 +25,7 @@ class AdminAppointmentController extends Controller
     public function cancelAppointment(Request $request, $id)
     {
         $request->validate([
-            'cancellation_reason' => 'requred|string|max:255',
+            'cancellation_reason' => 'required|string|max:255',
         ]);
 
         try {

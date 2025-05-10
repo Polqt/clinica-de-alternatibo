@@ -15,7 +15,11 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        return view('admin.dashboard');
+        $totalAppointments = Appointment::count();
+
+        return view('admin.dashboard',[
+            'totalAppointments' => $totalAppointments,
+        ]);
     }
 
     public function doctors()
@@ -82,9 +86,8 @@ class AdminController extends Controller
 
     public function appointments()
     {
-
-        $appointments = Appointment::with(['patient', 'doctor.specialization'])
-            ->orderBy('appointment_date', 'desc')
+        $appointments = Appointment::with(['patient.user.profile', 'doctor.specialization'])
+            ->orderBy('appointment_date', 'asc')
             ->paginate(10);
 
         $statusCounts = [
