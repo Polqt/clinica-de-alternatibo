@@ -9,16 +9,6 @@
         </p>
 
         <div class="mt-4 grid grid-cols-1 gap-4">
-            <div>
-                <flux:select name="doctor_id" label="Doctor" required>
-                    @foreach ($doctors as $doctor)
-                    <option value="{{ $doctor->id }}" {{ $appointment->doctor_id == $doctor->id ? 'selected' : '' }}>
-                        Dr. {{ $doctor->first_name }} {{ $doctor->last_name }} - {{ $doctor->specialization->name }}
-                    </option>
-                    @endforeach
-                </flux:select>
-            </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <flux:input

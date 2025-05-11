@@ -96,7 +96,7 @@
         };
         @endphp
 
-        <div class="rounded-lg shadow-sm border {{ $statusConfig['border'] }} {{ $statusConfig['bg'] }} overflow-hidden transition-all hover:shadow-md">
+        <div class="rounded-lg shadow-sm border {{ $statusConfig['border'] }} {{ $statusConfig['bg'] }} transition-all hover:shadow-md">
             <div class="p-4 sm:p-5">
                 <div class="flex flex-col md:flex-row md:items-center justify-between">
                     <div class="flex items-start space-x-4">
@@ -141,44 +141,59 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center space-x-2 mt-4 md:mt-0">
-                        <flux:modal.trigger name="view-appointment-{{ $appointment->id }}">
-                            <flux:button variant="outline" size="sm" icon="eye" class="text-slate-600 dark:text-slate-300">
-                                View
-                            </flux:button>
-                        </flux:modal.trigger>
+                    <div class="flex items-center mt-4 md:mt-0">
+                        <div x-data="{ open: false }" class="relative">
+                            <button @click="open = !open" @click.away="open = false" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                <flux:icon name="ellipsis-vertical" class="w-5 h-5 text-slate-600 dark:text-slate-300" />
+                            </button>
 
-                        @if($appointment->status === 'pending')
-                        <flux:modal.trigger name="confirm-appointment-{{ $appointment->id }}">
-                            <flux:button variant="outline" size="sm" icon="check">
-                                Confirm
-                            </flux:button>
-                        </flux:modal.trigger>
+                            <div x-show="open"
+                                x-transition:enter="transition ease-out duration-100"
+                                x-transition:enter-start="transform opacity-0 scale-95"
+                                x-transition:enter-end="transform opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-75"
+                                x-transition:leave-start="transform opacity-100 scale-100"
+                                x-transition:leave-end="transform opacity-0 scale-95"
+                                class="absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-10"
+                                style="display: none;">
 
-                        <flux:modal.trigger name="cancel-appointment-{{ $appointment->id }}">
-                            <flux:button variant="outline" size="sm" icon="x">
-                                Cancel
-                            </flux:button>
-                        </flux:modal.trigger>
-                        @endif
+                                <flux:modal.trigger name="view-appointment-{{ $appointment->id }}"
+                                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                    <flux:icon name="eye" class="mr-2 h-4 w-4" />
+                                    View Details
+                                </flux:modal.trigger>
 
-                        @if($appointment->status === 'confirmed')
-                        <flux:modal.trigger name="complete-appointment-{{ $appointment->id }}">
-                            <flux:button variant="outline" size="sm" icon="check-circle">
-                                Complete
-                            </flux:button>
-                        </flux:modal.trigger>
-                        @endif
-                        <flux:dropdown>
-                            <flux:button variant="outline" size="sm">
-                                Other Options
-                            </flux:button>
-                            <flux:menu>
-                                <flux:menu.item>
-                                    <flux:menu.item>Reschedule</flux:menu.item>
-                                </flux:menu.item>
-                            </flux:menu>
-                        </flux:dropdown>
+                                @if($appointment->status === 'pending')
+                                <flux:modal.trigger name="confirm-appointment-{{ $appointment->id }}"
+                                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                    <flux:icon name="check" class="mr-2 h-4 w-4 text-green-600" />
+                                    Confirm
+                                </flux:modal.trigger>
+
+                                <flux:modal.trigger name="cancel-appointment-{{ $appointment->id }}"
+                                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                    <flux:icon name="x" class="mr-2 h-4 w-4 text-red-600" />
+                                    Cancel
+                                </flux:modal.trigger>
+                                @endif
+
+                                @if($appointment->status === 'confirmed')
+                                <flux:modal.trigger name="complete-appointment-{{ $appointment->id }}"
+                                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                    <flux:icon name="check-circle" class="mr-2 h-4 w-4 text-green-600" />
+                                    Complete
+                                </flux:modal.trigger>
+                                @endif
+
+                                @if(in_array($appointment->status, ['pending', 'confirmed']))
+                                <flux:modal.trigger name="edit-appointment-{{ $appointment->id }}"
+                                    class="flex items-center w-full px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                    <flux:icon name="calendar-plus" class="mr-2 h-4 w-4 text-blue-600" />
+                                    Reschedule
+                                </flux:modal.trigger>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

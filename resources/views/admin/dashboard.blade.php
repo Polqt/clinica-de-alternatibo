@@ -19,7 +19,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-slate-500 dark:text-slate-400">Total Appointments</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $totalAppointments ?? '' }}</p>
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $totalAppointments }}</p>
                     <p class="text-xs flex items-center mt-1">
                         <span class="text-green-500 dark:text-green-400 flex items-center">
                             <flux:icon.trending-up class="w-3 h-3 mr-1" /> 1%
@@ -37,7 +37,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-slate-500 dark:text-slate-400">Pending Approvals</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $pendingApprovals ?? '' }}</p>
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $pendingAppointments }}</p>
                     <p class="text-xs flex items-center mt-1">
                         <span class="text-amber-500 dark:text-amber-400 flex items-center">
                             <flux:icon.trending-up class="w-3 h-3 mr-1" /> 2%
@@ -55,7 +55,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-slate-500 dark:text-slate-400">Total Patients</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $totalPatients ?? '' }}</p>
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $totalPatients }}</p>
                     <p class="text-xs flex items-center mt-1">
                         <span class="text-green-500 dark:text-green-400 flex items-center">
                             <flux:icon.trending-up class="w-3 h-3 mr-1" /> 5%
@@ -73,7 +73,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-slate-500 dark:text-slate-400">Total Doctors</p>
-                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $totalDoctors ?? '' }}</p>
+                    <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $totalDoctors }}</p>
                     <p class="text-xs flex items-center mt-1">
                         <span class="text-cyan-500 dark:text-cyan-400 flex items-center">
                             <flux:icon.trending-up class="w-3 h-3 mr-1" /> 2
@@ -119,7 +119,7 @@
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
             <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
                 <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Approval Queue</h2>
-                <form action="{{ route('admin.appointments') }}"> 
+                <form action="{{ route('admin.appointments') }}">
                     <flux:button variant="primary">
                         View All
                     </flux:button>
@@ -127,7 +127,37 @@
             </div>
             <div class="p-4">
                 <div class="space-y-4">
-
+                    @forelse($approvalQueue as $appointment)
+                    <div class="border border-slate-200 dark:border-slate-700 rounded-md p-3 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-medium text-slate-900 dark:text-white">
+                                    {{ $appointment->patient->user->first_name }} {{ $appointment->patient->user->last_name }}
+                                </p>
+                                <div class="flex items-center text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                    <flux:icon.calendar class="w-4 h-4 mr-1" />
+                                    {{ Carbon\Carbon::parse($appointment->appointment_date)->format('M d, Y') }}
+                                    <span class="mx-1">•</span>
+                                    <flux:icon.clock class="w-4 h-4 mr-1" />
+                                    {{ Carbon\Carbon::parse($appointment->appointment_time)->format('h:i A') }}
+                                </div>
+                                <div class="flex items-center text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                    <flux:icon.stethoscope class="w-4 h-4 mr-1" />
+                                    Dr. {{ $appointment->doctor->first_name }} {{ $appointment->doctor->last_name }}
+                                    <span class="mx-1">•</span>
+                                    {{ $appointment->doctor->specialization->name }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="text-center py-8">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-700/50 mb-4">
+                            <flux:icon.clipboard-check class="w-8 h-8 text-slate-400 dark:text-slate-500" />
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400">No pending appointments to approve</p>
+                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>
