@@ -6,6 +6,8 @@
         "dev": "vite"
     },
     "devDependencies": {
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tailwindcss/forms": "^0.5.10",
         "@tailwindcss/vite": "^4.0.0",
         "autoprefixer": "^10.4.21",
         "axios": "^1.8.2",
@@ -20,6 +22,9 @@
         "@fullcalendar/daygrid": "^6.1.17",
         "@fullcalendar/interaction": "^6.1.17",
         "@fullcalendar/list": "^6.1.17",
-        "@fullcalendar/timegrid": "^6.1.17"
+        "@fullcalendar/timegrid": "^6.1.17",
+        "alpinejs": "^3.14.9",
+        "chart.js": "^4.4.9",
+        "recharts": "^2.15.3"
     }
 }

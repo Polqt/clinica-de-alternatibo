@@ -16,9 +16,118 @@ class UserController extends Controller
 {
     public function dashboard()
     {
+        $patient = Patient::where('user_id', Auth::id())->first();
 
+        if (!$patient) {
+            return view('client.dashboard', [
+                'user' => Auth::user(),
+                'totalVisits' => 0,
+                'recentVisits' => collect(),
+                'recentVisitsPercentage' => 0,
+                'lastCheckup' => null,
+                'daysSinceLastCheckup' => null,
+                'upcomingAppointments' => 0,
+                'nextAppointment' => null,
+                'scheduleAppointments' => collect(),
+                'preferredDoctors' => collect(),
+                'recentSpecialties' => collect(),
+            ]);
+        }
 
-        return view('client.dashboard');
+        $appointments = Appointment::with(['doctor.specialization'])
+            ->where('patient_id', $patient->id)
+            ->where('status', AppointmentStatus::Completed->value)
+            ->orderBy('appointment_date', 'desc')
+            ->get();
+
+        $totalVisits = $appointments->count();
+
+        $recentVisits = $appointments->filter(function ($appointment) {
+            return Carbon::parse($appointment->appointment_date)->isAfter(Carbon::now()->subDays(90));
+        });
+
+        $recentVisitsPercentage = $totalVisits > 0
+            ? min(100, max(5, ($recentVisits->count() / $totalVisits) * 100))
+            : 0;
+
+        $lastAppointment = $appointments->first();
+        $lastCheckup = $lastAppointment && Carbon::parse($lastAppointment->appointment_date)->isPast()
+            ? Carbon::parse($lastAppointment->appointment_date)->format('M d, Y')
+            : null;
+        $daysSinceLastCheckup = $lastAppointment && Carbon::parse($lastAppointment->appointment_date)->isPast()
+            ? abs(Carbon::parse($lastAppointment->appointment_date)->diffInDays(Carbon::now()))
+            : null;
+
+        $scheduleAppointments = Appointment::with(['doctor.specialization'])
+            ->where('patient_id', $patient->id)
+            ->whereIn('status', [
+                AppointmentStatus::Scheduled->value,
+                AppointmentStatus::Confirmed->value,
+                AppointmentStatus::Rescheduled->value,
+            ])
+            ->where('appointment_date', '>=', Carbon::now())
+            ->orderBy('appointment_date', 'asc')
+            ->take(3)
+            ->get();
+
+        $upcomingAppointments = $scheduleAppointments->count();
+        $nextAppointment = $scheduleAppointments->first()
+            ? Carbon::parse($scheduleAppointments->first()->appointment_date)->format('M d, Y')
+            : null;
+
+        $preferredDoctors = DB::table('appointments')
+            ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
+            ->join('specializations', 'doctors.specialization_id', '=', 'specializations.id')
+            ->select(
+                'doctors.id',
+                'doctors.first_name',
+                'doctors.last_name',
+                'specializations.name as specialization_name',
+                DB::raw('COUNT(*) AS visit_count')
+            )
+            ->where('appointments.patient_id', $patient->id)
+            ->groupBy('doctors.id', 'doctors.first_name', 'doctors.last_name', 'specializations.name')
+            ->orderBy('visit_count', 'desc')
+            ->limit(3)
+            ->get();
+
+        foreach ($preferredDoctors as $doctor) {
+            $doctor->specialization = (object)['name' => $doctor->specialization_name];
+        }
+
+        $recentSpecialties = DB::table('appointments')
+            ->join('doctors', 'appointments.doctor_id', '=', 'doctors.id')
+            ->join('specializations', 'doctors.specialization_id', '=', 'specializations.id')
+            ->select(
+                'specializations.id',
+                'specializations.name',
+                DB::raw('COUNT(*) as visit_count'),
+                DB::raw('MAX(appointments.appointment_date) as last_visit')
+            )
+            ->where('appointments.patient_id', $patient->id)
+            ->where('appointments.status', AppointmentStatus::Completed->value)
+            ->groupBy('specializations.id', 'specializations.name')
+            ->orderBy('last_visit', 'desc')
+            ->limit(3)
+            ->get();
+
+        foreach ($recentSpecialties as $specialty) {
+            $specialty->last_visit_date = Carbon::parse($specialty->last_visit)->format('M d, Y');
+        }
+
+        return view('client.dashboard', [
+            'user' => Auth::user(),
+            'totalVisits' => $totalVisits,
+            'recentVisits' => $recentVisits,
+            'recentVisitsPercentage' => $recentVisitsPercentage,
+            'lastCheckup' => $lastCheckup,
+            'daysSinceLastCheckup' => $daysSinceLastCheckup,
+            'upcomingAppointments' => $upcomingAppointments,
+            'nextAppointment' => $nextAppointment,
+            'scheduleAppointments' => $scheduleAppointments,
+            'preferredDoctors' => $preferredDoctors,
+            'recentSpecialties' => $recentSpecialties,
+        ]);
     }
 
     public function help()
@@ -99,6 +208,22 @@ class UserController extends Controller
     {
         $patient = Patient::where('user_id', Auth::id())->first();
 
+        if (!$patient) {
+            return view('client.history.index', [
+                'appointments' => collect(),
+                'totalVisits' => 0,
+                'recentVisits' => collect(),
+                'recentVisitsPercentage' => 0,
+                'lastCheckup' => null,
+                'daysSinceLastCheckup' => null,
+                'upcomingAppointments' => 0,
+                'nextAppointment' => null,
+                'scheduleAppointments' => collect(),
+                'preferredDoctors' => collect(),
+                'recentSpecialties' => collect(),
+            ]);
+        }
+
         $appointments = Appointment::with(['doctor.specialization'])
             ->where('patient_id', $patient->id)
             ->where('status', AppointmentStatus::Completed->value)
@@ -111,13 +236,17 @@ class UserController extends Controller
             return Carbon::parse($appointment->appointment_date)->isAfter(Carbon::now()->subDays(90));
         });
 
-
-        $recentVisitsPercentage = $totalVisits > 0 ? (($recentVisits->count() / $totalVisits) * 100) : 0;
-        $recentVisitsPercentage = min(100, max(5, $recentVisitsPercentage));
+        $recentVisitsPercentage = $totalVisits > 0
+            ? min(100, max(5, ($recentVisits->count() / $totalVisits) * 100))
+            : 0;
 
         $lastAppointment = $appointments->first();
-        $lastCheckup = $lastAppointment ? Carbon::parse($lastAppointment->appointment_date)->format('M d, Y') : null;
-        $daysSinceLastCheckup = $lastAppointment ? Carbon::parse($lastAppointment->appointment_date)->diffInDays(Carbon::now()) : null;
+        $lastCheckup = $lastAppointment && Carbon::parse($lastAppointment->appointment_date)->isPast()
+            ? Carbon::parse($lastAppointment->appointment_date)->format('M d, Y')
+            : null;
+        $daysSinceLastCheckup = $lastAppointment && Carbon::parse($lastAppointment->appointment_date)->isPast()
+            ? abs(Carbon::parse($lastAppointment->appointment_date)->diffInDays(Carbon::now()))
+            : null;
 
         $scheduleAppointments = Appointment::with(['doctor.specialization'])
             ->where('patient_id', $patient->id)

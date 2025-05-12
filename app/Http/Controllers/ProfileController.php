@@ -55,7 +55,7 @@ class ProfileController extends Controller
 
         // TODO: diretso sa user dashboard
 
-        return redirect()->route('/login')->with('success', 'Profile created successfully.');
+        return redirect()->route('login')->with('success', 'Profile created successfully.');
     }
 
     public function edit()

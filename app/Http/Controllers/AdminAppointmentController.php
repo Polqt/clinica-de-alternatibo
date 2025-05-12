@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\AppointmentStatus;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AdminAppointmentController extends Controller
 {
@@ -49,6 +50,14 @@ class AdminAppointmentController extends Controller
 
         try {
             $appointment = Appointment::findOrFail($id);
+
+            $appointmentDate = Carbon::parse($appointment->appointment_date);
+            $today = Carbon::today();
+
+            if ($appointmentDate->isFuture()) {
+                return back()->with('error', 'Cannot complete a future appointment.');
+            }
+
             $appointment->status = AppointmentStatus::Completed->value;
 
             if ($request->has('clinic_notes')) {
