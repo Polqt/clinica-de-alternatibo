@@ -7,8 +7,8 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
         <div>
-            <h1 class="texxt-3xl font-bold text-slate-900 dark:text-white">Admin Dashboard</h1>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Overview of the clinic operations</p>
+            <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Admin Dashboard</h1>
+            <p class=" text-sm text-slate-500 dark:text-slate-400 mt-1">Overview of the clinic operations</p>
         </div>
         <div class="mt-4 md:mt-8">
         </div>
