@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Auth;
 class LoginServices
 {
     /**
-     * Attempt to log in a user with the given credentials
-     * 
      * @param array $credentials
      * @return string|null The redirect route name or null if authentication fails
      */
@@ -34,8 +32,6 @@ class LoginServices
     }
 
     /**
-     * Validate the login credentials
-     * 
      * @return array The validated credentials
      */
 

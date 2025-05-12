@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Auth;
 class RegisterServices
 {
     /**
-     * Register a new user
-     * 
      * @param array $data
      */
     public function register(array $data) 
@@ -28,8 +26,6 @@ class RegisterServices
     }
 
     /**
-     * Validate registration data
-     * 
      * @return array
      */
     public function validateRegistrationData() {
@@ -45,6 +41,4 @@ class RegisterServices
             'password.required' => 'Password is required.',
         ]);
     }
-
-
 }

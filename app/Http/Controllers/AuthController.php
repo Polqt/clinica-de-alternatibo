@@ -6,6 +6,7 @@ use App\Services\Auth\LoginServices;
 use Illuminate\Http\RedirectResponse;
 use App\Services\Auth\LogoutServices;
 use App\Services\Auth\RegisterServices;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -49,8 +50,6 @@ class AuthController extends Controller
 
     public function logout(): RedirectResponse
     {
-        $this->logoutServices->logout();
-
-        return redirect('login');
+        return $this->logoutServices->logoutAndRedirect();
     }
 }

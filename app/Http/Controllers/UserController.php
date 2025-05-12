@@ -112,7 +112,7 @@ class UserController extends Controller
         });
 
 
-        $recentVisitsPercentage = $totalVisits > 0 ? ($recentVisits / $totalVisits) * 100 : 0;
+        $recentVisitsPercentage = $totalVisits > 0 ? (($recentVisits->count() / $totalVisits) * 100) : 0;
         $recentVisitsPercentage = min(100, max(5, $recentVisitsPercentage));
 
         $lastAppointment = $appointments->first();
