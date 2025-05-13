@@ -33,7 +33,12 @@
                 <flux:menu.separator />
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <flux:menu.item icon="arrow-right-start-on-rectangle">Logout</flux:menu.item>
+                    <flux:menu.item
+                        icon="arrow-right-start-on-rectangle"
+                        as="button"
+                        type="submit">
+                        Logout
+                    </flux:menu.item>
                 </form>
             </flux:menu>
         </flux:dropdown>
@@ -49,7 +54,15 @@
                 <flux:menu>
                     <flux:menu.item icon="user-circle">Profile</flux:menu.item>
                     <flux:menu.separator />
-                    <flux:menu.item icon="arrow-right-start-on-rectangle">Logout</flux:menu.item>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <flux:menu.item
+                            icon="arrow-right-start-on-rectangle"
+                            as="button"
+                            type="submit">
+                            Logout
+                        </flux:menu.item>
+                    </form>
                 </flux:menu>
             </flux:dropdown>
         </flux:navbar>
