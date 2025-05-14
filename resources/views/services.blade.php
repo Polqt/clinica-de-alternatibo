@@ -4,7 +4,6 @@
 
 @extends('layouts.app')
 @section('content')
-<!-- Hero Section -->
 <section class="relative overflow-hidden bg-gradient-to-r from-teal-50 to-cyan-50 py-16 lg:py-20">
     <div class="absolute right-0 top-0 -mt-16 opacity-10">
         <svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -363,151 +362,6 @@
     </div>
 </section>
 
-<!-- Service Packages -->
-<section class="bg-slate-50 py-16">
-    <div class="container mx-auto px-4">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-slate-900 mb-4">Health Packages</h2>
-            <p class="text-lg text-slate-600 max-w-2xl mx-auto">
-                Comprehensive health packages designed for different needs and age groups
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Package 1 -->
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md">
-                <div class="h-4 bg-teal-500"></div>
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-slate-900 mb-2">Basic Health Check</h3>
-                    <p class="text-3xl font-bold text-teal-600 mb-4">$199</p>
-                    <p class="text-slate-600 mb-6">
-                        Essential health screening package for routine health monitoring.
-                    </p>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-teal-500" />
-                            <span>Complete blood count</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-teal-500" />
-                            <span>Lipid profile</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-teal-500" />
-                            <span>Blood glucose test</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-teal-500" />
-                            <span>Blood pressure check</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-teal-500" />
-                            <span>Basic physical examination</span>
-                        </li>
-                    </ul>
-                    <flux:button class="w-full justify-center">
-                        Book This Package
-                    </flux:button>
-                </div>
-            </div>
-
-            <!-- Package 2 -->
-            <div class="bg-white rounded-xl overflow-hidden shadow-md border border-slate-100 transition-all hover:shadow-lg scale-105 relative z-10">
-                <div class="absolute top-6 right-6">
-                    <span class="bg-amber-100 text-amber-800 text-xs font-medium px-2.5 py-1 rounded-full">Popular</span>
-                </div>
-                <div class="h-4 bg-blue-500"></div>
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-slate-900 mb-2">Comprehensive Health Check</h3>
-                    <p class="text-3xl font-bold text-blue-600 mb-4">$399</p>
-                    <p class="text-slate-600 mb-6">
-                        Detailed health assessment for adults of all ages.
-                    </p>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-blue-500" />
-                            <span>All Basic Health Check tests</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-blue-500" />
-                            <span>Liver function test</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-blue-500" />
-                            <span>Kidney function test</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-blue-500" />
-                            <span>Thyroid function test</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-blue-500" />
-                            <span>ECG</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-blue-500" />
-                            <span>Chest X-ray</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-blue-500" />
-                            <span>Doctor consultation</span>
-                        </li>
-                    </ul>
-                    <flux:button class="w-full justify-center bg-blue-500 hover:bg-blue-600">
-                        Book This Package
-                    </flux:button>
-                </div>
-            </div>
-
-            <!-- Package 3 -->
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md">
-                <div class="h-4 bg-amber-500"></div>
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-slate-900 mb-2">Executive Health Check</h3>
-                    <p class="text-3xl font-bold text-amber-600 mb-4">$699</p>
-                    <p class="text-slate-600 mb-6">
-                        Premium health assessment with advanced diagnostics.
-                    </p>
-                    <ul class="space-y-3 mb-8">
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-amber-500" />
-                            <span>All Comprehensive Health Check tests</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-amber-500" />
-                            <span>Cardiac stress test</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-amber-500" />
-                            <span>Ultrasonography (abdomen)</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-amber-500" />
-                            <span>Bone density scan</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-amber-500" />
-                            <span>Specialized screenings</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-amber-500" />
-                            <span>Detailed specialist consultation</span>
-                        </li>
-                        <li class="flex items-center text-slate-700">
-                            <flux:icon.check class="w-5 h-5 mr-2 text-amber-500" />
-                            <span>Personalized health plan</span>
-                        </li>
-                    </ul>
-                    <flux:button class="w-full justify-center bg-amber-500 hover:bg-amber-600">
-                        Book This Package
-                    </flux:button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
 <section class="bg-gradient-to-r from-teal-500 to-cyan-500 py-16">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
@@ -585,7 +439,6 @@
     </div>
 </section>
 
-<!-- CTA Section -->
 <section class="bg-white py-16">
     <div class="container mx-auto px-4">
         <div class="max-w-5xl mx-auto bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-8 md:p-12 border border-slate-100 relative overflow-hidden">

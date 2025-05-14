@@ -6,15 +6,6 @@
 @section('content')
 <section class="relative overflow-hidden bg-gradient-to-r from-teal-50 to-cyan-50">
     <div class="absolute right-0 top-0 -mt-16 opacity-10">
-        <svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="300" cy="300" r="300" fill="url(#paint0_linear)" />
-            <defs>
-                <linearGradient id="paint0_linear" x1="0" y1="0" x2="600" y2="600" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#0D9488" />
-                    <stop offset="1" stop-color="#0891B2" />
-                </linearGradient>
-            </defs>
-        </svg>
     </div>
     <div class="container mx-auto px-4 py-16 md:py-24 relative">
         <div class="flex flex-col md:flex-row items-center">
