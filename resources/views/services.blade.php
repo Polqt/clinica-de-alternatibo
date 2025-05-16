@@ -50,9 +50,6 @@
                 <p class="text-slate-600 mb-4">
                     Routine check-ups, preventive care, and treatment for common illnesses and injuries.
                 </p>
-                <flux:button icon="arrow-right">
-                    Learn More
-                </flux:button>
             </div>
 
             <div class="bg-slate-50 rounded-xl p-8 transition-all hover:shadow-md border border-slate-100 text-center group hover:bg-gradient-to-br hover:from-teal-50 hover:to-cyan-50">
@@ -63,9 +60,6 @@
                 <p class="text-slate-600 mb-4">
                     Focused treatment in cardiology, orthopedics, neurology, and other specialized areas.
                 </p>
-                <flux:button icon="arrow-right">
-                    Learn More
-                </flux:button>
             </div>
 
             <div class="bg-slate-50 rounded-xl p-8 transition-all hover:shadow-md border border-slate-100 text-center group hover:bg-gradient-to-br hover:from-teal-50 hover:to-cyan-50">
@@ -76,15 +70,11 @@
                 <p class="text-slate-600 mb-4">
                     Virtual consultations and follow-ups from the comfort of your home.
                 </p>
-                <flux:button icon="arrow-right">
-                    Learn More
-                </flux:button>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Featured Services Section -->
 <section class="bg-gradient-to-r from-teal-500 to-cyan-500 py-16">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
@@ -112,7 +102,7 @@
                             <flux:icon.check-circle class="w-5 h-5 mr-2 text-teal-200" />
                             <span>Heart health assessments</span>
                         </li>
-                        <li csla="flex items-center text-slate-700 text-opacity-90">
+                        <li class="flex items-center text-slate-700 text-opacity-90">
                             <flux:icon.check-circle class="w-5 h-5 mr-2 text-teal-200" />
                             <span>Cholesterol management</span>
                         </li>
@@ -121,9 +111,6 @@
                             <span>Cardiovascular screenings</span>
                         </li>
                     </ul>
-                    <flux:button class="w-full justify-center bg-white text-teal-600 hover:bg-opacity-90">
-                        Book Appointment
-                    </flux:button>
                 </div>
             </div>
             <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl overflow-hidden border border-white border-opacity-20 transition-all hover:bg-opacity-20 group">
@@ -152,9 +139,6 @@
                             <span>Movement disorder therapy</span>
                         </li>
                     </ul>
-                    <flux:button class="w-full justify-center bg-white text-teal-600 hover:bg-opacity-90">
-                        Book Appointment
-                    </flux:button>
                 </div>
             </div>
             <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl overflow-hidden border border-white border-opacity-20 transition-all hover:bg-opacity-20 group">
@@ -183,9 +167,6 @@
                             <span>Fracture care</span>
                         </li>
                     </ul>
-                    <flux:button class="w-full justify-center bg-white text-teal-600 hover:bg-opacity-90">
-                        Book Appointment
-                    </flux:button>
                 </div>
             </div>
         </div>
@@ -439,77 +420,6 @@
     </div>
 </section>
 
-<section class="bg-white py-16">
-    <div class="container mx-auto px-4">
-        <div class="max-w-5xl mx-auto bg-gradient-to-r from-teal-50 to-cyan-50 rounded-2xl p-8 md:p-12 border border-slate-100 relative overflow-hidden">
-            <div class="absolute right-0 bottom-0 opacity-10">
-                <svg width="400" height="400" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="300" cy="300" r="300" fill="url(#paint0_linear)" />
-                    <defs>
-                        <linearGradient id="paint0_linear" x1="0" y1="0" x2="600" y2="600" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#0D9488" />
-                            <stop offset="1" stop-color="#0891B2" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-
-            <div class="relative z-10 flex flex-col md:flex-row items-center">
-                <div class="w-full md:w-2/3 md:pr-12 mb-8 md:mb-0">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Ready to Experience Better Healthcare?</h2>
-                    <p class="text-lg text-slate-700 mb-6">
-                        Book an appointment today and discover how our comprehensive services can help you achieve optimal health and wellness.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <flux:button icon="calendar">
-                            Book an Appointment
-                        </flux:button>
-                        <flux:button variant="outline" icon="phone">
-                            Contact Us
-                        </flux:button>
-                    </div>
-                </div>
-
-                <div class="w-full md:w-1/3">
-                    <div class="bg-white rounded-xl shadow-md p-6 border border-slate-100">
-                        <div class="flex items-center mb-4">
-                            <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center mr-4">
-                                <flux:icon.clock class="w-5 h-5 text-teal-600" />
-                            </div>
-                            <div>
-                                <h3 class="font-semibold text-slate-900">Opening Hours</h3>
-                            </div>
-                        </div>
-
-                        <div class="space-y-2 mb-4">
-                            <div class="flex justify-between text-slate-700">
-                                <span>Monday - Friday</span>
-                                <span>8:00 AM - 8:00 PM</span>
-                            </div>
-                            <div class="flex justify-between text-slate-700">
-                                <span>Saturday</span>
-                                <span>9:00 AM - 5:00 PM</span>
-                            </div>
-                            <div class="flex justify-between text-slate-700">
-                                <span>Sunday</span>
-                                <span>10:00 AM - 2:00 PM</span>
-                            </div>
-                        </div>
-
-                        <div class="pt-4 border-t border-slate-100">
-                            <div class="flex items-center text-slate-700">
-                                <flux:icon.phone class="w-4 h-4 mr-2 text-teal-600" />
-                                <span>Emergency: +1 (123) 456-7890</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- FAQ Section -->
 <section class="bg-slate-50 py-16">
     <div class="container mx-auto px-4">
         <div class="text-center mb-12">
@@ -520,7 +430,6 @@
         </div>
 
         <div class="max-w-4xl mx-auto space-y-4">
-            <!-- FAQ Item 1 -->
             <div class="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden">
                 <div class="p-5">
                     <div class="flex items-center justify-between">
@@ -533,7 +442,6 @@
                 </div>
             </div>
 
-            <!-- FAQ Item 2 -->
             <div class="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden">
                 <div class="p-5">
                     <div class="flex items-center justify-between">
@@ -546,7 +454,6 @@
                 </div>
             </div>
 
-            <!-- FAQ Item 3 -->
             <div class="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden">
                 <div class="p-5">
                     <div class="flex items-center justify-between">
@@ -559,7 +466,6 @@
                 </div>
             </div>
 
-            <!-- FAQ Item 4 -->
             <div class="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden">
                 <div class="p-5">
                     <div class="flex items-center justify-between">
@@ -572,7 +478,6 @@
                 </div>
             </div>
 
-            <!-- FAQ Item 5 -->
             <div class="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden">
                 <div class="p-5">
                     <div class="flex items-center justify-between">

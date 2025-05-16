@@ -231,13 +231,92 @@
 <section class="bg-slate-50 py-16">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Meet Our Leadership</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Meet the Development Team</h2>
             <p class="text-lg text-slate-600 max-w-2xl mx-auto">
-                The dedicated professionals behind our success
+                This project was brought to life by a dedicated team of students.
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Nathania Santia -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md">
+                <div class="relative">
+                    <div class="aspect-w-3 aspect-h-4 bg-slate-100">
+                        <img src="/api/placeholder/400/450" alt="Nathania Santia" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 to-transparent p-4">
+                        <div class="flex justify-end space-x-2">
+                            <a href="#" class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30">
+                                <flux:icon.linkedin class="w-4 h-4 text-white" />
+                            </a>
+                            <a href="#" class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30">
+                                <flux:icon.globe-alt class="w-4 h-4 text-white" /> 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 text-center md:text-left">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-1">Nathania Santia</h3>
+                    <p class="text-teal-600 font-medium mb-3">Project Management</p>
+                    <p class="text-slate-600 text-sm">
+                        Spearheaded project planning and coordination to ensure successful delivery and teamwork.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Heidine Mahandog -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md">
+                <div class="relative">
+                    <div class="aspect-w-3 aspect-h-4 bg-slate-100">
+                        <img src="/api/placeholder/400/450" alt="Heidine Mahandog" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 to-transparent p-4">
+                        <div class="flex justify-end space-x-2">
+                            <a href="#" class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30">
+                                <flux:icon.linkedin class="w-4 h-4 text-white" />
+                            </a>
+                            <a href="#" class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30">
+                                <flux:icon.code-bracket class="w-4 h-4 text-white" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 text-center md:text-left">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-1">Heidine Mahandog</h3>
+                    <p class="text-cyan-600 font-medium mb-3">Developer</p>
+                    <p class="text-slate-600 text-sm">
+                        Focused on core development, bringing the application's features and functionalities to life.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Janpol Hidalgo -->
+            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md">
+                <div class="relative">
+                    <div class="aspect-w-3 aspect-h-4 bg-slate-100">
+                        <img src="/api/placeholder/400/450" alt="Janpol Hidalgo" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 to-transparent p-4">
+                        <div class="flex justify-end space-x-2">
+                            <a href="#" class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30">
+                                <flux:icon.linkedin class="w-4 h-4 text-white" />
+                            </a>
+                            <a href="#" class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30">
+                                <flux:icon.code-bracket class="w-4 h-4 text-white" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 text-center md:text-left">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-1">Janpol Hidalgo</h3>
+                    <p class="text-cyan-600 font-medium mb-3">Developer</p>
+                    <p class="text-slate-600 text-sm">
+                        Contributed to the robust development and technical implementation of the platform.
+                    </p>
+                </div>
+            </div>
+
+            <!-- April Faith Gamboa -->
             <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md">
                 <div class="relative">
                     <div class="aspect-w-3 aspect-h-4 bg-slate-100">
@@ -245,81 +324,23 @@
                     </div>
                     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 to-transparent p-4">
                         <div class="flex justify-end space-x-2">
-                            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                            <a href="#" class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30">
                                 <flux:icon.linkedin class="w-4 h-4 text-white" />
-                            </div>
-                            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                <flux:icon.twitter class="w-4 h-4 text-white" />
-                            </div>
+                            </a>
+                            <a href="#" class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30">
+                                <flux:icon.paint-brush class="w-4 h-4 text-white" /> 
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-slate-900 mb-1">Dr. Sarah Mitchell</h3>
-                    <p class="text-teal-600 font-medium mb-3">Chief Medical Officer</p>
-                    <p class="text-slate-600">
-                        Board-certified physician with over 15 years of experience in healthcare administration and patient care.
+                <div class="p-6 text-center md:text-left">
+                    <h3 class="text-xl font-semibold text-slate-900 mb-1">April Faith Gamboa</h3>
+                    <p class="text-amber-600 font-medium mb-3">UI/UX Design</p>
+                    <p class="text-slate-600 text-sm">
+                        Crafted the user interface and experience, ensuring an intuitive and visually engaging design.
                     </p>
                 </div>
             </div>
-
-            <!-- Team Member 2 -->
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md">
-                <div class="relative">
-                    <div class="aspect-w-3 aspect-h-4 bg-slate-100">
-                        <img src="/api/placeholder/400/450" alt="Dr. James Wilson" class="w-full h-full object-cover" />
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 to-transparent p-4">
-                        <div class="flex justify-end space-x-2">
-                            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                <flux:icon.linkedin class="w-4 h-4 text-white" />
-                            </div>
-                            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                <flux:icon.twitter class="w-4 h-4 text-white" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-slate-900 mb-1">Dr. James Wilson</h3>
-                    <p class="text-cyan-600 font-medium mb-3">Founder & CEO</p>
-                    <p class="text-slate-600">
-                        Visionary healthcare leader with a passion for improving patient outcomes through innovative medical solutions.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Team Member 3 -->
-            <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 transition-all hover:shadow-md">
-                <div class="relative">
-                    <div class="aspect-w-3 aspect-h-4 bg-slate-100">
-                        <img src="/api/placeholder/400/450" alt="Dr. Emily Chen" class="w-full h-full object-cover" />
-                    </div>
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 to-transparent p-4">
-                        <div class="flex justify-end space-x-2">
-                            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                <flux:icon.linkedin class="w-4 h-4 text-white" />
-                            </div>
-                            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                <flux:icon.twitter class="w-4 h-4 text-white" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold text-slate-900 mb-1">Dr. Emily Chen</h3>
-                    <p class="text-teal-600 font-medium mb-3">Director of Medical Research</p>
-                    <p class="text-slate-600">
-                        Pioneering researcher dedicated to advancing medical treatments and healthcare technology.
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex justify-center mt-10">
-            <flux:button icon="users" variant="outline">
-                View All Team Members
-            </flux:button>
         </div>
     </div>
 </section>
@@ -363,24 +384,4 @@
     </div>
 </section>
 
-<section class="bg-gradient-to-r from-teal-500 to-cyan-500 py-16">
-    <div class="container mx-auto px-4">
-        <div class="flex flex-col md:flex-row items-center justify-between bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-8 border border-white border-opacity-20">
-            <div class="mb-6 md:mb-0">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-2">Ready to experience better healthcare?</h2>
-                <p class="text-slate-600 text-opacity-90">
-                    Join thousands of satisfied patients who trust MediCare with their health.
-                </p>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-4">
-                <flux:button icon="calendar" class="bg-white text-teal-600 hover:bg-teal-50">
-                    Book an Appointment
-                </flux:button>
-                <flux:button variant="outline" icon="phone" class="border-white text-white hover:bg-white hover:bg-opacity-10">
-                    Contact Us
-                </flux:button>
-            </div>
-        </div>
-    </div>
-</section>
 @endsection

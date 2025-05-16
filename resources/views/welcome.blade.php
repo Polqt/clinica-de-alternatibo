@@ -20,12 +20,16 @@
                     Experience hassle-free scheduling, quick consultations, and personalized care with our network of trusted healthcare professionals.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <flux:button icon="calendar">
-                        Book an Appointment
-                    </flux:button>
-                    <flux:button variant="outline" icon="user-circle">
-                        Find a Doctor
-                    </flux:button>
+                    <a href="{{ route('about') }}">
+                        <flux:button icon="information-circle">
+                            Learn More
+                        </flux:button>
+                    </a>
+                    <a href="{{ route('services') }}">
+                        <flux:button variant="outline" icon="magnifying-glass">
+                            Explore Services
+                        </flux:button>
+                    </a>
                 </div>
                 <div class="mt-10 flex items-center">
                     <div class="flex -space-x-2">

@@ -212,32 +212,6 @@
     </div>
 </section>
 
-<section class="bg-white py-16">
-    <div class="container mx-auto px-4">
-        <div class="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl p-8 md:p-12 relative overflow-hidden">
-            <div class="absolute right-0 bottom-0 opacity-10">
-                <!-- Background decoration -->
-            </div>
-
-            <div class="relative z-10 text-center md:text-left md:max-w-2xl">
-                <h2 class="text-3xl font-bold text-white mb-4">Need Urgent Care?</h2>
-                <p class="text-white text-opacity-90 text-lg mb-6">
-                    Our emergency services are available 24/7. For medical emergencies, please call our hotline immediately.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                    <a href="tel:911" class="inline-flex items-center justify-center px-6 py-3 bg-white text-teal-600 font-medium rounded-lg shadow-sm hover:bg-opacity-90 transition-all">
-                        <flux:icon.phone class="w-5 h-5 mr-2" />
-                        Emergency: 911
-                    </a>
-                    <a href="#" class="inline-flex items-center justify-center px-6 py-3 bg-transparent border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:bg-opacity-10 transition-all">
-                        <flux:icon.information-circle class="w-5 h-5 mr-2" />
-                        Learn More
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <section class="bg-slate-50 py-16">
     <div class="container mx-auto px-4">
