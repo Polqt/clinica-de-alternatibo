@@ -313,7 +313,7 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-semibold text-slate-900 mb-1">Our Location</h3>
-                            <p class="text-slate-600">123 Healthcare Avenue, Medical District, City, 12345</p>
+                            <p class="text-slate-600">123 Healthcare Avenue, Medical District, Bacolod City, 12345</p>
                         </div>
                     </div>
 
@@ -333,7 +333,7 @@
                         </div>
                         <div>
                             <h3 class="text-lg font-semibold text-slate-900 mb-1">Email Address</h3>
-                            <p class="text-slate-600">contact@medicare.com</p>
+                            <p class="text-slate-600">jani@medicare.com</p>
                         </div>
                     </div>
                 </div>
