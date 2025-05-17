@@ -117,12 +117,12 @@ Route::middleware(['auth', 'user.access:admin', 'nocache'])->prefix('/')->group(
         'createDoctor',
     ])->name('admin.doctor.create');
 
-    Route::put('/doctors/edit/{id}', [
+    Route::put('/doctors/{id}/edit', [
         DoctorController::class,
         'editDoctor',
     ])->name('admin.doctor.edit');
 
-    Route::delete('/doctors/delete/{id}', [
+    Route::delete('/doctors/{id}delete', [
         DoctorController::class,
         'deleteDoctor',
     ])->name('admin.doctor.delete');

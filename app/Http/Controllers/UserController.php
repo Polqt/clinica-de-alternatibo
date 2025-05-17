@@ -345,7 +345,18 @@ class UserController extends Controller
 
     public function doctors()
     {
-        $doctors = Doctor::with('specialization')->paginate(10);
+        $doctors = Doctor::with(['specialization', 'appointments' => function ($query) {
+            $query->where('status', [
+                AppointmentStatus::Scheduled->value,
+                AppointmentStatus::Confirmed->value,
+                AppointmentStatus::Rescheduled->value,
+            ])
+                ->where('appointment_date', '>=', Carbon::now())
+                ->orderBy('appointment_date', 'asc');
+        }])->paginate(10);
+
+        $today = Carbon::today();
+        $availableTodayCount = 0;
 
         $specializations = Specialization::all();
         $specializationCount = Specialization::count();

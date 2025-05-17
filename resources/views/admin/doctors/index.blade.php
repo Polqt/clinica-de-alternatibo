@@ -129,19 +129,18 @@
                         <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $doctor->created_at->format('M d, Y') }}</td>
                         <td class="px-4 py-3 text-right">
                             <div class="flex items-center justify-end space-x-12">
-                                <flux:modal.trigger name="edit_doctor">
-                                    <flux:button variant="ghost" icon="pencil">
-                                        Edit
-                                    </flux:button>
+                                <flux:modal.trigger name="edit_doctor_{{ $doctor->id }}">
+                                    <flux:button variant="ghost" icon="pencil">Edit</flux:button>
                                 </flux:modal.trigger>
-                                <flux:modal.trigger name="delete_doctor">
-                                    <flux:button variant="ghost" icon="pencil">
-                                        Delete
-                                    </flux:button>
+                                <flux:modal.trigger name="delete_doctor_{{ $doctor->id }}">
+                                    <flux:button variant="ghost" icon="trash">Delete</flux:button>
                                 </flux:modal.trigger>
                             </div>
                         </td>
                     </tr>
+
+                    @include('admin.doctors.edit', ['doctor' => $doctor])
+                    @include('admin.doctors.delete', ['doctor' => $doctor])
                     @empty
                     <tr>
                         <td colspan="6" class="px-4 py-3 text-center text-slate-500 dark:text-slate-400">No doctors found</td>
@@ -155,6 +154,5 @@
 </div>
 
 @include('admin.doctors.create')
-@include('admin.doctors.edit')
-@include('admin.doctors.delete')
+
 @endsection
