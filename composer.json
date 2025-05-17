@@ -10,6 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "devrabiul/laravel-toaster-magic": "^1.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "livewire/flux": "^2.1"
@@ -73,10 +74,10 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "repositories": {
-        "flux-pro": {
+    "repositories": [
+        {
             "type": "composer",
             "url": "https://composer.fluxui.dev"
         }
-    }
+    ]
 }

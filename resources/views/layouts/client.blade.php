@@ -7,6 +7,7 @@
     <title>{{ $title ?? 'Medicare' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/calendar.js'])
     @fluxAppearance
+    {!! ToastMagic::styles() !!}
 </head>
 
 <body class="min-h-screen bg-white dark:bg-zinc-800">
@@ -72,6 +73,8 @@
         @yield('content')
     </flux:main>
     @fluxScripts
+
+    {!! ToastMagic::scripts() !!}
 </body>
 
 </html>

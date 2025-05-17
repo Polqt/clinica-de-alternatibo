@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Services\Appointment\CreateServices;
 use App\Services\Appointment\DeleteServices;
 use App\Services\Appointment\EditServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Appointment\AvailabilityService;
+use Devrabiul\ToastMagic\Facades\ToastMagic;
 
 class AppointmentController extends Controller
 {
@@ -41,7 +41,9 @@ class AppointmentController extends Controller
 
             $data['created_by_user_id'] = Auth::id();
             $appointment = $this->createServices->create($data);
-            return redirect()->route('client.schedule')->with('success', 'Appointment created successfully.');
+            ToastMagic::success('Appointment scheduled successfully!');
+
+            return redirect()->back();
         } catch (\Exception $e) {
             return back()->withErrors($e->getMessage())->withInput();
         }
@@ -64,7 +66,8 @@ class AppointmentController extends Controller
 
             $this->editServices->updateWithAuth($appointmentId, $data);
 
-            return redirect()->route('client.schedule')->with('success', 'Appointment updated successfully.');
+            ToastMagic::success('Appointment updated successfully!');
+            return redirect()->back();
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -78,7 +81,8 @@ class AppointmentController extends Controller
 
             $this->deleteServices->deleteWithAuth($appointmentId, $data);
 
-            return redirect()->route('client.schedule')->with('success', 'Appointment cancelled successfully.');
+            ToastMagic::success('Appointment cancelled successfully!');
+            return redirect()->back();
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
