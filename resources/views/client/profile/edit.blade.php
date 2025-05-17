@@ -29,12 +29,6 @@
                 <div class="w-full space-y-1">
                     <flux:text class="font-medium text-sm text-gray-700 dark:text-gray-300">Profile Photo</flux:text>
                     <flux:text class="text-xs text-gray-500 dark:text-gray-400">Upload a new photo or keep your current one</flux:text>
-                    <div class="mt-2">
-                        <label for="profile_picture_btn" class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors cursor-pointer">
-                            <flux:icon.upload class="w-4 h-4 mr-2" />
-                            Upload
-                        </label>
-                    </div>
                 </div>
             </div>
 

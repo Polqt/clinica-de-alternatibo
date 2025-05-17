@@ -15,12 +15,11 @@
         <flux:brand href="/user/dashboard" logo="https://fluxui.dev/img/demo/logo.png" name="Medicare Inc." class="px-2 dark:hidden" />
         <flux:brand href="/user/dashboard" logo="https://fluxui.dev/img/demo/dark-mode-logo.png" name="Medicare Inc." class="px-2 hidden dark:flex" />
 
-        <flux:navlist variant="outline" class="space-y-40">
+        <flux:navlist variant="outline" class="space-y-16">
             <flux:navlist.item icon="layout-dashboard" href="/dashboard">Dashboard</flux:navlist.item>
             <flux:navlist.item icon="calendar-clock" href="/appointments">Appointments</flux:navlist.item>
             <flux:navlist.item icon="stethoscope" href="/doctors">Doctors</flux:navlist.item>
             <flux:navlist.item icon="users" href="/patients">Patients</flux:navlist.item>
-            <flux:navlist.item icon="clock" href="/history">History</flux:navlist.item>
         </flux:navlist>
         <flux:spacer />
         <flux:navlist variant="outline">

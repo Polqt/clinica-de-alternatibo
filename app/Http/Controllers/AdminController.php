@@ -160,9 +160,4 @@ class AdminController extends Controller
         $user = User::with('profile')->find(Auth::id());
         return view('admin.profile.index');
     }
-
-    public function history()
-    {
-        return view('admin.history');
-    }
 }
