@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -343,8 +344,12 @@ class UserController extends Controller
         ]);
     }
 
-    public function doctors()
+    public function doctors(Request $request)
     {
+        if ($request->has('page') && $request->input('page') == 1) {
+            return redirect()->route('client.doctors');
+        }
+
         $doctors = Doctor::with(['specialization', 'appointments' => function ($query) {
             $query->where('status', [
                 AppointmentStatus::Scheduled->value,

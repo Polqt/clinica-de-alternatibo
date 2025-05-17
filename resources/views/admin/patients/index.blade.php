@@ -96,21 +96,6 @@
     </div>
 
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden">
-        <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
-            <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Patient Directory</h2>
-            <div class="flex items-center space-x-2">
-                <flux:button variant="ghost" size="sm" icon="squares-2x2" class="text-slate-700 dark:text-slate-300">
-                    Grid
-                </flux:button>
-                <flux:button variant="ghost" size="sm" icon="bars-3" class="text-slate-700 dark:text-slate-300">
-                    List
-                </flux:button>
-                <flux:button variant="ghost" size="sm" icon="arrow-down-tray" class="text-slate-700 dark:text-slate-300">
-                    Export
-                </flux:button>
-            </div>
-        </div>
-
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-left">
                 <thead class="text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-700/50">
@@ -120,7 +105,6 @@
                         <th class="px-6 py-3 font-medium">Doctor</th>
                         <th class="px-6 py-3 font-medium">Specialization</th>
                         <th class="px-6 py-3 font-medium">Status</th>
-                        <th class="px-6 py-3 font-medium text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -179,15 +163,6 @@
                                 {{ ucfirst($status) }}
                             </span>
                             @endif
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <flux:dropdown position="bottom" align="end">
-                                <flux:button variant="ghost" size="sm" icon="ellipsis-vertical" class="text-slate-700 dark:text-slate-300"></flux:button>
-                                <flux:menu>
-                                    <flux:menu.item icon="eye">View Profile</flux:menu.item>
-                                    <flux:menu.item icon="document-text">Medical Records</flux:menu.item>
-                                </flux:menu>
-                            </flux:dropdown>
                         </td>
                     </tr>
                     @endforeach

@@ -41,7 +41,7 @@ class AdminController extends Controller
         if ($request->has('page') && $request->input('page') == 1) {
             return redirect()->route('admin.doctors');
         }
-        
+
         $totalDoctors = Doctor::count();
         $doctors = Doctor::with('specialization')->paginate(10);
         $specializations = Specialization::orderBy('name')->get();
@@ -105,7 +105,7 @@ class AdminController extends Controller
     public function appointments(Request $request)
     {
         $status = $request->query('status');
-        
+
         $query = Appointment::with(['patient.user.profile', 'doctor.specialization']);
 
         if ($status) {
@@ -159,5 +159,10 @@ class AdminController extends Controller
 
         $user = User::with('profile')->find(Auth::id());
         return view('admin.profile.index');
+    }
+
+    public function history()
+    {
+        return view('admin.history');
     }
 }

@@ -175,4 +175,9 @@ Route::middleware(['auth', 'user.access:admin', 'nocache'])->prefix('/')->group(
         AdminController::class,
         'profile',
     ])->name('admin.profile.index');
+
+    Route::get('/history', [
+        AdminController::class,
+        'history',
+    ])->name('admin.history');
 });

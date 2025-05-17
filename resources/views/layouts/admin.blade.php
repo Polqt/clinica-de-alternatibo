@@ -20,6 +20,7 @@
             <flux:navlist.item icon="calendar-clock" href="/appointments">Appointments</flux:navlist.item>
             <flux:navlist.item icon="stethoscope" href="/doctors">Doctors</flux:navlist.item>
             <flux:navlist.item icon="users" href="/patients">Patients</flux:navlist.item>
+            <flux:navlist.item icon="clock" href="/history">History</flux:navlist.item>
         </flux:navlist>
         <flux:spacer />
         <flux:navlist variant="outline">
