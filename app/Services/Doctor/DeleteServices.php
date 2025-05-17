@@ -28,8 +28,6 @@ class DeleteServices
     }
 
     /**
-     * Find a doctor by ID
-     * 
      * @param int $id
      * @return Doctor
      * @throws ModelNotFoundException
@@ -40,8 +38,6 @@ class DeleteServices
     }
 
     /**
-     * Check if a doctor can be deleted
-     * 
      * @param Doctor $doctor
      * @return void
      * @throws \Exception
@@ -57,8 +53,6 @@ class DeleteServices
     }
 
     /**
-     * Delete a doctor
-     * 
      * @param Doctor $doctor
      * @return bool
      * @throws \Exception
@@ -67,7 +61,6 @@ class DeleteServices
     {
         DB::beginTransaction();
         try {
-            // Perform any pre-deletion tasks like logging, archiving, etc.
 
             $result = $doctor->delete();
 

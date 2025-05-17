@@ -17,7 +17,6 @@
             </div>
             @endif
 
-            <!-- Time slot availability warning -->
             <div id="create-availability-warning" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded hidden">
                 <div class="font-bold">Time Slot Not Available</div>
                 <p class="mt-1 text-sm" id="create-availability-message">This time slot is already booked.</p>

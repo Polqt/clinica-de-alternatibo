@@ -22,6 +22,4 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
 
     Route::get('/profile', [UserController::class, 'profile'])->name('client.profile');
 
-    Route::get('/schedule/available-slots', [AppointmentController::class, 'getAvailableTimeSlots'])->name('client.schedule.available-slots');
-    Route::get('/schedule/check-availability', [AppointmentController::class, 'checkTimeSlotAvailability'])->name('client.schedule.check-availability');
 });

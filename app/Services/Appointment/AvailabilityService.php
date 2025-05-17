@@ -5,16 +5,10 @@ namespace App\Services\Appointment;
 use App\Enums\AppointmentStatus;
 use App\Models\Appointment;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Patient;
-use Illuminate\Support\Str;
 
 class AvailabilityService
 {
     /**
-     * Get all possible time slots for appointments
-     * 
      * @return array
      */
     public function getAllTimeSlots(): array
@@ -32,19 +26,15 @@ class AvailabilityService
     }
 
     /**
-     * Get available time slots for a doctor on a specific date
-     * 
-     * @param int $doctorId
-     * @param string $date Date in Y-m-d format
-     * @param int|null $excludeAppointmentId Appointment ID to exclude (for editing)
+     * @param int 
+     * @param string 
+     * @param int|null 
      * @return array
      */
     public function getAvailableTimeSlots(int $doctorId, string $date, ?int $excludeAppointmentId = null): array
     {
-        // All possible time slots
         $allTimeSlots = $this->getAllTimeSlots();
 
-        // Find already booked slots for this doctor on this date
         $bookedSlots = Appointment::where('doctor_id', $doctorId)
             ->whereDate('appointment_date', $date)
             ->whereNotIn('status', [
@@ -52,12 +42,10 @@ class AvailabilityService
                 AppointmentStatus::CancelledByPatient->value,
             ]);
 
-        // If we're editing an appointment, exclude it from the booked slots
         if ($excludeAppointmentId) {
             $bookedSlots->where('id', '!=', $excludeAppointmentId);
         }
 
-        // Get just the time portions of booked appointments
         $bookedTimes = $bookedSlots->get()
             ->pluck('appointment_date')
             ->map(function ($datetime) {
@@ -65,18 +53,15 @@ class AvailabilityService
             })
             ->toArray();
 
-        // Remove booked slots from all slots
         $availableSlots = array_diff_key($allTimeSlots, array_flip($bookedTimes));
 
         return $availableSlots;
     }
 
     /**
-     * Validate if a specific time slot is available
-     * 
-     * @param int $doctorId
-     * @param string $appointmentDateTime Full datetime string (Y-m-d H:i:s)
-     * @param int|null $excludeAppointmentId Appointment ID to exclude (for editing)
+     * @param int 
+     * @param string 
+     * @param int|null 
      * @return bool
      */
     public function isTimeSlotAvailable(
@@ -86,7 +71,6 @@ class AvailabilityService
     ): bool {
         $date = Carbon::parse($appointmentDateTime);
 
-        // Check if time is within office hours (9AM-5PM)
         $hour = (int) $date->format('H');
         if ($hour < 9 || $hour >= 17) {
             return false;
@@ -107,11 +91,9 @@ class AvailabilityService
     }
 
     /**
-     * Validate appointment time slot before saving/updating
-     * 
-     * @param array $data Request data
-     * @param int|null $appointmentId Appointment ID (for editing)
-     * @return array [isValid, errorMessage]
+     * @param array
+     * @param int|null 
+     * @return array 
      */
     public function validateAppointmentTimeSlot(array $data, ?int $appointmentId = null): array
     {
@@ -119,20 +101,16 @@ class AvailabilityService
         $appointmentDate = $data['appointment_date'] ?? null;
         $appointmentTime = $data['appointment_time'] ?? null;
 
-        // Check if all required fields are present
         if (!$doctorId || !$appointmentDate || !$appointmentTime) {
             return [false, 'Doctor, date and time are required'];
         }
 
-        // Create a Carbon instance from date and time
         $appointmentDateTime = Carbon::parse($appointmentDate . ' ' . $appointmentTime);
 
-        // Check if date is in the past
         if ($appointmentDateTime->isPast()) {
             return [false, 'Cannot book appointments in the past'];
         }
 
-        // Check if slot is available
         if (!$this->isTimeSlotAvailable((int)$doctorId, $appointmentDateTime->format('Y-m-d H:i:s'), $appointmentId)) {
             return [false, 'This time slot is not available. Please select another time.'];
         }
