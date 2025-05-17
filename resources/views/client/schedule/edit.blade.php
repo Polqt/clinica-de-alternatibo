@@ -17,9 +17,16 @@
                 </ul>
             </div>
             @endif
+
+            <!-- Time slot availability warning -->
+            <div id="edit-availability-warning" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded hidden">
+                <div class="font-bold">Time Slot Not Available</div>
+                <p class="mt-1 text-sm" id="edit-availability-message">This time slot is already booked.</p>
+            </div>
+
             <div>
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 mb-6">
-                    <flux:select name="doctor_id" label="Select Doctor" required>
+                    <flux:select name="doctor_id" id="edit-doctor-select" label="Select Doctor" required>
                         <option value="" disabled>Select a doctor</option>
                         @foreach ($doctors as $doctor)
                         <option value="{{ $doctor->id }}" {{ isset($selectedAppointment) && $selectedAppointment->doctor_id == $doctor->id ? 'selected' : '' }}>
@@ -35,6 +42,7 @@
                         <flux:input
                             type="date"
                             name="appointment_date"
+                            id="edit-appointment-date"
                             label="Appointment Date"
                             min="{{ now()->format('Y-m-d') }}"
                             value="{{ isset($selectedAppointment) ? \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('Y-m-d') : old('appointment_date') }}"
@@ -42,7 +50,7 @@
                     </div>
 
                     <div>
-                        <flux:select name="appointment_time" label="Available Time Slots" required>
+                        <flux:select name="appointment_time" id="edit-appointment-time" label="Available Time Slots" required>
                             <option value="" disabled>Select time</option>
                             <option value="09:00:00" {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('H:i:s') == '09:00:00' ? 'selected' : '' }}>9:00 AM</option>
                             <option value="10:00:00" {{ isset($selectedAppointment) && \Carbon\Carbon::parse($selectedAppointment->appointment_date)->format('H:i:s') == '10:00:00' ? 'selected' : '' }}>10:00 AM</option>
@@ -99,7 +107,7 @@
                 <flux:button type="button" variant="outline" class="border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800" data-flux-dismiss="modal">
                     Cancel
                 </flux:button>
-                <flux:button icon="save" type="submit" variant="primary" class="bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-600 text-white">
+                <flux:button icon="save" type="submit" id="edit-submit-button" variant="primary" class="bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-600 text-white">
                     Save Changes
                 </flux:button>
             </div>

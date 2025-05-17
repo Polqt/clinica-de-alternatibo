@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\UserController;
 
-// Apply middleware directly
 Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocache'])->prefix('user')->group(function () {
 
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('client.dashboard');
@@ -22,4 +21,7 @@ Route::middleware(['auth', 'user.access:user', 'EnsureProfileIsComplete', 'nocac
     })->name('client.help');
 
     Route::get('/profile', [UserController::class, 'profile'])->name('client.profile');
+
+    Route::get('/schedule/available-slots', [AppointmentController::class, 'getAvailableTimeSlots'])->name('client.schedule.available-slots');
+    Route::get('/schedule/check-availability', [AppointmentController::class, 'checkTimeSlotAvailability'])->name('client.schedule.check-availability');
 });

@@ -1,5 +1,5 @@
-`<flux:modal name="create_appointment" class="md:max-w-2xl">
-    <form method="POST" action="{{ route('client.schedule.store') }}">
+<flux:modal name="create_appointment" class="md:max-w-2xl">
+    <form method="POST" action="{{ route('client.schedule.store') }}" id="createAppointmentForm">
         @csrf
         <div class="space-y-6">
             <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
@@ -16,9 +16,16 @@
                 </ul>
             </div>
             @endif
+
+            <!-- Time slot availability warning -->
+            <div id="create-availability-warning" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded hidden">
+                <div class="font-bold">Time Slot Not Available</div>
+                <p class="mt-1 text-sm" id="create-availability-message">This time slot is already booked.</p>
+            </div>
+
             <div>
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 mb-6">
-                    <flux:select name="doctor_id" label="Select Doctor" required>
+                    <flux:select name="doctor_id" label="Select Doctor" required id="create-doctor-select">
                         <option value="" disabled selected>Select a doctor</option>
                         @foreach ($doctors as $doctor)
                         <option value="{{ $doctor->id }}">
@@ -34,13 +41,14 @@
                         <flux:input
                             type="date"
                             name="appointment_date"
+                            id="create-appointment-date"
                             label="Appointment Date"
                             min="{{ now()->format('Y-m-d') }}"
                             required />
                     </div>
 
                     <div>
-                        <flux:select name="appointment_time" label="Available Time Slots" required>
+                        <flux:select name="appointment_time" id="create-appointment-time" label="Available Time Slots" required>
                             <option value="" disabled selected>Select time</option>
                             <option value="09:00:00">9:00 AM</option>
                             <option value="10:00:00">10:00 AM</option>
@@ -79,7 +87,7 @@
             </div>
 
             <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between gap-3">
-                <flux:button icon="calendar-plus" type="submit" variant="primary" class="bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-700 dark:hover:bg-cyan-600 text-white">
+                <flux:button icon="calendar-plus" type="submit" variant="primary" id="create-submit-button" class="bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-700 dark:hover:bg-cyan-600 text-white">
                     Schedule Appointment
                 </flux:button>
             </div>

@@ -10,11 +10,6 @@
             <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Appointment Management</h1>
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">View and manage all clinic appointments</p>
         </div>
-        <div class="mt-4 md:mt-0 space-x-2">
-            <flux:button icon="plus" x-data @click="$dispatch('open-modal', 'schedule-appointment')">
-                New Appointment
-            </flux:button>
-        </div>
     </div>
 
     <div class="mb-6">
