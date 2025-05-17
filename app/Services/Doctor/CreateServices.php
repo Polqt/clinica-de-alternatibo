@@ -13,7 +13,7 @@ class CreateServices
     /**
      * @param Request $request
      * @return Doctor
-     * @return ValidationException
+     * @throws ValidationException
      */
 
     public function execute(Request $request)
