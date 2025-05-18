@@ -73,9 +73,6 @@
             </div>
             <div class="flex flex-wrap items-center gap-3">
                 <flux:dropdown position="bottom" align="end">
-                    <flux:button variant="outline" icon="funnel">
-                        Filter
-                    </flux:button>
                     <flux:menu>
                         <flux:menu.item>All Doctors</flux:menu.item>
                         <flux:menu.item>Active Doctors</flux:menu.item>
@@ -113,7 +110,6 @@
                         <th class="px-4 py-3 font-medium">Last Name</th>
                         <th class="px-4 py-3 font-medium">License Number</th>
                         <th class="px-4 py-3 font-medium">Specialization</th>
-                        <th class="px-4 py-3 font-medium">Added On</th>
                         <th class="px-4 py-3 font-medium text-right">Actions</th>
                     </tr>
                 </thead>
@@ -126,7 +122,6 @@
                         <td class="px-4 py-3 text-slate-700 dark:text-slate-300">
                             {{ $doctor->specialization ? $doctor->specialization->name : 'Not assigned' }}
                         </td>
-                        <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $doctor->created_at->format('M d, Y') }}</td>
                         <td class="px-4 py-3 text-right">
                             <div class="flex items-center justify-end space-x-12">
                                 <flux:modal.trigger name="edit_doctor_{{ $doctor->id }}">

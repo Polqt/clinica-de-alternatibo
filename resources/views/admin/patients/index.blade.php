@@ -4,20 +4,16 @@
 
 @extends('layouts.admin')
 @section('content')
+
 <div class="container mx-auto px-6 py-8">
-    <!-- Header Section -->
     <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
         <div>
             <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Patients Management</h1>
             <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Monitor and manage registered patients</p>
         </div>
-        <div class="mt-4 md:mt-0">
-            <flux:button icon="plus" class="bg-cyan-600 hover:bg-cyan-700">
-                Add New Patient
-            </flux:button>
-        </div>
     </div>
 
+    {{-- Statistics Cards --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-5 border border-slate-200 dark:border-slate-700 transition-all hover:shadow-md">
             <div class="flex items-center">
@@ -31,7 +27,6 @@
             </div>
         </div>
 
-        <!-- New Patients Card -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-5 border border-slate-200 dark:border-slate-700 transition-all hover:shadow-md">
             <div class="flex items-center">
                 <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mr-4">
@@ -70,31 +65,51 @@
         </div>
     </div>
 
+    {{-- Filters and Search --}}
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5 mb-6">
-        <div class="flex flex-col sm:flex-row gap-4">
+        <form id="patientFilterForm" action="{{ route('admin.patients') }}" method="GET" class="flex flex-col sm:flex-row gap-4">
             <div class="flex-1">
                 <flux:input
+                    name="search"
+                    id="searchInput" {{-- Added ID for easier selection --}}
                     icon="magnifying-glass"
-                    placeholder="Search patients by name, email, or ID..."
+                    placeholder="Search patients by name or ID..."
+                    value="{{ request('search', '') }}" {{-- Use request helper for query params --}}
                     class="w-full" />
             </div>
-            <div class="flex flex-wrap gap-3">
-                <flux:dropdown position="bottom" align="start">
-                    <flux:button variant="outline" icon="funnel" class="text-slate-700 dark:text-slate-300">
-                        Status
-                    </flux:button>
-                    <flux:menu>
-                        <flux:menu.item>All Patients</flux:menu.item>
-                        <flux:menu.separator />
-                        <flux:menu.item>Active</flux:menu.item>
-                        <flux:menu.item>Inactive</flux:menu.item>
-                        <flux:menu.item>New Patients</flux:menu.item>
-                    </flux:menu>
-                </flux:dropdown>
+            <div class="flex flex-wrap gap-3 items-center"> {{-- Added items-center for button alignment --}}
+                <div>
+                    <select name="blood_type" id="bloodTypeSelect" class="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-sm focus:ring-cyan-500 focus:border-cyan-500">
+                        <option value="">All Blood Types</option>
+                        @foreach($bloodTypes as $type)
+                        <option value="{{ $type }}" {{ request('blood_type') == $type ? 'selected' : '' }}>{{ $type }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <select name="gender" id="genderSelect" class="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-sm focus:ring-cyan-500 focus:border-cyan-500">
+                        <option value="">All Genders</option>
+                        @foreach($genders as $g)
+                        <option value="{{ $g }}" {{ request('gender') == $g ? 'selected' : '' }}>{{ ucfirst($g) }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    {{-- The "Filter" button is effectively replaced by auto-submit, but can be kept for explicit action or users without JS --}}
+                    <button type="submit" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-md text-sm">
+                        Filter
+                    </button>
+                    @if(request('search') || request('blood_type') || request('gender'))
+                    <a href="{{ route('admin.patients') }}" id="clearFiltersButton" class="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-md text-sm ml-2">
+                        Clear
+                    </a>
+                    @endif
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 
+    {{-- Patients Table --}}
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-left">
@@ -102,13 +117,14 @@
                     <tr>
                         <th class="px-6 py-3 font-medium">Patient</th>
                         <th class="px-6 py-3 font-medium">Patient ID</th>
-                        <th class="px-6 py-3 font-medium">Doctor</th>
-                        <th class="px-6 py-3 font-medium">Specialization</th>
-                        <th class="px-6 py-3 font-medium">Status</th>
+                        <th class="px-6 py-3 font-medium">Contact Info</th>
+                        <th class="px-6 py-3 font-medium">Date of Birth</th>
+                        <th class="px-6 py-3 font-medium">Gender</th>
+                        <th class="px-6 py-3 font-medium">Blood Type</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
-                    @foreach ($patients as $patient)
+                    @forelse ($patients as $patient)
                     <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
                         <td class="px-6 py-4">
                             <div class="flex items-center">
@@ -132,48 +148,110 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="font-medium text-slate-700 dark:text-slate-300">
-                                @if ($patient->latestAppointment && $patient->latestAppointment->doctor)
-                                {{ $patient->latestAppointment->doctor->first_name }} {{ $patient->latestAppointment->doctor->last_name }}
+                                @if ($patient->user->profile && $patient->user->profile->phone_number)
+                                {{ $patient->user->profile->phone_number }}
+                                @else
+                                <span class="text-slate-400 dark:text-slate-500">No phone number</span>
+                                @endif
+                            </div>
+                            <div class="text-sm text-slate-500 dark:text-slate-400">
+                                @if ($patient->user->profile && $patient->user->profile->address)
+                                {{ $patient->user->profile->city ?? '' }}
                                 @endif
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="font-medium text-slate-700 dark:text-slate-300">
-                                @if ($patient->latestAppointment && $patient->latestAppointment->doctor && $patient->latestAppointment->doctor->specialization)
-                                {{ $patient->latestAppointment->doctor->specialization->name }}
+                                @if ($patient->user->profile && $patient->user->profile->date_of_birth)
+                                {{ $patient->user->profile->date_of_birth->format('M d, Y') }}
+                                @else
+                                <span class="text-slate-400 dark:text-slate-500">Not provided</span>
                                 @endif
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            @if ($patient->latestAppointment)
-                            @php
-                            $status = $patient->latestAppointment->status;
-                            $statusClass = 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300';
-                            if ($status === 'pending') {
-                            $statusClass = 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400';
-                            } elseif ($status === 'confirmed') {
-                            $statusClass = 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400';
-                            } elseif ($status === 'completed') {
-                            $statusClass = 'bg-sky-100 text-sky-800 dark:bg-sky-900/30 dark:text-sky-400';
-                            } elseif ($status === 'cancelled') {
-                            $statusClass = 'bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400';
-                            }
-                            @endphp
-                            <span class="px-2.5 py-1 text-xs font-medium rounded-full {{ $statusClass }}">
-                                {{ ucfirst($status) }}
-                            </span>
-                            @endif
+                            <div class="font-medium text-slate-700 dark:text-slate-300">
+                                @if ($patient->user->profile && $patient->user->profile->gender)
+                                @php
+                                $gender = $patient->user->profile->gender;
+                                $bgClass = ''; $textClass = ''; $darkBgClass = ''; $darkTextClass = '';
+                                if ($gender == 'male') {
+                                $bgClass = 'bg-blue-100'; $textClass = 'text-blue-800';
+                                $darkBgClass = 'dark:bg-blue-900/30'; $darkTextClass = 'dark:text-blue-400';
+                                } elseif ($gender == 'female') {
+                                $bgClass = 'bg-pink-100'; $textClass = 'text-pink-800';
+                                $darkBgClass = 'dark:bg-pink-900/30'; $darkTextClass = 'dark:text-pink-400';
+                                } else {
+                                $bgClass = 'bg-purple-100'; $textClass = 'text-purple-800';
+                                $darkBgClass = 'dark:bg-purple-900/30'; $darkTextClass = 'dark:text-purple-400';
+                                }
+                                @endphp
+                                <span class="px-2.5 py-1 text-xs font-medium rounded-full {{ $bgClass }} {{ $textClass }} {{ $darkBgClass }} {{ $darkTextClass }}">
+                                    {{ ucfirst($gender) }}
+                                </span>
+                                @else
+                                <span class="text-slate-400 dark:text-slate-500">Not specified</span>
+                                @endif
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="font-medium">
+                                @if ($patient->user->profile && $patient->user->profile->blood_type)
+                                @php
+                                $bloodTypeValue = $patient->user->profile->blood_type->value ?? $patient->user->profile->blood_type ?? '';
+                                $bgClass = ''; $textClass = ''; $darkBgClass = ''; $darkTextClass = '';
+                                if (str_contains($bloodTypeValue, 'A') && !str_contains($bloodTypeValue, 'AB')) {
+                                $bgClass = 'bg-red-100'; $textClass = 'text-red-800';
+                                $darkBgClass = 'dark:bg-red-900/30'; $darkTextClass = 'dark:text-red-400';
+                                } elseif (str_contains($bloodTypeValue, 'B') && !str_contains($bloodTypeValue, 'AB')) {
+                                $bgClass = 'bg-green-100'; $textClass = 'text-green-800';
+                                $darkBgClass = 'dark:bg-green-900/30'; $darkTextClass = 'dark:text-green-400';
+                                } elseif (str_contains($bloodTypeValue, 'AB')) {
+                                $bgClass = 'bg-purple-100'; $textClass = 'text-purple-800';
+                                $darkBgClass = 'dark:bg-purple-900/30'; $darkTextClass = 'dark:text-purple-400';
+                                } elseif (str_contains($bloodTypeValue, 'O')) {
+                                $bgClass = 'bg-amber-100'; $textClass = 'text-amber-800';
+                                $darkBgClass = 'dark:bg-amber-900/30'; $darkTextClass = 'dark:text-amber-400';
+                                }
+                                @endphp
+                                <span class="px-2.5 py-1 text-xs font-medium rounded-full {{ $bgClass }} {{ $textClass }} {{ $darkBgClass }} {{ $darkTextClass }}">
+                                    {{ $bloodTypeValue }}
+                                </span>
+                                @else
+                                <span class="text-slate-400 dark:text-slate-500">Not recorded</span>
+                                @endif
+                            </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="6" class="px-6 py-8 text-center text-slate-500 dark:text-slate-400">
+                            <div class="flex flex-col items-center justify-center">
+                                <flux:icon.face-frown class="w-12 h-12 text-slate-300 dark:text-slate-600 mb-2" />
+                                <p class="text-lg font-medium">No patients found</p>
+                                @if(request('search') || request('blood_type') || request('gender'))
+                                <p class="text-sm mt-1">Try adjusting your search terms or filters</p>
+                                @else
+                                <p class="text-sm mt-1">No patients have been added to the system yet</p>
+                                @endif
+                            </div>
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
+        @if ($patients->hasPages())
         <div class="p-4 border-t border-slate-200 dark:border-slate-700">
-            <x-pagination :paginator="$patients" />
+            {{-- Ensure your pagination component correctly appends query strings --}}
+            {{ $patients->appends(request()->query())->links() }}
+            {{-- If using a custom component <x-pagination :paginator="$patients" /> --}}
+            {{-- ensure it internally handles appends(request()->query()) --}}
         </div>
+        @endif
     </div>
 
+    {{-- Other sections (Charts, Recently Added) --}}
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5">
             <div class="flex items-center justify-between mb-5">
@@ -232,12 +310,12 @@
             </flux:button>
         </div>
         <div class="p-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            @foreach ($patients as $patient)
+            @foreach ($patients->take(4) as $patient)
             <div class="bg-slate-50 dark:bg-slate-700/30 rounded-lg p-4 hover:shadow-md transition-all">
                 <div class="flex items-center space-x-3">
                     <div class="flex-shrink-0 w-12 h-12">
                         <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden">
-                            @if($patient->user->profile->profile_picture)
+                            @if($patient->user->profile && $patient->user->profile->profile_picture)
                             <img src="{{ Storage::url($patient->user->profile->profile_picture) }}" alt="Profile" class="w-full h-full object-cover">
                             @else
                             <flux:icon.user class="w-6 h-6 text-slate-600 dark:text-slate-400" />
@@ -258,5 +336,90 @@
             @endforeach
         </div>
     </div>
+
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterForm = document.getElementById('patientFilterForm');
+        const searchInput = document.getElementById('searchInput');
+        const bloodTypeSelect = document.getElementById('bloodTypeSelect');
+        const genderSelect = document.getElementById('genderSelect');
+        const filterSubmitButton = document.getElementById('filterSubmitButton');
+
+        let typingTimer;
+        const doneTypingInterval = 300;
+
+        function buildUrlAndNavigate() {
+            clearTimeout(typingTimer);
+
+            const searchValue = searchInput.value.trim();
+            const bloodTypeValue = bloodTypeSelect.value;
+            const genderValue = genderSelect.value;
+
+            const params = new URLSearchParams();
+
+            if (searchValue) {
+                params.append('search', searchValue);
+            }
+            if (bloodTypeValue) {
+                params.append('blood_type', bloodTypeValue);
+            }
+            if (genderValue) { 
+                params.append('gender', genderValue);
+            }
+
+            let queryString = params.toString();
+            let newUrl = filterForm.action; 
+
+            if (queryString) {
+                newUrl += '?' + queryString;
+            }
+
+            const currentComparableSearch = new URLSearchParams(window.location.search);
+            const currentCleanParams = new URLSearchParams();
+            if (currentComparableSearch.get('search')) currentCleanParams.append('search', currentComparableSearch.get('search'));
+            if (currentComparableSearch.get('blood_type')) currentCleanParams.append('blood_type', currentComparableSearch.get('blood_type'));
+            if (currentComparableSearch.get('gender')) currentCleanParams.append('gender', currentComparableSearch.get('gender'));
+
+            params.sort();
+            currentCleanParams.sort();
+
+            const currentCleanQueryString = currentCleanParams.toString();
+            let currentUrlToCompare = filterForm.action;
+            if (currentCleanQueryString) {
+                currentUrlToCompare += '?' + currentCleanQueryString;
+            }
+
+
+            if (newUrl !== currentUrlToCompare) {
+                window.location.href = newUrl;
+            }
+        }
+
+        searchInput.addEventListener('input', function() {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(buildUrlAndNavigate, doneTypingInterval);
+        });
+
+        searchInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); 
+                clearTimeout(typingTimer); 
+                buildUrlAndNavigate(); 
+            }
+        });
+
+        bloodTypeSelect.addEventListener('change', buildUrlAndNavigate);
+        genderSelect.addEventListener('change', buildUrlAndNavigate);
+
+        if (filterSubmitButton) {
+            filterSubmitButton.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                buildUrlAndNavigate(); 
+            });
+        }
+    });
+</script>
+
 @endsection

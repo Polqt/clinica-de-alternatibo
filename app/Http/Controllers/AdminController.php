@@ -11,6 +11,7 @@ use App\Models\Specialization;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -49,21 +50,49 @@ class AdminController extends Controller
         return view('admin.doctors.index', compact('doctors', 'totalDoctors', 'specializations'));
     }
 
-    public function patients()
+    public function patients(Request $request)
     {
-        $patients =  Patient::with([
+        if ($request->has('page') && $request->input('page') == 1) {
+            return redirect()->route('admin.patients.index');
+        }
+
+        $search = $request->input('search');
+        $bloodType = $request->input('blood_type');
+        $gender = $request->input('gender');
+
+        $query = Patient::with([
             'user' => function ($query) {
                 $query->with('profile');
             },
-            'doctor' => function ($query) {
-                $query->with(['doctor' => function ($q) {
-                    $q->with('specialization');
-                }])->latest('appointment_date')->limit(1);
-            },
             'appointments' => function ($query) {
-                $query->with('doctor')->latest('appointment_date');
+                $query->latest('appointment_date');
             }
-        ])->paginate(10);
+        ]);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('patient_identifier', 'like', "%{$search}%");
+                $q->orWhereHas('user', function ($userQuery) use ($search) {
+                    $userQuery->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%")
+                        ->orWhere(DB::raw("CONCAT(first_name, ' ', last_name)"), 'like', "%{$search}%");
+                });
+            });
+        }
+
+        if ($bloodType) {
+            $query->whereHas('user.profile', function ($q) use ($bloodType) {
+                $q->where('blood_type', $bloodType);
+            });
+        }
+
+        if ($gender) {
+            $query->whereHas('user.profile', function ($q) use ($gender) {
+                $q->where('gender', $gender);
+            });
+        }
+
+        $patients = $query->paginate(10)->withQueryString();
 
         $patients->getCollection()->transform(function ($patient) {
             $patient->latestAppointment = $patient->appointments->first();
@@ -74,7 +103,6 @@ class AdminController extends Controller
 
         $startOfMonth = Carbon::now()->startOfMonth();
         $newPatients = Patient::where('created_at', '>=', $startOfMonth)->count();
-
 
         $today = Carbon::today();
         $appointmentsToday = Appointment::whereDate('appointment_date', $today)->count();
@@ -91,6 +119,9 @@ class AdminController extends Controller
             $query->where('status', 'active');
         })->count();
 
+        $bloodTypes = \App\Enums\BloodType::values();
+
+        $genders = ['male', 'female', 'other'];
 
         return view('admin.patients.index', [
             'patients' => $patients,
@@ -99,6 +130,11 @@ class AdminController extends Controller
             'newPatientsGrowth' => $newPatientsGrowth,
             'appointmentsToday' => $appointmentsToday,
             'activeCases' => $activeCases,
+            'search' => $search,
+            'bloodTypes' => $bloodTypes,
+            'genders' => $genders,
+            'selectedBloodType' => $bloodType,
+            'selectedGender' => $gender,
         ]);
     }
 
@@ -156,7 +192,6 @@ class AdminController extends Controller
 
     public function profile()
     {
-
         $user = User::with('profile')->find(Auth::id());
         return view('admin.profile.index');
     }
