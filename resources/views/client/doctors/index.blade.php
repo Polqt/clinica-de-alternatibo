@@ -74,7 +74,7 @@
                     Clear Filters
                 </a>
                 @endif
-            </div>
+         </div>
         </form>
     </div>
 
@@ -136,19 +136,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const searchInput = document.querySelector('input[name="search"]');
-        let timeout = null;
-
-        searchInput.addEventListener("input", function() {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                searchInput.form.submit();
-            }, 200);
-        });
-    });
-</script>
 
 @endsection

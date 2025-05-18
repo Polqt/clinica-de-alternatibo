@@ -351,7 +351,6 @@ class UserController extends Controller
         }
 
         $search = $request->input('search');
-
         $specializationId = $request->input('specialization');
 
         $query = Doctor::with(['specialization', 'appointments' => function ($query) {
@@ -379,15 +378,62 @@ class UserController extends Controller
         }
 
         $doctors = $query->paginate(9);
-
         $doctors->appends($request->except('page'));
+
+        $today = Carbon::today();
+        $todayStart = Carbon::today()->startOfDay();
+        $todayEnd = Carbon::today()->endOfDay();
+
+        $workingHoursStart = 9; 
+        $workingHoursEnd = 16;  
+        $appointmentDurationMinutes = 30; 
+
+        foreach ($doctors as $doctor) {
+            $todayAppointments = $doctor->appointments()
+                ->whereDate('appointment_date', $today)
+                ->whereIn('status', [
+                    AppointmentStatus::Scheduled->value,
+                    AppointmentStatus::Confirmed->value,
+                    AppointmentStatus::Rescheduled->value,
+                ])
+                ->get();
+
+            $occupiedTimeSlots = [];
+            foreach ($todayAppointments as $appointment) {
+                $appointmentTime = Carbon::parse($appointment->appointment_date);
+                $timeSlot = $appointmentTime->format('H:i');
+                $occupiedTimeSlots[] = $timeSlot;
+            }
+
+            $availableTimeSlots = [];
+            $currentTime = Carbon::now();
+
+            $startHour = max($workingHoursStart, $currentTime->hour);
+
+            for ($hour = $startHour; $hour < $workingHoursEnd; $hour++) {
+                for ($minute = 0; $minute < 60; $minute += $appointmentDurationMinutes) {
+                    if ($hour == $currentTime->hour && $minute < $currentTime->minute) {
+                        continue;
+                    }
+
+                    $timeSlot = sprintf("%02d:%02d", $hour, $minute);
+
+                    if (!in_array($timeSlot, $occupiedTimeSlots)) {
+                        $availableTimeSlots[] = $timeSlot;
+                    }
+                }
+            }
+
+            $doctor->is_available_today = count($availableTimeSlots) > 0;
+            $doctor->available_slots = $availableTimeSlots;
+            $doctor->available_slots_count = count($availableTimeSlots);
+        }
+
+        $availableTodayCount = $doctors->where('is_available_today', true)->count();
 
         $specializations = Specialization::all();
         $specializationCount = Specialization::count();
         $totalDoctors = Doctor::count();
-
-        $today = Carbon::today();
-        $availableTodayCount = 0; 
 
         return view('client.doctors.index', [
             'specializations' => $specializations,
