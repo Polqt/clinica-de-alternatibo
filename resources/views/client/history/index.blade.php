@@ -10,20 +10,6 @@
             <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Medical History</h1>
             <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Your complete medical records and past visits</p>
         </div>
-        <div class="mt-4 md:mt-0 flex space-x-2">
-            <flux:input icon="magnifying-glass" placeholder="Search records..." size="sm" class="w-48" />
-            <flux:dropdown position="bottom" align="end">
-                <flux:button variant="outline" icon="funnel" size="sm">
-                    Filter
-                </flux:button>
-                <flux:menu>
-                    <flux:menu.item>All Records</flux:menu.item>
-                    <flux:menu.item>Doctor Visits</flux:menu.item>
-                    <flux:menu.item>Lab Results</flux:menu.item>
-                    <flux:menu.item>Treatments</flux:menu.item>
-                </flux:menu>
-            </flux:dropdown>
-        </div>
     </div>
 
 

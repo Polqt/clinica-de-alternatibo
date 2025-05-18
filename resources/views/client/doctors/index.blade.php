@@ -49,31 +49,33 @@
     </div>
 
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5 mb-8">
-        <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+        <form action="{{ route('client.doctors') }}" method="GET" class="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div class="w-full md:w-96">
-                <flux:input type="text" placeholder="Search doctors by name or specialty..." class="w-full" />
+                <flux:input
+                    type="text"
+                    name="search"
+                    placeholder="Search doctors by name or specialty..."
+                    class="w-full"
+                    value="{{ request('search') }}"
+                    autofocus />
             </div>
             <div class="flex flex-wrap items-center gap-3">
-                <flux:dropdown position="bottom" align="end">
-                    <flux:button variant="outline" icon="funnel">
-                        Filter by Specialty
-                    </flux:button>
-                    <flux:menu>
-                        <flux:menu.item>All Specialties</flux:menu.item>
-                        @foreach($specializations as $specialization)
-                        <flux:menu.item>{{ $specialization->name }}</flux:menu.item>
-                        @endforeach
-                    </flux:menu>
-                </flux:dropdown>
-                <flux:dropdown position="bottom" align="end">
-                    <flux:button variant="outline" icon="adjustments-horizontal">Sort</flux:button>
-                    <flux:menu>
-                        <flux:menu.item>Name (A-Z)</flux:menu.item>
-                        <flux:menu.item>Specialty</flux:menu.item>
-                    </flux:menu>
-                </flux:dropdown>
+                <select name="specialization" onchange="this.form.submit()" class="px-4 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md text-sm text-slate-700 dark:text-white">
+                    <option value="">All Specialties</option>
+                    @foreach($specializations as $specialization)
+                    <option value="{{ $specialization->id }}" {{ request('specialization') == $specialization->id ? 'selected' : '' }}>
+                        {{ $specialization->name }}
+                    </option>
+                    @endforeach
+                </select>
+                @if(request('search') || request('specialization'))
+                <a href="{{ route('client.doctors') }}" class="inline-flex items-center px-4 py-2 bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-white rounded-md text-sm font-medium transition-colors">
+                    <flux:icon.x-circle class="w-4 h-4 mr-2" />
+                    Clear Filters
+                </a>
+                @endif
             </div>
-        </div>
+        </form>
     </div>
 
     <div class="mb-8">
@@ -81,50 +83,72 @@
             <h2 class="text-lg font-semibold text-slate-900 dark:text-white flex items-center">
                 <flux:icon.user-circle class="w-5 h-5 text-blue-500 mr-2" />
                 Doctor Directory
+                @if(request('search') || request('specialization'))
+                <span class="ml-2 text-sm font-normal text-slate-500 dark:text-slate-400">
+                    Showing filtered results
+                </span>
+                @endif
             </h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @forelse($doctors as $doctor)
-            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden transition-all hover:shadow-md">
-                <div class="bg-gradient-to-r from-cyan-500/10 to-teal-500/10 dark:from-cyan-900/20 dark:to-teal-900/30 p-6 text-center">
-                    <div class="w-24 h-24 rounded-full mx-auto bg-white dark:bg-slate-700 p-1 mb-3 flex items-center justify-center overflow-hidden">
-                        <flux:icon.user-circle class="w-20 h-20 text-slate-300 dark:text-slate-600" />
-                    </div>
-                    <h3 class="text-xl font-semibold text-slate-900 dark:text-white">
-                        Dr. {{ $doctor->first_name }} {{ $doctor->last_name }}
-                    </h3>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">
-                        {{ $doctor->specialization->name }}
-                    </p>
-                </div>
-                <div class="p-5">
-                    <div class="mb-4">
-                        <div class="flex items-center mb-2">
-                            <flux:icon.identification class="w-5 h-5 text-slate-400 mr-2" />
-                            <p class="text-sm text-slate-600 dark:text-slate-300">License: {{ $doctor->license_number }}</p>
+            @if($doctors->count() > 0)
+            @foreach($doctors as $doctor)
+            <div class="col-span-1">
+                <div class="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden transition-all hover:shadow-md">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-semibold text-slate-900 dark:text-white">
+                                Dr. {{ $doctor->first_name }} {{ $doctor->last_name }}
+                            </h3>
+                            @if($doctor->specialization)
+                            <span class="inline-block px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/70 dark:text-blue-200 rounded">
+                                {{ $doctor->specialization->name }}
+                            </span>
+                            @endif
+                        </div>
+
+                        <div class="flex items-center text-sm text-slate-600 dark:text-slate-300 mb-4">
+                            <flux:icon.academic-cap class="h-4 w-4 mr-1" />
+                            License: {{ $doctor->license_number }}
+                        </div>
+
+                        <div class="mt-4">
+                            <flux:button size="sm" variant="primary" icon="calendar" class="w-full">
+                                Schedule Appointment
+                            </flux:button>
                         </div>
                     </div>
-                    <div class="flex justify-center">
-                        <flux:button icon="calendar" class="w-full">
-                            Book Appointment
-                        </flux:button>
-                    </div>
                 </div>
             </div>
-            @empty
-            <div class="col-span-3 p-8 text-center text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
-
-                <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-2">No doctors found</h3>
-                <p>Please try adjusting your search or filter criteria.</p>
+            @endforeach
+            @else
+            <div class="col-span-3 p-8 text-center">
+                <flux:icon.x class="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+                <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-1">No doctors found</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400">Try adjusting your search or filter criteria</p>
             </div>
-            @endforelse
+            @endif
         </div>
 
         <div class="mt-6">
-            <x-pagination :paginator="$doctors" />
+            {{ $doctors->appends(request()->query())->links() }}
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.querySelector('input[name="search"]');
+        let timeout = null;
+
+        searchInput.addEventListener("input", function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                searchInput.form.submit();
+            }, 200);
+        });
+    });
+</script>
 
 @endsection

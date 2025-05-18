@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const editBtn = document.querySelector('[data-flux-trigger="edit_appointment"]');
     const deleteBtn = document.querySelector('[data-flux-trigger="delete_appointment"]');
     
-    // Initially disable the edit and delete buttons
     if (editBtn) editBtn.classList.add('opacity-50', 'cursor-not-allowed');
     if (deleteBtn) deleteBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
@@ -95,7 +94,9 @@ document.addEventListener('DOMContentLoaded', function () {
         editBtn.addEventListener('click', function(e) {
             if (!selectedAppointmentId) {
                 e.preventDefault();
+                e.stopPropagation();
                 alert('Please select an appointment first');
+                return false;
             }
         });
     }
@@ -104,7 +105,9 @@ document.addEventListener('DOMContentLoaded', function () {
         deleteBtn.addEventListener('click', function(e) {
             if (!selectedAppointmentId) {
                 e.preventDefault();
+                e.stopPropagation();
                 alert('Please select an appointment first');
+                return false;
             }
         });
     }

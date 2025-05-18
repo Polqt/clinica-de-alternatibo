@@ -350,29 +350,51 @@ class UserController extends Controller
             return redirect()->route('client.doctors');
         }
 
-        $doctors = Doctor::with(['specialization', 'appointments' => function ($query) {
-            $query->where('status', [
+        $search = $request->input('search');
+
+        $specializationId = $request->input('specialization');
+
+        $query = Doctor::with(['specialization', 'appointments' => function ($query) {
+            $query->whereIn('status', [
                 AppointmentStatus::Scheduled->value,
                 AppointmentStatus::Confirmed->value,
                 AppointmentStatus::Rescheduled->value,
             ])
                 ->where('appointment_date', '>=', Carbon::now())
                 ->orderBy('appointment_date', 'asc');
-        }])->paginate(10);
+        }]);
 
-        $today = Carbon::today();
-        $availableTodayCount = 0;
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('first_name', 'LIKE', "%{$search}%")
+                    ->orWhere('last_name', 'LIKE', "%{$search}%")
+                    ->orWhereHas('specialization', function ($q) use ($search) {
+                        $q->where('name', 'LIKE', "%{$search}%");
+                    });
+            });
+        }
+
+        if ($specializationId) {
+            $query->where('specialization_id', $specializationId);
+        }
+
+        $doctors = $query->paginate(9);
+
+        $doctors->appends($request->except('page'));
 
         $specializations = Specialization::all();
         $specializationCount = Specialization::count();
-
         $totalDoctors = Doctor::count();
+
+        $today = Carbon::today();
+        $availableTodayCount = 0; 
 
         return view('client.doctors.index', [
             'specializations' => $specializations,
             'specializationCount' => $specializationCount,
             'totalDoctors' => $totalDoctors,
             'doctors' => $doctors,
+            'availableTodayCount' => $availableTodayCount
         ]);
     }
 }
