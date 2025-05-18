@@ -64,6 +64,10 @@ class AppointmentController extends Controller
                 return back()->withErrors($errorMessage)->withInput();
             }
 
+            if (!$request->appointment_id) {
+                return redirect()->back()->with('error', 'No appointment selected. Please select an appointment first.');
+            }
+
             $this->editServices->updateWithAuth($appointmentId, $data);
 
             ToastMagic::success('Appointment updated successfully!');
@@ -77,9 +81,14 @@ class AppointmentController extends Controller
     {
         try {
             $appointmentId = $request->input('appointment_id');
+
+            if (!$request->appointment_id) {
+                return redirect()->back()->with('error', 'No appointment selected. Please select an appointment first.');
+            }
+
             $data = ['user_id' => Auth::id()];
 
-            $this->deleteServices->deleteWithAuth($appointmentId, $data);
+            $this->deleteServices->deleteWithAuth((int) $appointmentId, $data);
 
             ToastMagic::success('Appointment cancelled successfully!');
             return redirect()->back();

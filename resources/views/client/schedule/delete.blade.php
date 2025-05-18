@@ -58,9 +58,6 @@
             </div>
 
             <div class="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between gap-3">
-                <flux:button type="button" variant="outline" class="border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-800" data-flux-dismiss="modal">
-                    Keep Appointment
-                </flux:button>
                 <flux:button icon="trash" type="submit" variant="danger" class="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white">
                     Cancel Appointment
                 </flux:button>
