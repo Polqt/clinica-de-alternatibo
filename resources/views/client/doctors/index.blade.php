@@ -74,7 +74,7 @@
                     Clear Filters
                 </a>
                 @endif
-         </div>
+            </div>
         </form>
     </div>
 
@@ -137,4 +137,29 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('input[name="search"]');
+
+        if (searchInput) {
+            let typingTimer;
+            const typingDelay = 200;
+
+            searchInput.addEventListener('input', function() {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(() => {
+                    const baseUrl = "{{ route('client.doctors') }}";
+                    const searchValue = searchInput.value.trim();
+
+                    if (searchValue !== "") {
+                        const newUrl = `${baseUrl}?search=${encodeURIComponent(searchValue)}`;
+                        window.location.href = newUrl;
+                    } else {
+                        window.location.href = baseUrl;
+                    }
+                }, typingDelay);
+            });
+        }
+    });
+</script>
 @endsection
