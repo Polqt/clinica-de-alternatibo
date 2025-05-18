@@ -13,7 +13,6 @@
         </div>
     </div>
 
-    {{-- Statistics Cards --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-5 border border-slate-200 dark:border-slate-700 transition-all hover:shadow-md">
             <div class="flex items-center">
@@ -65,19 +64,18 @@
         </div>
     </div>
 
-    {{-- Filters and Search --}}
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5 mb-6">
         <form id="patientFilterForm" action="{{ route('admin.patients') }}" method="GET" class="flex flex-col sm:flex-row gap-4">
             <div class="flex-1">
                 <flux:input
                     name="search"
-                    id="searchInput" {{-- Added ID for easier selection --}}
+                    id="searchInput"
                     icon="magnifying-glass"
                     placeholder="Search patients by name or ID..."
-                    value="{{ request('search', '') }}" {{-- Use request helper for query params --}}
+                    value="{{ request('search', '') }}"
                     class="w-full" />
             </div>
-            <div class="flex flex-wrap gap-3 items-center"> {{-- Added items-center for button alignment --}}
+            <div class="flex flex-wrap gap-3 items-center"> 
                 <div>
                     <select name="blood_type" id="bloodTypeSelect" class="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-md px-3 py-2 text-sm focus:ring-cyan-500 focus:border-cyan-500">
                         <option value="">All Blood Types</option>
@@ -95,7 +93,6 @@
                     </select>
                 </div>
                 <div>
-                    {{-- The "Filter" button is effectively replaced by auto-submit, but can be kept for explicit action or users without JS --}}
                     <button type="submit" class="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-md text-sm">
                         Filter
                     </button>
@@ -109,7 +106,6 @@
         </form>
     </div>
 
-    {{-- Patients Table --}}
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-sm text-left">
@@ -243,15 +239,11 @@
         </div>
         @if ($patients->hasPages())
         <div class="p-4 border-t border-slate-200 dark:border-slate-700">
-            {{-- Ensure your pagination component correctly appends query strings --}}
             {{ $patients->appends(request()->query())->links() }}
-            {{-- If using a custom component <x-pagination :paginator="$patients" /> --}}
-            {{-- ensure it internally handles appends(request()->query()) --}}
         </div>
         @endif
     </div>
 
-    {{-- Other sections (Charts, Recently Added) --}}
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5">
             <div class="flex items-center justify-between mb-5">
@@ -348,7 +340,7 @@
         const filterSubmitButton = document.getElementById('filterSubmitButton');
 
         let typingTimer;
-        const doneTypingInterval = 300;
+        const doneTypingInterval = 200;
 
         function buildUrlAndNavigate() {
             clearTimeout(typingTimer);

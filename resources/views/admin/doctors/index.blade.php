@@ -67,31 +67,44 @@
     </div>
 
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5 mb-8">
-        <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div class="w-full md:w-96">
-                <flux:input type="text" placeholder="Search doctors..." class="w-full" />
+        <form method="GET" class="space-y-4 md:space-y-0 md:flex md:items-center md:justify-between">
+            <div class="relative flex-grow max-w-md">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <flux:icon.search class="h-5 w-5 text-slate-400" />
+                </div>
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search doctors..."
+                    id="searchInput"
+                    value="{{ request('search') }}"
+                    class="block w-full pl-10 pr-3 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-white sm:text-sm"
+                    aria-label="Search doctors" />
             </div>
-            <div class="flex flex-wrap items-center gap-3">
-                <flux:dropdown position="bottom" align="end">
-                    <flux:menu>
-                        <flux:menu.item>All Doctors</flux:menu.item>
-                        <flux:menu.item>Active Doctors</flux:menu.item>
-                        <flux:menu.item>Inactive Doctors</flux:menu.item>
-                        <flux:menu.separator />
-                        <!-- <flux:menu.item icon="identification">By Specialty</flux:menu.item> -->
-                    </flux:menu>
-                </flux:dropdown>
-                <flux:dropdown position="bottom" align="end">
-                    <flux:button variant="outline" icon="adjustments-horizontal">Sort</flux:button>
-                    <flux:menu>
-                        <flux:menu.item>Name (A-Z)</flux:menu.item>
-                        <flux:menu.item>License Number</flux:menu.item>
-                        <flux:menu.item>Newest First</flux:menu.item>
-                        <flux:menu.item>Oldest First</flux:menu.item>
-                    </flux:menu>
-                </flux:dropdown>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <div class="relative inline-block">
+                    <select
+                        name="sort"
+                        class="appearance-none block w-full pl-3 pr-10 py-2 border border-slate-300 dark:border-slate-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-slate-700 dark:text-white sm:text-sm"
+                        aria-label="Sort by">
+                        <option value="">Sort by</option>
+                        <option value="name_asc" {{ request('sort') == 'name_asc' ? 'selected' : '' }}>Name (A-Z)</option>
+                        <option value="license" {{ request('sort') == 'license' ? 'selected' : '' }}>License Number</option>
+                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest First</option>
+                        <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                        <flux:icon.chevron-down class="h-4 w-4 text-slate-400" />
+                    </div>
+                </div>
+
+                <button type="submit" class="inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                    <flux:icon.funnel class="mr-2 h-4 w-4" />
+                    Apply Filters
+                </button>
             </div>
-        </div>
+        </form>
     </div>
 
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 mb-8 overflow-hidden">
@@ -103,7 +116,7 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left">
+            <table class="w-full text-sm text-left" id="doctorsTable">
                 <thead class="text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-700/50">
                     <tr>
                         <th class="px-4 py-3 font-medium">First Name</th>
@@ -149,5 +162,45 @@
 </div>
 
 @include('admin.doctors.create')
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("searchInput");
+
+        searchInput.addEventListener("input", () => {
+            const searchTerm = searchInput.value.trim();
+            const newUrl = new URL(window.location.href);
+
+            if (searchTerm.length > 0) {
+                newUrl.searchParams.set("search", searchTerm);
+            } else {
+                newUrl.searchParams.delete("search");
+            }
+
+            newUrl.searchParams.delete("sort");
+
+            window.history.replaceState({}, "", newUrl);
+
+            filterTable(searchTerm);
+        });
+
+        function filterTable(searchTerm) {
+            const table = document.getElementById("doctorsTable");
+            const rows = table.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td");
+                const rowText = Array.from(cells).map(cell => cell.textContent.toLowerCase()).join(" ");
+                row.style.display = rowText.includes(searchTerm.toLowerCase()) ? "" : "none";
+            });
+        }
+        
+        const initialSearch = new URL(window.location.href).searchParams.get("search");
+        if (initialSearch) {
+            filterTable(initialSearch);
+        }
+    });
+</script>
+
 
 @endsection

@@ -43,8 +43,35 @@ class AdminController extends Controller
             return redirect()->route('admin.doctors');
         }
 
+        $query = Doctor::with('specialization');
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%")
+                    ->orWhere('license_number', 'like', "%{$search}%");
+            });
+        }
+
+        switch ($request->input('sort')) {
+            case 'name_asc':
+                $query->orderBy('first_name')->orderBy('last_name');
+                break;
+            case 'license':
+                $query->orderBy('license_number');
+                break;
+            case 'newest':
+                $query->orderBy('created_at', 'desc');
+                break;
+            case 'oldest':
+                $query->orderBy('created_at', 'asc');
+                break;
+            default:
+                $query->orderBy('first_name');
+        }
+
         $totalDoctors = Doctor::count();
-        $doctors = Doctor::with('specialization')->paginate(10);
+        $doctors = $query->paginate(10);
         $specializations = Specialization::orderBy('name')->get();
 
         return view('admin.doctors.index', compact('doctors', 'totalDoctors', 'specializations'));
