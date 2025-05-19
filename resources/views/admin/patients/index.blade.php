@@ -232,56 +232,6 @@
         @endif
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5">
-            <div class="flex items-center justify-between mb-5">
-                <h3 class="text-md font-semibold text-slate-900 dark:text-white flex items-center">
-                    <flux:icon.chart-pie class="w-5 h-5 text-cyan-500 mr-2" />
-                    Patient Demographics
-                </h3>
-                <flux:button variant="ghost" size="xs" icon="ellipsis-horizontal" class="text-slate-600 dark:text-slate-400"></flux:button>
-            </div>
-            <div class="h-64 flex justify-center items-center">
-                <div class="text-center text-slate-500 dark:text-slate-400">
-                    <flux:icon.chart-pie class="w-12 h-12 mx-auto mb-2 text-slate-300 dark:text-slate-600" />
-                    <p>Age Distribution Chart</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5">
-            <div class="flex items-center justify-between mb-5">
-                <h3 class="text-md font-semibold text-slate-900 dark:text-white flex items-center">
-                    <flux:icon.chart-bar class="w-5 h-5 text-purple-500 mr-2" />
-                    Visit Frequency
-                </h3>
-                <flux:button variant="ghost" size="xs" icon="ellipsis-horizontal" class="text-slate-600 dark:text-slate-400"></flux:button>
-            </div>
-            <div class="h-64 flex items-center justify-center">
-                <div class="text-center text-slate-500 dark:text-slate-400">
-                    <flux:icon.chart-bar class="w-12 h-12 mx-auto mb-2 text-slate-300 dark:text-slate-600" />
-                    <p>Monthly Visit Frequency</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5">
-            <div class="flex items-center justify-between mb-5">
-                <h3 class="text-md font-semibold text-slate-900 dark:text-white flex items-center">
-                    <flux:icon.clock class="w-5 h-5 text-rose-500 mr-2" />
-                    Appointment Analytics
-                </h3>
-                <flux:button variant="ghost" size="xs" icon="ellipsis-horizontal" class="text-slate-600 dark:text-slate-400"></flux:button>
-            </div>
-            <div class="h-64 flex items-center justify-center">
-                <div class="text-center text-slate-500 dark:text-slate-400">
-                    <flux:icon.chart-line class="w-12 h-12 mx-auto mb-2 text-slate-300 dark:text-slate-600" />
-                    <p>Appointment Trends</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 mb-8">
         <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
             <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Recently Added Patients</h2>

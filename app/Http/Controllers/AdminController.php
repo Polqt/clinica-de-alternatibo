@@ -28,12 +28,45 @@ class AdminController extends Controller
             ->limit(5)
             ->get();
 
+        // Get appointment status counts for the chart
+        $appointmentStatusCounts = [
+            'Pending' => $pendingAppointments,
+            'Confirmed' => Appointment::where('status', AppointmentStatus::Confirmed->value)->count(),
+            'Completed' => Appointment::where('status', AppointmentStatus::Completed->value)->count(),
+            'Rescheduled' => Appointment::where('status', AppointmentStatus::Rescheduled->value)->count(),
+            'Cancelled (Clinic)' => Appointment::where('status', AppointmentStatus::CancelledByClinic->value)->count(),
+            'Cancelled (Patient)' => Appointment::where('status', AppointmentStatus::CancelledByPatient->value)->count(),
+        ];
+
+        // Get appointments per day for the last 30 days (for line chart)
+        $thirtyDaysAgo = Carbon::now()->subDays(30);
+        $appointmentsPerDay = Appointment::where('created_at', '>=', $thirtyDaysAgo)
+            ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get()
+            ->pluck('count', 'date')
+            ->toArray();
+
+        // Fill in missing dates with zero counts
+        $dateRange = [];
+        $currentDate = Carbon::parse($thirtyDaysAgo);
+        $endDate = Carbon::now();
+
+        while ($currentDate <= $endDate) {
+            $formattedDate = $currentDate->format('Y-m-d');
+            $dateRange[$formattedDate] = $appointmentsPerDay[$formattedDate] ?? 0;
+            $currentDate->addDay();
+        }
+
         return view('admin.dashboard', [
             'totalAppointments' => $totalAppointments,
             'pendingAppointments' => $pendingAppointments,
             'totalPatients' => $totalPatients,
             'totalDoctors' => $totalDoctors,
             'approvalQueue' => $approvalQueue,
+            'appointmentStatusCounts' => $appointmentStatusCounts,
+            'appointmentsPerDay' => $dateRange,
         ]);
     }
 
@@ -142,9 +175,6 @@ class AdminController extends Controller
             ? round(($newPatients - $previousMonthPatients) / $previousMonthPatients * 100, 1)
             : 100;
 
-        $activeCases = Patient::whereHas('appointments', function ($query) {
-            $query->where('status', 'active');
-        })->count();
 
         $bloodTypes = \App\Enums\BloodType::values();
 
@@ -156,7 +186,6 @@ class AdminController extends Controller
             'newPatients' => $newPatients,
             'newPatientsGrowth' => $newPatientsGrowth,
             'appointmentsToday' => $appointmentsToday,
-            'activeCases' => $activeCases,
             'search' => $search,
             'bloodTypes' => $bloodTypes,
             'genders' => $genders,
