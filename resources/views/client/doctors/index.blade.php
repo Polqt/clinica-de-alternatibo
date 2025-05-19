@@ -113,10 +113,9 @@
                             License: {{ $doctor->license_number }}
                         </div>
 
-                        <div class="mt-4">
-                            <flux:button size="sm" variant="primary" icon="calendar" class="w-full">
-                                Schedule Appointment
-                            </flux:button>
+                        <div class="flex items-start text-sm text-slate-600 dark:text-slate-300 mb-4">
+                            <flux:icon.academic-cap class="h-4 w-4 mr-1" />
+                            {{ $doctor->specialization->description }}
                         </div>
                     </div>
                 </div>

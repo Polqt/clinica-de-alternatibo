@@ -31,7 +31,7 @@
                 <div class="h-1 bg-blue-500 rounded" style="width: {{ isset($recentVisitsPercentage) ? "{$recentVisitsPercentage}%" : '25%' }}"></div>
             </div>
             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                {{ $recentVisits->count() ?? 0 }} visits in the last 90 days
+                {{ $recentVisits->count() }} visits in the last 90 days
             </p>
         </div>
 

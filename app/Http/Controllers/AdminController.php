@@ -181,6 +181,7 @@ class AdminController extends Controller
                 $statusValue = match ($status) {
                     'pending' => AppointmentStatus::Pending->value,
                     'confirmed' => AppointmentStatus::Confirmed->value,
+                    'rescheduled' => AppointmentStatus::Rescheduled->value,
                     'completed' => AppointmentStatus::Completed->value,
                     default => null,
                 };
@@ -196,12 +197,20 @@ class AdminController extends Controller
             'all' => Appointment::count(),
             'pending' => Appointment::where('status', AppointmentStatus::Pending->value)->count(),
             'confirmed' => Appointment::where('status', AppointmentStatus::Confirmed->value)->count(),
+            'rescheduled' => Appointment::where('status', AppointmentStatus::Rescheduled->value)->count(),
             'completed' => Appointment::where('status', AppointmentStatus::Completed->value)->count(),
             'cancelled' => Appointment::whereIn('status', [
                 AppointmentStatus::CancelledByClinic->value,
                 AppointmentStatus::CancelledByPatient->value,
             ])->count(),
         ];
+
+        $cancelledCount = Appointment::whereIn('status', [
+            AppointmentStatus::CancelledByClinic->value,
+            AppointmentStatus::CancelledByPatient->value,
+        ])->count();
+        
+        $statusCounts['cancelled'] = $cancelledCount;
 
         $doctors = Doctor::with('specialization')->get();
 

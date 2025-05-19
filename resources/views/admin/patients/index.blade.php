@@ -50,18 +50,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm p-5 border border-slate-200 dark:border-slate-700 transition-all hover:shadow-md">
-            <div class="flex items-center">
-                <div class="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mr-4">
-                    <flux:icon.clipboard-list class="w-6 h-6 text-purple-600 dark:text-purple-400" />
-                </div>
-                <div>
-                    <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Active Cases</p>
-                    <p class="text-2xl font-semibold text-slate-900 dark:text-white">{{ $activeCases ?? 0 }}</p>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-5 mb-6">

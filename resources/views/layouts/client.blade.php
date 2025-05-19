@@ -65,7 +65,6 @@
             </flux:dropdown>
         </flux:navbar>
         <flux:navbar scrollable>
-            <flux:input as="button" variant="filled" placeholder="Search..." icon="magnifying-glass" size="sm" />
             <flux:button x-data x-on:click="$flux.dark = ! $flux.dark" icon="moon" variant="subtle" aria-label="Toggle dark mode" />
         </flux:navbar>
     </flux:header>

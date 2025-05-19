@@ -22,6 +22,7 @@ enum AppointmentStatus: string
             self::CancelledByPatient => 'Cancelled (Patient)',
             self::CancelledByClinic => 'Cancelled (Clinic)',
             self::Completed => 'Completed',
+            self::Rescheduled => 'Rescheduled',
         };
     }
 
